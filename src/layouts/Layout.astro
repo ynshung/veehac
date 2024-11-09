@@ -1,6 +1,8 @@
 ---
+import NavBar from "../components/NavBar.astro";
+
 interface Props {
-	title: string;
+  title: string;
 }
 
 const { title } = Astro.props;
@@ -8,43 +10,340 @@ const { title } = Astro.props;
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
 </html>
 <style is:global>
-	:root {
-		--accent: 136, 58, 234;
-		--accent-light: 224, 204, 250;
-		--accent-dark: 49, 10, 101;
-		--accent-gradient: linear-gradient(
-			45deg,
-			rgb(var(--accent)),
-			rgb(var(--accent-light)) 30%,
-			white 60%
-		);
+	body {
+		margin: 0;
 	}
-	html {
-		font-family: system-ui, sans-serif;
-		background: #13151a;
-	}
-	code {
-		font-family:
-			Menlo,
-			Monaco,
-			Lucida Console,
-			Liberation Mono,
-			DejaVu Sans Mono,
-			Bitstream Vera Sans Mono,
-			Courier New,
-			monospace;
-	}
+
+  @font-face {
+    font-family: "Chesna Grotesk";
+    src: url("fonts/ChesnaGrotesk-ExtraLight.eot");
+    src:
+      local("Chesna Grotesk Extra Light"),
+      local("ChesnaGrotesk-ExtraLight"),
+      url("fonts/ChesnaGrotesk-ExtraLight.eot?#iefix")
+        format("embedded-opentype"),
+      url("fonts/ChesnaGrotesk-ExtraLight.woff2") format("woff2"),
+      url("fonts/ChesnaGrotesk-ExtraLight.woff") format("woff"),
+      url("fonts/ChesnaGrotesk-ExtraLight.ttf") format("truetype");
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Chesna Grotesk";
+    src: url("fonts/ChesnaGrotesk-LightItalic.eot");
+    src:
+      local("Chesna Grotesk Light Italic"),
+      local("ChesnaGrotesk-LightItalic"),
+      url("fonts/ChesnaGrotesk-LightItalic.eot?#iefix")
+        format("embedded-opentype"),
+      url("fonts/ChesnaGrotesk-LightItalic.woff2") format("woff2"),
+      url("fonts/ChesnaGrotesk-LightItalic.woff") format("woff"),
+      url("fonts/ChesnaGrotesk-LightItalic.ttf") format("truetype");
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Chesna Grotesk";
+    src: url("fonts/ChesnaGrotesk-Book.eot");
+    src:
+      local("Chesna Grotesk Book"),
+      local("ChesnaGrotesk-Book"),
+      url("fonts/ChesnaGrotesk-Book.eot?#iefix")
+        format("embedded-opentype"),
+      url("fonts/ChesnaGrotesk-Book.woff2") format("woff2"),
+      url("fonts/ChesnaGrotesk-Book.woff") format("woff"),
+      url("fonts/ChesnaGrotesk-Book.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Chesna Grotesk";
+    src: url("fonts/ChesnaGrotesk-Black.eot");
+    src:
+      local("Chesna Grotesk Black"),
+      local("ChesnaGrotesk-Black"),
+      url("fonts/ChesnaGrotesk-Black.eot?#iefix")
+        format("embedded-opentype"),
+      url("fonts/ChesnaGrotesk-Black.woff2") format("woff2"),
+      url("fonts/ChesnaGrotesk-Black.woff") format("woff"),
+      url("fonts/ChesnaGrotesk-Black.ttf") format("truetype");
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Chesna Grotesk";
+    src: url("fonts/ChesnaGrotesk-BookItalic.eot");
+    src:
+      local("Chesna Grotesk Book Italic"),
+      local("ChesnaGrotesk-BookItalic"),
+      url("fonts/ChesnaGrotesk-BookItalic.eot?#iefix")
+        format("embedded-opentype"),
+      url("fonts/ChesnaGrotesk-BookItalic.woff2") format("woff2"),
+      url("fonts/ChesnaGrotesk-BookItalic.woff") format("woff"),
+      url("fonts/ChesnaGrotesk-BookItalic.ttf") format("truetype");
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Chesna Grotesk";
+    src: url("fonts/ChesnaGrotesk-Regular.eot");
+    src:
+      local("Chesna Grotesk Regular"),
+      local("ChesnaGrotesk-Regular"),
+      url("fonts/ChesnaGrotesk-Regular.eot?#iefix")
+        format("embedded-opentype"),
+      url("fonts/ChesnaGrotesk-Regular.woff2") format("woff2"),
+      url("fonts/ChesnaGrotesk-Regular.woff") format("woff"),
+      url("fonts/ChesnaGrotesk-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Chesna Grotesk";
+    src: url("fonts/ChesnaGrotesk-MediumItalic.eot");
+    src:
+      local("Chesna Grotesk Medium Italic"),
+      local("ChesnaGrotesk-MediumItalic"),
+      url("fonts/ChesnaGrotesk-MediumItalic.eot?#iefix")
+        format("embedded-opentype"),
+      url("fonts/ChesnaGrotesk-MediumItalic.woff2") format("woff2"),
+      url("fonts/ChesnaGrotesk-MediumItalic.woff") format("woff"),
+      url("fonts/ChesnaGrotesk-MediumItalic.ttf") format("truetype");
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Chesna Grotesk";
+    src: url("fonts/ChesnaGrotesk-RegularItalic.eot");
+    src:
+      local("Chesna Grotesk Regular Italic"),
+      local("ChesnaGrotesk-RegularItalic"),
+      url("fonts/ChesnaGrotesk-RegularItalic.eot?#iefix")
+        format("embedded-opentype"),
+      url("fonts/ChesnaGrotesk-RegularItalic.woff2") format("woff2"),
+      url("fonts/ChesnaGrotesk-RegularItalic.woff") format("woff"),
+      url("fonts/ChesnaGrotesk-RegularItalic.ttf") format("truetype");
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Chesna Grotesk";
+    src: url("fonts/ChesnaGrotesk-SemiBold.eot");
+    src:
+      local("Chesna Grotesk Semi Bold"),
+      local("ChesnaGrotesk-SemiBold"),
+      url("fonts/ChesnaGrotesk-SemiBold.eot?#iefix")
+        format("embedded-opentype"),
+      url("fonts/ChesnaGrotesk-SemiBold.woff2") format("woff2"),
+      url("fonts/ChesnaGrotesk-SemiBold.woff") format("woff"),
+      url("fonts/ChesnaGrotesk-SemiBold.ttf") format("truetype");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Chesna Grotesk";
+    src: url("fonts/ChesnaGrotesk-BlackItalic.eot");
+    src:
+      local("Chesna Grotesk Black Italic"),
+      local("ChesnaGrotesk-BlackItalic"),
+      url("fonts/ChesnaGrotesk-BlackItalic.eot?#iefix")
+        format("embedded-opentype"),
+      url("fonts/ChesnaGrotesk-BlackItalic.woff2") format("woff2"),
+      url("fonts/ChesnaGrotesk-BlackItalic.woff") format("woff"),
+      url("fonts/ChesnaGrotesk-BlackItalic.ttf") format("truetype");
+    font-weight: 900;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Chesna Grotesk";
+    src: url("fonts/ChesnaGrotesk-ExtLtIta.eot");
+    src:
+      local("Chesna Grotesk ExtLt Ita"),
+      local("ChesnaGrotesk-ExtLtIta"),
+      url("fonts/ChesnaGrotesk-ExtLtIta.eot?#iefix")
+        format("embedded-opentype"),
+      url("fonts/ChesnaGrotesk-ExtLtIta.woff2") format("woff2"),
+      url("fonts/ChesnaGrotesk-ExtLtIta.woff") format("woff"),
+      url("fonts/ChesnaGrotesk-ExtLtIta.ttf") format("truetype");
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Chesna Grotesk";
+    src: url("fonts/ChesnaGrotesk-Light.eot");
+    src:
+      local("Chesna Grotesk Light"),
+      local("ChesnaGrotesk-Light"),
+      url("fonts/ChesnaGrotesk-Light.eot?#iefix")
+        format("embedded-opentype"),
+      url("fonts/ChesnaGrotesk-Light.woff2") format("woff2"),
+      url("fonts/ChesnaGrotesk-Light.woff") format("woff"),
+      url("fonts/ChesnaGrotesk-Light.ttf") format("truetype");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Chesna Grotesk";
+    src: url("fonts/ChesnaGrotesk-Bold.eot");
+    src:
+      local("Chesna Grotesk Bold"),
+      local("ChesnaGrotesk-Bold"),
+      url("fonts/ChesnaGrotesk-Bold.eot?#iefix")
+        format("embedded-opentype"),
+      url("fonts/ChesnaGrotesk-Bold.woff2") format("woff2"),
+      url("fonts/ChesnaGrotesk-Bold.woff") format("woff"),
+      url("fonts/ChesnaGrotesk-Bold.ttf") format("truetype");
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Chesna Grotesk";
+    src: url("fonts/ChesnaGrotesk-BoldItalic.eot");
+    src:
+      local("Chesna Grotesk Bold Italic"),
+      local("ChesnaGrotesk-BoldItalic"),
+      url("fonts/ChesnaGrotesk-BoldItalic.eot?#iefix")
+        format("embedded-opentype"),
+      url("fonts/ChesnaGrotesk-BoldItalic.woff2") format("woff2"),
+      url("fonts/ChesnaGrotesk-BoldItalic.woff") format("woff"),
+      url("fonts/ChesnaGrotesk-BoldItalic.ttf") format("truetype");
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Chesna Grotesk";
+    src: url("fonts/ChesnaGrotesk-Thin.eot");
+    src:
+      local("Chesna Grotesk Thin"),
+      local("ChesnaGrotesk-Thin"),
+      url("fonts/ChesnaGrotesk-Thin.eot?#iefix")
+        format("embedded-opentype"),
+      url("fonts/ChesnaGrotesk-Thin.woff2") format("woff2"),
+      url("fonts/ChesnaGrotesk-Thin.woff") format("woff"),
+      url("fonts/ChesnaGrotesk-Thin.ttf") format("truetype");
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Chesna Grotesk";
+    src: url("fonts/ChesnaGrotesk-ThinItalic.eot");
+    src:
+      local("Chesna Grotesk Thin Italic"),
+      local("ChesnaGrotesk-ThinItalic"),
+      url("fonts/ChesnaGrotesk-ThinItalic.eot?#iefix")
+        format("embedded-opentype"),
+      url("fonts/ChesnaGrotesk-ThinItalic.woff2") format("woff2"),
+      url("fonts/ChesnaGrotesk-ThinItalic.woff") format("woff"),
+      url("fonts/ChesnaGrotesk-ThinItalic.ttf") format("truetype");
+    font-weight: 100;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Chesna Grotesk";
+    src: url("fonts/ChesnaGrotesk-Medium.eot");
+    src:
+      local("Chesna Grotesk Medium"),
+      local("ChesnaGrotesk-Medium"),
+      url("fonts/ChesnaGrotesk-Medium.eot?#iefix")
+        format("embedded-opentype"),
+      url("fonts/ChesnaGrotesk-Medium.woff2") format("woff2"),
+      url("fonts/ChesnaGrotesk-Medium.woff") format("woff"),
+      url("fonts/ChesnaGrotesk-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Chesna Grotesk";
+    src: url("fonts/ChesnaGrotesk-ExtraBoldItalic.eot");
+    src:
+      local("Chesna Grotesk ExtBd Ita"),
+      local("ChesnaGrotesk-ExtraBoldItalic"),
+      url("fonts/ChesnaGrotesk-ExtraBoldItalic.eot?#iefix")
+        format("embedded-opentype"),
+      url("fonts/ChesnaGrotesk-ExtraBoldItalic.woff2") format("woff2"),
+      url("fonts/ChesnaGrotesk-ExtraBoldItalic.woff") format("woff"),
+      url("fonts/ChesnaGrotesk-ExtraBoldItalic.ttf") format("truetype");
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Chesna Grotesk";
+    src: url("fonts/ChesnaGrotesk-SemiBoldItalic.eot");
+    src:
+      local("Chesna Grotesk Semi Bold Italic"),
+      local("ChesnaGrotesk-SemiBoldItalic"),
+      url("fonts/ChesnaGrotesk-SemiBoldItalic.eot?#iefix")
+        format("embedded-opentype"),
+      url("fonts/ChesnaGrotesk-SemiBoldItalic.woff2") format("woff2"),
+      url("fonts/ChesnaGrotesk-SemiBoldItalic.woff") format("woff"),
+      url("fonts/ChesnaGrotesk-SemiBoldItalic.ttf") format("truetype");
+    font-weight: 600;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Chesna Grotesk";
+    src: url("fonts/ChesnaGrotesk-ExtraBold.eot");
+    src:
+      local("Chesna Grotesk Extra Bold"),
+      local("ChesnaGrotesk-ExtraBold"),
+      url("fonts/ChesnaGrotesk-ExtraBold.eot?#iefix")
+        format("embedded-opentype"),
+      url("fonts/ChesnaGrotesk-ExtraBold.woff2") format("woff2"),
+      url("fonts/ChesnaGrotesk-ExtraBold.woff") format("woff"),
+      url("fonts/ChesnaGrotesk-ExtraBold.ttf") format("truetype");
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+  }
 </style>

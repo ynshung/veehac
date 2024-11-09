@@ -1,0 +1,75 @@
+---
+const { backgroundColor } = Astro.props;
+---
+
+<body>
+  <div class="navbar" style={`background-color: ${backgroundColor};`}>
+    <div style="font-weight: 900; font-size: 48px;">V</div>
+    <div class="navbar-contents">
+      <div class="navbar-item">
+        <a href="">Timeline</a>
+      </div>
+      <div class="navbar-item">
+        <a href="">FAQ</a>
+      </div>
+
+      <div class="navbar-item">
+        <a href="">Winners</a>
+      </div>
+      <div class="navbar-item">
+        <a href="">About</a>
+      </div>
+      <div class="navbar-item login">
+        <a style="color: #433F6C" href="">Login</a>
+      </div>
+    </div>
+  </div>
+</body>
+
+<style>
+  body {
+    font-family: "Chesna Grotesk";
+    font-size: 24px;
+    font-weight: 400;
+    justify-content: center;
+    width: 100%;
+    color: #faf9f6;
+  }
+  .navbar {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .navbar-contents {
+    width: 60%;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    display: flex;
+    color: #faf9f6;
+  }
+
+  a:link {
+    color: #faf9f6;
+  }
+  a:visited {
+    color: #faf9f6;
+  }
+
+  a,
+  u {
+    text-decoration: none;
+  }
+
+  .login {
+    background-color: #faf9f6;
+  }
+  .navbar-item {
+    width: 120px;
+    height: 60px;
+    text-align: center;
+    border-radius: 100px;
+    justify-content: center;
+    align-content: center;
+  }
+</style>
