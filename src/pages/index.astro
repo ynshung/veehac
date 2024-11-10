@@ -2,6 +2,7 @@
 import NavBar from "../components/NavBar.astro";
 import Layout from "../layouts/Layout.astro";
 import Countdown from "../components/Countdown.astro";
+import Timeline from "../components/Timeline.astro";
 ---
 
 <Layout title="VeeHac">
@@ -16,24 +17,31 @@ import Countdown from "../components/Countdown.astro";
       </div>
       <div class="title-circle"></div>
       <div class="title-mascot">
-        <img src="https://i.ibb.co/3yCY3GY/mascot.png" alt="man" />
+        <img src="./public/mascot.png" alt="man" />
       </div>
     </div>
     <div class="about">
-      <div>
-        <p style="font-size: 36px;">ABOUT US</p>
+      <div class="about-content">
+        <div>
+          <p style="font-size: 36px;">ABOUT US</p>
+        </div>
+        <div>
+          <p style="font-size: 48px; font-weight: 900; color: #89AFFF;">
+            SKIBIDI. OHIO. GYAT.
+          </p>
+        </div>
+        <div class="about-paragraph">
+          We are HTML (Help and Tips for Machine Learning) Society in USM. This
+          is our first hackathon! We are definitely not stealing ANYTHING for
+          VHack!
+        </div>
       </div>
-      <div>
-        <p style="font-size: 48px; font-weight: 900; color: #89AFFF;">
-          WHAT THE FCUK SHOULD THIS BE
-        </p>
-      </div>
-      <div class="about-paragraph">
-        We are HTML (Help and Tips for Machine Learning) Society in USM. This is
-        our first hackathon! We are definitely not stealing ANYTHING for VHack!
-      </div>
+      <Countdown />
     </div>
-    <Countdown />
+    <div class="timeline">
+      <div><p style="font-size: 36px;">TIMELINE</p></div>
+      <Timeline />
+    </div>
   </div>
 </Layout>
 
@@ -60,8 +68,8 @@ import Countdown from "../components/Countdown.astro";
   .title-circle {
     background-color: #433f6c;
     min-width: 950px;
-    min-height: 950px;
-    border-radius: 999px;
+    min-height: 500px;
+    border-radius: 999px 999px 0 0;
     position: relative;
     bottom: 50px;
   }
@@ -87,14 +95,26 @@ import Countdown from "../components/Countdown.astro";
   /* abouts */
 
   .about {
-    position: absolute;
-    top: 1000px;
     text-align: center;
     align-items: center;
     justify-items: center;
+    padding-top: 50px;
+    padding-bottom: 50px;
   }
   .about-paragraph {
     text-align: center;
     max-width: 1000px;
+  }
+  .about-content {
+    margin-bottom: 40px;
+  }
+
+  /* timeline */
+  .timeline {
+    align-items: center;
+    justify-items: center;
+    width: 100%;
+    padding-top: 50px;
+    padding-bottom: 50px;
   }
 </style>

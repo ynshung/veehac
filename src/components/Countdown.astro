@@ -4,7 +4,7 @@ import Layout from "../layouts/Layout.astro"
 
 
   <main>
-    <div style="font-size: 48px; font-weight: 900;">Time Left!</div>
+    <div style="font-size: 36px;">Register before<br><span style="font-size: 48px; font-weight:900">31st December 2024!!</span></div>
     <div id="countdown" class="countdown">
       <div class="time">
         <h2 class="text-gradient" id="days">00</h2>
@@ -62,17 +62,20 @@ import Layout from "../layouts/Layout.astro"
     gap: 50px;
     .time {
       display: flex;
+      width: 150px;
       flex-direction: column;
       align-items: center;
+      background-color: #faf9f6;
+      border-radius: 10px;
       & h2 {
         margin: 10px 0;
         font-size: 6.5rem;
-        color: #faf9f6;
+        color: #433f6c;
       }
       & small {
         font-size: 1.8rem;
         font-weight: 500;
-        color: #faf9f6;
+        color: #433f6c;
       }
     }
   }
