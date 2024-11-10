@@ -1,0 +1,342 @@
+--- 
+import NavBar from "../components/NavBar.astro";
+import Carousel from '../components/Carousel.astro';
+import Layout from "../layouts/Layout.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout title="VeeHac">
+    <NavBar backgroundColor="#827BD2" />
+
+  <!-- Header Section -->
+  <header class="header">
+    <h1>Hackathon Winning Projects</h1>
+    <p class="title-desc">A compilation of all the wonderful winning projects</p>
+  </header>
+
+  <!-- Champion Section -->
+  <section class="winner">
+    <div class="winner-label">Champion</div>
+    <div class="winner-content">
+      <div class="winner-image">
+        <img src="anonymous.jpg" alt="Card Image" />
+      </div>
+      <div class="winner-description">
+        <h2>V001 PathFinder</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. AAAAAAAAAAAAAAAAAAA...</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Placeholders for Second and Third Place -->
+  <div class="runner-up-places">
+    <!-- Second Place Section -->
+    <section class="runner-up">
+      <div class="runner-up-label">Second Place</div>
+      <div class="runner-up-content">
+        <div class="runner-up-image">
+          <img src="anonymous.jpg" alt="Card Image" />
+        </div>
+        <div class="runner-up-description">
+          <h2>V002 SkyRunner</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. AAAAAAAAAAAAAAAAAAA...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Third Place Section -->
+    <section class="runner-up">
+      <div class="runner-up-label">Third Place</div>
+      <div class="runner-up-content">
+        <div class="runner-up-image">
+          <img src="anonymous.jpg" alt="Card Image" />
+        </div>
+        <div class="runner-up-description">
+          <h2>V003 CodeSprint</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. AAAAAAAAAAAAAAAAAAA...</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Carousel Section -->
+  <Carousel />
+  <Footer/>
+</Layout>
+
+<style>
+  /* Reset */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: "Chesna Grotesk";
+    background-color: #2d2a55;
+    color: white;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin: 2rem 0;
+  }
+
+  .header h1 {
+    font-size: 5rem;
+    font-weight: bold;
+    padding: 30px 0 30px 0;
+  }
+
+  .header .title-desc {
+    font-size: 2rem;
+    font-weight: lighter; 
+  }
+
+  /* Winner Section */
+  .winner {
+    background-color: white;
+    color: black;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto 20px;
+    text-align: left;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+  }
+
+  .winner-label {
+    font-size: 1.5rem;
+    font-weight: bold;
+    background-color: #a093ff;
+    color: white;
+    padding: 15px 10px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-bottom: 15px;
+  }
+
+  .winner-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5%;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  /* Image styling */
+  .winner-image {
+    width: 40%;
+    height: auto;
+    overflow: hidden;
+    border-radius: 8px;
+    flex-grow: 1;
+  }
+
+  .winner-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .winner-description {
+    width: 55%;
+    flex-grow: 1;
+  }
+
+  .winner-description h2 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .winner-description p {
+    font-size: 1.5rem;
+    color: #555;
+    line-height: 1.6;
+  }
+
+  /* Runner-up Section (Second and Third Place) */
+  .runner-up-places {
+    display: flex;
+    justify-content: center; /* Center the sections */
+    gap: 20px;
+    margin: 0 auto; /* Center the container */
+    width: 80%;
+    max-width: 2000px; /* Limit the width */
+    padding: 20px 0 20px 0;
+  }
+
+  .runner-up {
+    background-color: white;
+    color: black;
+    padding: 20px;
+    border-radius: 10px;
+    min-height: 400px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    max-width: 1200px; /* Limit the width for second and third place */
+    overflow: hidden;
+  }
+
+  .runner-up-label {
+    font-size: 1.5rem;
+    font-weight: bold;
+    background-color: #d4c6ff;
+    color: white;
+    padding: 15px 10px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-bottom: 15px;
+  }
+
+  .runner-up-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5%;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .runner-up-image {
+    width: 40%;
+    height: auto;
+    overflow: hidden;
+    border-radius: 8px;
+    flex-grow: 1;
+  }
+
+  .runner-up-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .runner-up-description {
+    width: 55%;
+    flex-grow: 1;
+  }
+
+  .runner-up-description h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .runner-up-description p {
+    font-size: 1.5rem;
+    color: #555;
+    line-height: 1.6;
+  }
+
+  /* Responsive Styles */
+  @media (max-width: 1200px) {
+    .winner {
+      width: 80%;
+      min-height: 450px;
+    }
+
+    .winner-label {
+      font-size: 1.4rem;
+      padding: 12px 10px;
+    }
+
+    .winner-image {
+      width: 40%;
+    }
+
+    .winner-description {
+      width: 55%;
+    }
+
+    .winner-description h2 {
+      font-size: 2.5rem;
+    }
+
+    .winner-description p {
+      font-size: 1.3rem;
+    }
+
+    .runner-up-places {
+      width: 80%; /* Limit the width of the container */
+    }
+
+    
+  }
+
+  @media (max-width: 768px) {
+    .winner {
+      width: 80%;
+      min-height: 400px;
+    }
+
+    .winner-content {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .winner-image {
+      width: 80%;
+      height: auto;
+      margin-bottom: 20px;
+    }
+
+    .winner-description {
+      width: 90%;
+      text-align: center;
+      padding-left: 0;
+    }
+
+    .winner-description h2 {
+      font-size: 2.5rem;
+    }
+
+    .winner-description p {
+      font-size: 1.2rem;
+    }
+
+    .runner-up-places {
+      flex-direction: column; /* Stack second and third place vertically on small screens */
+      width: 80%;
+      align-items: center;
+    }
+
+    .runner-up {
+      flex-direction: column;
+      align-items: center;
+      width: 100%; /* Full width for each runner-up on small screens */
+      max-width: none; /* No max width on small screens */
+    }
+
+    .runner-up-content {
+      flex-direction: column; /* Ensure that the content stacks vertically */
+      align-items: center;
+      text-align: center;
+    }
+
+    .runner-up-image {
+      width: 80%;
+      height: auto;
+      margin-bottom: 20px;
+    }
+
+    .runner-up-description {
+      width: 90%;
+    }
+  }
+</style>
