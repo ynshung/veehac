@@ -5,11 +5,31 @@ import Countdown from "../components/Countdown.astro";
 import Timeline from "../components/Timeline.astro";
 import FAQ from "../components/FAQ.astro";
 import Footer from "../components/Footer.astro";
+import CaseStudies from "../components/CaseStudies.astro";
 
-const faqItems = [ 
-  { question: "What is the Skibidi Toilet?", answer: "Skibidi Toilet is a meme where people mimic a dance move that looks like an exaggerated version of using the toilet. It's one of those strange yet hilarious trends that captured the internet's attention." }, 
-  { question: "Who is Hawk Tuah?", answer: "Hawk Tuah is a fictional character who has gained a following in online communities. He's a blend of traditional folklore and modern internet culture, often portrayed as a humorous and heroic figure." }, 
-  { question: "What is 'Thick of it' by KSI?", answer: "'Thick of it' is a song by KSI, a popular YouTuber turned musician. The term is also used to describe being deeply involved in a complicated situation, similar to being in the midst of chaos." },]
+const faqItems = [
+  {
+    question: "What is the Skibidi Toilet?",
+    answer:
+      "Skibidi Toilet is a meme where people mimic a dance move that looks like an exaggerated version of using the toilet. It's one of those strange yet hilarious trends that captured the internet's attention.",
+  },
+  {
+    question: "Who is Hawk Tuah?",
+    answer:
+      "Hawk Tuah is a fictional character who has gained a following in online communities. He's a blend of traditional folklore and modern internet culture, often portrayed as a humorous and heroic figure.",
+  },
+  {
+    question: "What is 'Thick of it' by KSI?",
+    answer:
+      "'Thick of it' is a song by KSI, a popular YouTuber turned musician. The term is also used to describe being deeply involved in a complicated situation, similar to being in the midst of chaos.",
+  },
+];
+
+const targetDate = new Date("2024-11-10T19:36:40");
+
+const currentDate = new Date();
+
+const showCaseStudies = currentDate < targetDate;
 ---
 
 <Layout title="VeeHac">
@@ -24,7 +44,7 @@ const faqItems = [
       </div>
       <div class="title-circle"></div>
       <div class="title-mascot">
-        <img src="./public/mascot.png" alt="man" />
+        <img src="/mascot.png" alt="man" />
       </div>
     </div>
     <div class="about">
@@ -42,8 +62,7 @@ const faqItems = [
           is our first hackathon! We are definitely not stealing ANYTHING for
           VHack!
         </div>
-      </div>
-      <Countdown />
+      </div>{showCaseStudies ? <Countdown /> : <CaseStudies />}
     </div>
     <div class="timeline">
       <div><p style="font-size: 36px;">TIMELINE</p></div>
