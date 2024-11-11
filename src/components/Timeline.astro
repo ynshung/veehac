@@ -1,0 +1,154 @@
+---
+const timelineData = [
+  {
+    title: "31st December 2024",
+    content:
+      "The registration Deadline is by 31st of December 2024. If not, you are screwed!",
+  },
+  {
+    title: "8.00 a.m. 1st January 2025",
+    content:
+      "The Case studies will be launched. Be sure to catch it on our website! By then you can start doing your prototype already",
+  },
+  {
+    title: "1sd January 2025 - 2nd January 2025",
+    content: "Code faster fast fast fast fast fast fast fast fast fast",
+  },
+  {
+    title: "2nd January 2025",
+    content:
+      "The deadline to submit your prototype will be on the very next day. We will then send it to the judges to evaluate.",
+  },
+  {
+    title: "3rd January 2025",
+    content: "Results will be announced. Yippee!!!",
+  },
+];
+---
+
+<div class="timeline">
+  <div class="outer">
+    {
+      timelineData.map((item, index) => (
+        <div
+          class="card"
+          class:odd={index % 2 === 0}
+          class:even={index % 2 !== 0}
+        >
+          <div class="info">
+            <h3 class="title">{item.title}</h3>
+            <p>{item.content}</p>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style scoped>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  .outer {
+    justify-items: center;
+    align-items: center;
+  }
+
+  .timeline {
+  }
+
+  .card {
+    position: relative;
+    width: 800px;
+  }
+
+  .card:nth-child(odd) {
+    padding: 15px 0 15px 15px;
+  }
+  .card:nth-child(even) {
+    padding: 15px 15px 15px 0;
+  }
+
+  .card::before {
+    content: "";
+    position: absolute;
+    width: 50%;
+    border: solid #faf9f6;
+  }
+
+  .card:nth-child(odd)::before {
+    left: 0px;
+    top: -4.5px;
+    bottom: -4.5px;
+    border-width: 5px 0 5px 5px;
+    border-radius: 20px 0 0 20px;
+  }
+
+  @media only screen and (max-width: 400px) {
+    .card:nth-child(odd)::before {
+      top: -5px;
+      bottom: -5px;
+    }
+  }
+
+  .card:nth-child(even)::before {
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-width: 5px 5px 5px 0;
+    border-radius: 0 20px 20px 0;
+  }
+
+  .card:first-child::before {
+    border-top: 0;
+    border-top-left-radius: 0;
+  }
+
+  .card:last-child:nth-child(odd)::before {
+    border-bottom: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .card:last-child:nth-child(even)::before {
+    border-bottom: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    background: #827bd2;
+    color: #faf9f6;
+    border-radius: 10px;
+    padding: 10px;
+  }
+
+  .title {
+    color: #faf9f6;
+    position: relative;
+  }
+
+  .title::before {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #faf9f6;
+    border-radius: 999px;
+    border: 3px solid #faf9f6;
+  }
+
+  .card:nth-child(even) > .info > .title {
+    text-align: right;
+  }
+
+  .card:nth-child(odd) > .info > .title::before {
+    left: -45px;
+  }
+
+  .card:nth-child(even) > .info > .title::before {
+    right: -45px;
+  }
+</style>

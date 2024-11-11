@@ -1,0 +1,159 @@
+---
+// Case studies related to the UN SDGs
+const items = [
+  {
+    title: "Case Study 1",
+    topic: "Sustainable Agriculture in Kenya",
+    description:
+      "This study examines how sustainable farming practices, like drip irrigation and drought-resistant crops, have improved food security and farmers' livelihoods in Kenya.",
+  },
+  {
+    title: "Case Study 2",
+    topic: "Renewable Energy in India",
+    description:
+      "India's investment in solar and wind energy, particularly in Rajasthan, is providing affordable power to rural areas and reducing dependence on fossil fuels.",
+  },
+  {
+    title: "Case Study 3",
+    topic: "Women Empowerment in Bangladesh",
+    description:
+      "Microfinance and vocational training have enabled women in Bangladesh to start businesses, gain economic independence, and uplift their communities.",
+  },
+  {
+    title: "Case Study 4",
+    topic: "Clean Water Initiatives in Ghana",
+    description:
+      "In rural Ghana, solar-powered water pumps have improved access to clean drinking water, significantly enhancing public health and sanitation.",
+  },
+  {
+    title: "Case Study 5",
+    topic: "Conservation of Marine Life in the Philippines",
+    description:
+      "Community-led conservation efforts in the Philippines have protected coral reefs and marine life, boosting biodiversity and supporting sustainable tourism.",
+  }
+];
+
+---
+
+<div class="carousel-container">
+  <p style="font-size: 36px;"> Case Studies</p>
+  <div class="carousel">
+    {
+      items.map((item, index) => (
+        <div class="carousel-item" key={index}>
+          <div class="carousel-card">
+            <div class="carousel-content">
+            <div class="carousel-title">
+              <p>{item.title}</p>
+            </div>
+            <div class="carousel-topic">
+              <p>{item.topic}</p>
+            </div>
+            <div class="carousel-description">
+              <p>{item.description}</p>
+            </div>
+          </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .carousel-container {
+    width: 800px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .carousel {
+    display: flex;
+    transition: transform 0.5s ease;
+  }
+
+  .carousel-item {
+    flex: 0 0 33.3333%; /* 3 items visible at a time */
+    padding: 10px;
+    box-sizing: border-box;
+    text-align: center;
+    height: 360px;
+    margin: 0 0px;
+  }
+
+  .carousel-card {
+    background-color: #faf9f6;
+    border-radius: 10px;
+    height: 100%;
+    color: #433f6c;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .carousel-content{
+padding: 20px;
+  }
+
+  .carousel-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #2a3d45;
+    font-weight: 900;
+  }
+
+  .carousel-topic {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #567f87;
+    font-weight: 600;
+  }
+
+  .carousel-description {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #7c7f82;
+    font-weight: 400;
+  }
+  p{
+    margin-block-start: 0px;
+    margin-block-end: 0px;
+  }
+</style>
+
+<script>
+  let currentIndex = 0;
+  const carousel = document.querySelector(".carousel");
+  const items = document.querySelectorAll(".carousel-item");
+  const totalItems = items.length;
+
+  // Create the circular behavior by adding duplicated items
+  function setupCarousel() {
+    const firstItems = Array.from(items).slice(0, 3); // Take the first 3 items
+    firstItems.forEach((item) => {
+      const clone = item.cloneNode(true);
+      carousel.appendChild(clone); // Append the duplicates at the end of the carousel
+    });
+  }
+
+  // Move to the next slide with circular movement
+  function moveToNextSlide() {
+    if (currentIndex === totalItems) {
+      currentIndex = 0;
+      carousel.style.transition = "none"; // Disable transition when we reset
+      carousel.style.transform = "translateX(0)"; // Reset to start
+      setTimeout(() => {
+        carousel.style.transition = "transform 0.5s ease"; // Re-enable transition after reset
+      }, 50);
+    } else {
+      currentIndex++;
+      carousel.style.transform = `translateX(-${currentIndex * 33.33}%)`;
+    }
+  }
+
+  // Auto turn every 3 seconds
+  setInterval(moveToNextSlide, 3000);
+
+  // Initialize carousel
+  setupCarousel();
+</script>
