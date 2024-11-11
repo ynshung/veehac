@@ -40,7 +40,7 @@ const items = [
   <div class="carousel">
     {
       items.map((item, index) => (
-        <div class="carousel-item" key={index}>
+        <div class="carousel-item">
           <div class="carousel-card">
             <div class="carousel-content">
             <div class="carousel-title">
@@ -123,12 +123,13 @@ padding: 20px;
 
 <script>
   let currentIndex = 0;
-  const carousel = document.querySelector(".carousel");
+  const carousel = document.querySelector(".carousel") as HTMLElement;
   const items = document.querySelectorAll(".carousel-item");
   const totalItems = items.length;
 
   // Create the circular behavior by adding duplicated items
   function setupCarousel() {
+    if (!carousel) return;
     const firstItems = Array.from(items).slice(0, 3); // Take the first 3 items
     firstItems.forEach((item) => {
       const clone = item.cloneNode(true);
@@ -140,6 +141,7 @@ padding: 20px;
   function moveToNextSlide() {
     if (currentIndex === totalItems) {
       currentIndex = 0;
+      if (!carousel) return;
       carousel.style.transition = "none"; // Disable transition when we reset
       carousel.style.transform = "translateX(0)"; // Reset to start
       setTimeout(() => {
