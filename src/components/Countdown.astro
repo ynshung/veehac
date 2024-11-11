@@ -1,5 +1,5 @@
 ---
-import Layout from "../layouts/Layout.astro"
+const { targetDate } = Astro.props;
 ---
 
 
@@ -94,7 +94,7 @@ import Layout from "../layouts/Layout.astro"
   }
 </style>
 
-<script>
+<script define:vars={{targetDate}}>
   document.addEventListener("DOMContentLoaded", () => {
     const days = document.getElementById("days")
     const hours = document.getElementById("hours")
@@ -102,8 +102,8 @@ import Layout from "../layouts/Layout.astro"
     const seconds = document.getElementById("seconds")
 
     // Target date: January 1st, 2025
-    const targetTime = new Date("November 10, 2024 19:41:30")
-    let diff = targetTime - new Date()
+    const targetTime = new Date(targetDate)
+    let diff = targetTime.getTime() - new Date().getTime()
 
     const updateCountdown = () => {
       const remainingDays = Math.max(Math.floor(diff / 1000 / 60 / 60 / 24))
