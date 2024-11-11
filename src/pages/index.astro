@@ -46,6 +46,14 @@ const showCaseStudies = currentDate < targetDate;
       <div class="title-mascot">
         <img src="/mascot.png" alt="man" />
       </div>
+      <div class="title-content-left">
+        <p>Veehac 2025</p>
+      </div>
+      <div class="title-content-right">
+        <p>
+          Do you have good ideas? then join this hackathon where we peeepeepoooo
+        </p>
+      </div>
     </div>
     <div class="about">
       <div class="about-content">
@@ -123,6 +131,23 @@ const showCaseStudies = currentDate < targetDate;
     );
   }
 
+  .title-content-left {
+    display: flex;
+    position: absolute;
+    top: 75vh;
+    left: 25vh;
+    font-weight: 900;
+    font-size: 48px;
+    width: 300px;
+  }
+  .title-content-right {
+    display: flex;
+    position: absolute;
+    text-align: center;
+    top: 75vh;
+    right: 25vh;
+    width: 300px;
+  }
   /* abouts */
 
   .about {
