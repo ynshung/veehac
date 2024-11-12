@@ -1,0 +1,37 @@
+---
+import JudgeDashboard from "../components/JudgeDashboard.astro";
+import JudgeProject from "../components/JudgeProject.astro";
+import Layout from "../layouts/Layout.astro";
+
+let showJudging = false;
+---
+
+<script>
+
+</script>
+
+<Layout title="VeeHac">
+  <div class="body">
+    {showJudging ? <JudgeProject class="judge-project" showJudging={showJudging} /> : <JudgeDashboard  showJudging={showJudging} />}
+  </div>
+</Layout>
+
+
+
+<style>
+  .body {
+    font-family: "Chesna Grotesk";
+    margin: 0;
+    display:inline-flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 100%;
+    height: auto;
+    background-color: #433f6c;
+    /* display: flex;
+    justify-content: center; */
+
+ 
+  }
+
+</style>

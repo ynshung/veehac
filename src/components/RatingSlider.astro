@@ -1,0 +1,39 @@
+---
+// Slider.astro
+---
+
+<style>
+    .slider-container {
+      width: 250px;
+      /* margin: 0 auto;
+      text-align: center; */
+    }
+  
+    .slider {
+        width: 242px;
+        accent-color: #433f6c;
+        height: 4px;
+    }
+  
+    .labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 300px;
+    }
+  
+    .label {
+      width: 25px;
+      text-align: center;
+    }
+  </style>
+  
+  <div class="slider-container">
+    <input type="range" min="1" max="10" step="1" class="slider" id="slider"  style="margin-left: 4px; "/>
+    <div class="labels">
+      {Array.from({ length: 10 }, (_, i) => (
+        <span class="label" key={i}>{i + 1}</span>
+      ))}
+    </div>
+  </div>
+  
