@@ -1,4 +1,6 @@
 ---
+let { showJudging } = Astro.props;
+
 const projects = [
   {
     id: 1,
@@ -22,7 +24,6 @@ const projects = [
     judged: false,
   },
 ];
-const { showJudging } = Astro.props;
 ---
 
 <div class="judge-dashboard-card">
@@ -67,7 +68,7 @@ const { showJudging } = Astro.props;
               <td class="project-name">{project.name}</td>
               <td class="project-group">{project.group}</td>
               <td class="project-title">{project.title}</td>
-              <td class="project-judged">
+              <td class="project-judged" id="project-judged">
                 <a
                   class={`judged-button ${project.judged ? "judged" : "not-judged"}`}
                 >
