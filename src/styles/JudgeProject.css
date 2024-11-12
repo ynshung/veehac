@@ -1,0 +1,72 @@
+.body {
+  width: 100%;
+}
+
+.judge-project-card {
+  background-color: #faf9f6;
+  width: 600px;
+  padding: 20px;
+  border-radius: 20px;
+  margin: 10px;
+}
+
+.judge-rating-card {
+  background-color: #faf9f6;
+  width: 400px;
+  height: calc(100vh - 80px) !important;
+  padding: 20px;
+  border-radius: 20px;
+  margin: 10px;
+  position: sticky;
+  top: 10px;
+}
+
+.project-information,
+.project-title,
+.project-description,
+.project-case-study,
+.project-presentation-video,
+.project-prototype,
+.judge-rating-card,
+.submit {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+/* .judge-rating-slider{
+  margin-top: 5px;
+  margin-bottom: 5px;
+} */
+
+p {
+  font-family: "Chesna Grotesk";
+  margin-block-start: 0em;
+  margin-block-end: 0em;
+}
+textarea {
+  display: flex;
+  font-family: "Chesna Grotesk";
+  resize: none;
+  width: 100%;
+  border-radius: 10px;
+  color: #000;
+  box-sizing: border-box;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+}
+.go-to-prototype,
+.submit {
+  justify-items: center;
+  align-content: center;
+  width: 100%;
+  text-align: center;
+  height: 40px;
+  background-color: #d9d9d9;
+  border-radius: 10px;
+}
+.submit:hover {
+  background-color: #d3d3d3;
+}
+.submit {
+  margin-top: 10px;
+}

@@ -1,0 +1,23 @@
+.slider-container {
+  width: 250px;
+  /* margin: 0 auto;
+  text-align: center; */
+}
+
+.slider {
+  width: 242px;
+  accent-color: #433f6c;
+  height: 4px;
+}
+
+.labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 300px;
+}
+
+.label {
+  width: 25px;
+  text-align: center;
+}

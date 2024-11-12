@@ -1,9 +1,6 @@
 ---
-import JudgeDashboard from "../components/JudgeDashboard.astro";
-import JudgeProject from "../components/JudgeProject.astro";
 import Layout from "../layouts/Layout.astro";
-
-let showJudging = false;
+import JudgeDashboardParent from "../components/JudgeDashboardParent";
 ---
 
 <script>
@@ -12,7 +9,7 @@ let showJudging = false;
 
 <Layout title="VeeHac">
   <div class="body">
-    {showJudging ? <JudgeProject class="judge-project" showJudging={showJudging} /> : <JudgeDashboard  showJudging={showJudging} />}
+    <JudgeDashboardParent client:load />
   </div>
 </Layout>
 
