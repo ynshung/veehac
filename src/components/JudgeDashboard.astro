@@ -1,0 +1,186 @@
+---
+const projects = [
+  {
+    id: 1,
+    name: "Project 1",
+    group: "Then Sherf Low",
+    title: "Tik Tok Tutorial with AI",
+    judged: true,
+  },
+  {
+    id: 2,
+    name: "Project 2",
+    group: "Jarver Skrip",
+    title: "Smart Energy Management",
+    judged: false,
+  },
+  {
+    id: 3,
+    name: "Project 3",
+    group: "Viewjay Ash",
+    title: "Automated Judging System",
+    judged: false,
+  },
+];
+const { showJudging } = Astro.props;
+---
+
+<div class="judge-dashboard-card">
+  <div>
+    <a>Back to home</a>
+  </div>
+  <div class="judge-dashboard">
+    <div>
+      <p style="font-size: 32px; font-weight: 700;">Judge Dashboard</p>
+      <hr />
+    </div>
+    <div>
+      <div>
+        <p style="font-size: 15px; font-weight: 400;">
+          Welcome to Veehac 2025, glad to have you on some lorem ipsim! The
+          judging times will be from xx March 2025 to xx March 2025.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="start-judging">
+    <div>
+      <p style="font-size: 24px; font-weight: 600;">Start Judging</p>
+      <hr />
+    </div>
+    <div style="font-size: 13px; font-weight: 200;">
+      <p>Red Icon: Pending Evaluation</p>
+      <p>Green Icon: Completed Evaluation</p>
+    </div>
+  </div>
+  <div class="still-make-changes">
+    <div>
+      <p>You can still make changes untill the judging deadline</p>
+    </div>
+  </div>
+  <div>
+    <table style="width:100%">
+      <tbody>
+        {
+          projects.map((project) => (
+            <tr key={project.id}>
+              <td class="project-name">{project.name}</td>
+              <td class="project-group">{project.group}</td>
+              <td class="project-title">{project.title}</td>
+              <td class="project-judged">
+                <a
+                  class={`judged-button ${project.judged ? "judged" : "not-judged"}`}
+                >
+                  <i class="fa fa-file-text" aria-hidden="true" />
+                </a>
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+  <div class="judge-info">
+    <div>
+      <p style="font-size: 24px; font-weight: 600;">Judge Info</p>
+      <hr />
+    </div>
+    <div class="judge-details" style="font-size: 15px; font-weight: 300;">
+      <p><span style="font-weight:bold">Full Name:</span> Eskew Elle</p>
+      <p>
+        <span style="font-weight:bold">Company:</span> Universiti CPlusPlus Malaysia
+      </p>
+      <p><span style="font-weight:bold">Email:</span> eskewelle@database.com</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .judge-dashboard-card {
+    background-color: #faf9f6;
+    width: 800px;
+    height: 600px;
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+  .start-judging,
+  .judge-dashboard,
+  .still-make-changes,
+  .judge-info {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+
+  p {
+    font-family: "Chesna Grotesk";
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+  }
+  .still-make-changes {
+    justify-items: center;
+    align-content: center;
+    width: 100%;
+    text-align: center;
+    height: 40px;
+    background-color: #d9d9d9;
+    border-radius: 10px;
+  }
+  table {
+    border-collapse: collapse;
+    border-radius: 10px;
+  }
+  tr {
+    border: solid 1px #000;
+  }
+  td {
+    padding: 10px;
+  }
+
+  .project-name {
+    font-weight: bold;
+  }
+  .project-group {
+    font-weight: 300;
+  }
+  .project-title {
+    font-weight: 300;
+  }
+  .judged-button {
+    display: block;
+    width: 30px;
+    height: 30px;
+    align-content: center;
+    justify-items: center;
+    text-align: center;
+  }
+  .judged {
+    color: #009c14;
+    background-color: #aae4b2;
+    border-radius: 5px;
+  }
+  .judged:hover {
+    background-color: #7ad787;
+  }
+  .not-judged {
+    color: #e20004;
+    background-color: #f6b6b7;
+    border-radius: 5px;
+  }
+  .not-judged:hover {
+    background-color: #f09ea0;
+  }
+
+  .judge-details {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .judge-details > p {
+    flex: 50%;
+  }
+</style>
+<head>
+  <script
+    src="https://kit.fontawesome.com/1ce99b1531.js"
+    crossorigin="anonymous"></script>
+</head>
