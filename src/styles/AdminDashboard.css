@@ -1,0 +1,88 @@
+.admin-dashboard-card {
+    background-color: #faf9f6;
+    width: 1000px;
+    height: 600px;
+    padding: 20px;
+    border-radius: 20px;
+  }
+  
+  .start-judging,
+  .admin-dashboard,
+  .logged-in-as,
+  .admin-info {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+  
+  p {
+    font-family: "Chesna Grotesk";
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+  }
+  .still-make-changes {
+    justify-items: center;
+    align-content: center;
+    width: 100%;
+    text-align: center;
+    height: 40px;
+    background-color: #d9d9d9;
+    border-radius: 10px;
+  }
+  table {
+    border-collapse: collapse;
+    border-radius: 10px;
+  }
+  tr {
+    border: solid 1px #000;
+  }
+  td {
+    padding: 10px;
+  }
+  
+  .project-name {
+    font-weight: bold;
+  }
+  .project-group {
+    font-weight: 300;
+  }
+  .project-title {
+    font-weight: 300;
+  }
+  .judged-button {
+    display: block;
+    width: 30px;
+    height: 30px;
+    align-content: center;
+    justify-items: center;
+    text-align: center;
+  }
+  .judged {
+    color: #009c14;
+    background-color: #aae4b2;
+    border-radius: 5px;
+  }
+  .judged:hover {
+    background-color: #7ad787;
+  }
+  .not-judged {
+    color: #e20004;
+    background-color: #f6b6b7;
+    border-radius: 5px;
+  }
+  .not-judged:hover {
+    background-color: #f09ea0;
+  }
+  
+  .admin-details {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .admin-details > p {
+    flex: 50%;
+  }
+  .in-time{
+color: #009c14;
+  }  
+  .not-in-time{
+color: #e20004;
+  }

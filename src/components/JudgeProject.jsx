@@ -101,7 +101,7 @@ const JudgeProject = ({ setShowJudging }) => {
           <textarea style={{ height: '200px' }}></textarea>
         </div>
         <div>
-          <div className="submit">
+          <div onClick={() => setShowJudging('')} className="submit">
             <p>Submit</p>
           </div>
         </div>

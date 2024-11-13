@@ -7,6 +7,37 @@ import FAQ from "../components/FAQ.astro";
 import Footer from "../components/Footer.astro";
 import CaseStudies from "../components/CaseStudies.astro";
 
+const timelineData = [
+  {
+    date: "31st December 2024",
+    title: "Registration",
+    content:
+      "The registration Deadline is by 31st of December 2024. If not, you are screwed!",
+  },
+  {
+    date: "8.00 a.m. 1st January 2025",
+    title: "Case Study Release",
+    content:
+      "The Case studies will be launched. Be sure to catch it on our website! By then you can start doing your prototype already",
+  },
+  {
+    date: "1st January 2025 - 2nd January 2025",
+    title: "Thinking Time!",
+    content: "Code faster fast fast fast fast fast fast fast fast fast",
+  },
+  {
+    date: "2nd January 2025",
+    title: "Submission Deadline",
+    content:
+      "The deadline to submit your prototype will be on the very next day. We will then send it to the judges to evaluate.",
+  },
+  {
+    date: "3rd January 2025",
+    title: "Result Announcement",
+    content: "Results will be announced. Yippee!!!",
+  },
+];
+
 const faqItems = [
   {
     question: "What is the Skibidi Toilet?",
@@ -74,7 +105,7 @@ const showCaseStudies = currentDate < targetDate;
     </div>
     <div class="timeline">
       <div><p style="font-size: 36px;">TIMELINE</p></div>
-      <Timeline />
+      <Timeline timelineData={timelineData} title={true}/>
     </div>
     <div class="faq">
       <div><p style="font-size: 36px;">FAQ</p></div>
@@ -87,7 +118,7 @@ const showCaseStudies = currentDate < targetDate;
 <style>
   .body {
     font-family: "Chesna Grotesk";
-    background: linear-gradient(#827bd2 0px, #433f6c 80vh);
+    background: linear-gradient(#827bd2 0px, #433f6c 70vh);
     margin: 0;
     display: flex;
     flex-direction: column;

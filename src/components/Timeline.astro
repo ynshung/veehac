@@ -1,43 +1,21 @@
 ---
-const timelineData = [
-  {
-    title: "31st December 2024",
-    content:
-      "The registration Deadline is by 31st of December 2024. If not, you are screwed!",
-  },
-  {
-    title: "8.00 a.m. 1st January 2025",
-    content:
-      "The Case studies will be launched. Be sure to catch it on our website! By then you can start doing your prototype already",
-  },
-  {
-    title: "1sd January 2025 - 2nd January 2025",
-    content: "Code faster fast fast fast fast fast fast fast fast fast",
-  },
-  {
-    title: "2nd January 2025",
-    content:
-      "The deadline to submit your prototype will be on the very next day. We will then send it to the judges to evaluate.",
-  },
-  {
-    title: "3rd January 2025",
-    content: "Results will be announced. Yippee!!!",
-  },
-];
+const { timelineData , title} = Astro.props;
 ---
 
 <div class="timeline">
   <div class="outer">
     {
-      timelineData.map((item, index) => (
+      timelineData.map((item: {
+[x: string]: unknown; date: unknown; content: unknown; 
+}, index: number) => (
         <div
           class="card"
           class:odd={index % 2 === 0}
           class:even={index % 2 !== 0}
         >
           <div class="info">
-            <h3 class="title">{item.title}</h3>
-            <p>{item.content}</p>
+            <h3 class="date">{item.date}</h3>
+            <p class={`${title? "title":"content"}`}>{title ? item.title: item.content}</p>
           </div>
         </div>
       ))
@@ -125,12 +103,12 @@ const timelineData = [
     padding: 10px;
   }
 
-  .title {
+  .date {
     color: #faf9f6;
     position: relative;
   }
 
-  .title::before {
+  .date::before {
     content: "";
     position: absolute;
     width: 10px;
@@ -140,15 +118,29 @@ const timelineData = [
     border: 3px solid #faf9f6;
   }
 
-  .card:nth-child(even) > .info > .title {
+  .card:nth-child(even) > .info > .date {
     text-align: right;
   }
 
-  .card:nth-child(odd) > .info > .title::before {
+  .card:nth-child(odd) > .info > .date::before {
     left: -45px;
   }
 
-  .card:nth-child(even) > .info > .title::before {
+  .card:nth-child(even) > .info > .date::before {
     right: -45px;
+  }
+
+  .card:nth-child(odd) > .info > .title {
+    position: relative;
+    text-align: right;
+  }
+
+  .card:nth-child(even) > .info > .title {
+    text-align: left;
+  }
+
+  .title{
+    font-size: 36px;
+    font-weight: 700;
   }
 </style>

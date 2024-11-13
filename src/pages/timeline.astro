@@ -1,0 +1,65 @@
+---
+import NavBar from "../components/NavBar.astro";
+import Layout from "../layouts/Layout.astro";
+import Timeline from "../components/Timeline.astro";
+import Footer from "../components/Footer.astro";
+const timelineData = [
+  {
+    date: "31st December 2024",
+    title: "Registration",
+    content:
+      "The registration Deadline is by 31st of December 2024. If not, you are screwed!",
+  },
+  {
+    date: "8.00 a.m. 1st January 2025",
+    title: "Case Study Release",
+    content:
+      "The Case studies will be launched. Be sure to catch it on our website! By then you can start doing your prototype already",
+  },
+  {
+    date: "1st January 2025 - 2nd January 2025",
+    title: "Thinking Time!",
+    content: "Code faster fast fast fast fast fast fast fast fast fast",
+  },
+  {
+    date: "2nd January 2025",
+    title: "Submission Deadline",
+    content:
+      "The deadline to submit your prototype will be on the very next day. We will then send it to the judges to evaluate.",
+  },
+  {
+    date: "3rd January 2025",
+    title: "Result Announcement",
+    content: "Results will be announced. Yippee!!!",
+  },
+];
+---
+
+<Layout title="VeeHac">
+  <NavBar backgroundColor="#433f6c" />
+  <div class="body">
+    <div class="timeline">
+      <Timeline timelineData={timelineData} title={false}/>
+    </div>
+
+  <Footer />
+</Layout>
+
+<style>
+.body{
+    background-color: #433f6c;
+}
+  /* timeline */
+  .timeline {
+    align-items: center;
+    justify-items: center;
+    width: 100%;
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+
+
+</style>
+<script>
+    console.log(timelineData)
+</script>
