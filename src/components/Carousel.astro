@@ -1,6 +1,18 @@
 ---
 import 'swiper/css';
+
+const developers = [
+    { name: 'V191 Byte Benders', title: 'Crafting a powerful data visualization platform that helps companies "bend" complex data into interactive, easy-to-understand insights for smarter decisions.' },
+    { name: 'V333 Code Crusaders', title: 'Developing a real-time crisis response app that empowers users to report and navigate emergencies using geolocation and community-driven information.' },
+    { name: 'V111 Digital Dreamers', title: 'Building an AI-powered platform that helps people turn ideas into reality by generating prototypes, branding elements, and marketing plans—all from a single prompt.' },
+    { name: 'V069 Nerd Herd', title: 'Designing a collaborative coding platform where teams can code in real time, access helpful resources, and troubleshoot together in a streamlined environment.' },
+    { name: 'V055 Quantum Quokkas', title: 'Innovating a quantum-powered encryption service that allows users to securely share sensitive files with impenetrable privacy in milliseconds.' },
+    { name: 'V102 Syntax Samurai', title: 'Creating an AI-powered code correction tool that detects and repairs errors in real time, saving developers from syntax struggles and boosting productivity.' },
+    { name: 'V010 Hackstreet Boys', title: 'Developing a gamified wellness app that encourages healthier lifestyle choices through fun challenges, badges, and leaderboards.' },
+];
+
 ---
+
 <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=visibility" />
@@ -9,70 +21,36 @@ import 'swiper/css';
     <div class="container swiper">
         <div class="card-wrapper">
             <ul class="card-list swiper-wrapper">
-                <li class="card-item swiper-slide">
-                        <a href="" class="card-link">
+                {developers.map(dev => (
+                    <li class="card-item swiper-slide">
+                        <a href="javascript:void(0)" class="card-link" data-name={dev.name} data-title={dev.title} data-description={dev.title}>
                             <img src="anonymous.jpg" alt="Card Image" class="card-image">
-                             <p class="badge">Developer 1</p>
-                             <h2 class="card-title">AAAAAAAAAAAAAAAAAAAAA</h2>
-                             <button class="card-button material-symbols-rounded">visibility</button>
+                            <p class="badge">{dev.name}</p>
+                            <h2 class="card-title">{dev.title}</h2>
+                            <button class="card-button material-symbols-rounded">visibility</button>
                         </a>
-                </li>
-                <li class="card-item swiper-slide">
-                        <a href="" class="card-link">
-                            <img src="anonymous.jpg" alt="Card Image" class="card-image">
-                             <p class="badge">Developer 2</p>
-                             <h2 class="card-title">AAAAAAAAAAAAAAAAAAA</h2>
-                             <button class="card-button material-symbols-rounded">visibility</button>
-                        </a>
-                </li>
-                <li class="card-item swiper-slide">
-                        <a href="" class="card-link">
-                            <img src="anonymous.jpg" alt="Card Image" class="card-image">
-                             <p class="badge">Developer 3</p>
-                             <h2 class="card-title">AAAAAAAAAAAAAAAAAAAAAAAA</h2>
-                             <button class="card-button material-symbols-rounded">visibility</button>
-                        </a>
-                </li>
-                <li class="card-item swiper-slide">
-                        <a href="" class="card-link">
-                            <img src="anonymous.jpg" alt="Card Image" class="card-image">
-                             <p class="badge">Developer 4</p>
-                             <h2 class="card-title">AAAAAAAAAAA</h2>
-                             <button class="card-button material-symbols-rounded">visibility</button>
-                        </a>
-                </li>
-                <li class="card-item swiper-slide">
-                        <a href="" class="card-link">
-                            <img src="anonymous.jpg" alt="Card Image" class="card-image">
-                             <p class="badge">Developer 5</p>
-                             <h2 class="card-title">AAAAAAAAA</h2>
-                             <button class="card-button material-symbols-rounded">visibility</button>
-                        </a>
-                </li>
-                <li class="card-item swiper-slide">
-                        <a href="" class="card-link">
-                            <img src="anonymous.jpg" alt="Card Image" class="card-image">
-                             <p class="badge">Developer 6</p>
-                             <h2 class="card-title">AAAAAAAAA</h2>
-                             <button class="card-button material-symbols-rounded">visibility</button>
-                        </a>
-                </li>
-                <li class="card-item swiper-slide">
-                        <a href="" class="card-link">
-                            <img src="anonymous.jpg" alt="Card Image" class="card-image">
-                             <p class="badge">Developer 7</p>
-                             <h2 class="card-title">AAAAAAAAAAAA</h2>
-                             <button class="card-button material-symbols-rounded">visibility</button>
-                        </a>
-                </li>
+                    </li>
+                ))}
             </ul>
             <div class="swiper-pagination"></div>
-            <!-- If we need navigation buttons -->
             <div class="swiper-button-prev"></div>
             <div class="swiper-button-next"></div>
         </div>
     </div>
+
+    <!-- Modal Popup -->
+    <div class="modal" id="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" id="close">&times;</span>
+            <img id="modal-image" class="modal-image" src="" alt="Developer Image">
+            <h2 id="modal-name"></h2>
+            <p id="modal-title"></p>
+            <p id="modal-description"></p> <!-- For more details about the developer -->
+        </div>
+    </div>
+
 </body>
+
 
 
 <style>
@@ -110,7 +88,7 @@ import 'swiper/css';
         box-shadow: 0 10px 10px rgba(0, 0, 0, 0.05);
         transition: 0.4 ease;
     }
-
+    
     .card-list .card-item .card-link:hover {
         border-color: #5372f0;
     }
@@ -134,8 +112,8 @@ import 'swiper/css';
 
     .card-list .card-link .card-title {
         font-size: 1.19rem;
-        color: #000;
-        font-weight: 600;
+        color: #555;
+        font-weight: 5;
     }
 
     .card-list .card-link .card-button {
@@ -150,7 +128,7 @@ import 'swiper/css';
         transition: 0.4s ease;
     }
 
-    .card-list .card-link:hover .card-button {
+    .card-list .card-link .card-button:hover {
         color: #fff;
         background: #5372f0;
 
@@ -164,6 +142,91 @@ import 'swiper/css';
         margin-right: 50px;
     }
     
+    
+    /* Modal Styles */
+    .modal {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 90%, rgba(0, 0, 0, 0));
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        animation: fadeInTop 0.2s ease-out forwards;
+        user-select: none;
+    }
+
+    /* Modal Image Styles */
+    .modal-image {
+        width: 100%;
+        height: auto;
+        max-width: 250px; /* Increase image size */
+        margin-bottom: 20px;
+        border-radius: 10px;
+    }
+
+    /* Center modal content */
+    .modal-content {
+        background-color: white;
+        padding: 40px; /* Increase padding for a larger modal */
+        border-radius: 15px; /* Make the border-radius larger */
+        width: 85%; /* Increase width to make the modal bigger */
+        max-width: 800px; /* Increase max width */
+        text-align: center;
+        position: relative;
+    }
+
+    /* Modal Name Styles */
+    #modal-name {
+        font-size: 2rem; /* Increase font size */
+        font-weight: bold;
+        color: black;
+        margin-bottom: 15px;
+    }
+
+    #modal-title {
+        font-size: 1.5rem; /* Increase font size */
+        color: #555;
+        margin-bottom: 15px;
+    }
+
+    #modal-description {
+        font-size: 1.2rem; /* Increase font size */
+        color: #333;
+        margin-top: 10px;
+        line-height: 1.5; /* Improve readability */
+    }
+
+    /* Close Button Styles */
+    .close {
+        position: absolute;
+        top: 20px; /* Adjust close button position */
+        right: 20px;
+        font-size: 2rem; /* Increase size of close button */
+        cursor: pointer;
+        color: #333;
+    }
+
+    .close:hover {
+        color: red;
+    }
+
+    @keyframes fadeInTop {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+
+
 </style>
 
 <script>
@@ -204,6 +267,41 @@ import 'swiper/css';
             }
         }
     });
+
+    document.querySelectorAll('.card-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const cardItem = button.closest('.card-item');
+            
+            // Retrieve data from the clicked card
+            const name = cardItem.querySelector('.badge').textContent; 
+            const title = cardItem.querySelector('.card-title').textContent; 
+            const description = cardItem.getAttribute('data-description'); 
+            const imageSrc = cardItem.querySelector('.card-image').src; 
+
+            // Show the modal and populate with the corresponding data
+            const modal = document.getElementById('modal');
+            document.getElementById('modal-image').src = imageSrc; 
+            document.getElementById('modal-name').textContent = name;
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-description').textContent = description;
+
+            modal.style.display = 'flex'; // Make modal visible
+        });
+    });
+
+    // Close the modal when the "X" is clicked
+    document.getElementById('close').addEventListener('click', () => {
+        document.getElementById('modal').style.display = 'none';
+    });
+
+    // Close the modal if the user clicks outside of it
+    window.addEventListener('click', (event) => {
+        if (event.target === document.getElementById('modal')) {
+            document.getElementById('modal').style.display = 'none';
+        }
+    });
+
+
 </script>
 
 
