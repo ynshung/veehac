@@ -7,7 +7,7 @@ import Footer from "../components/Footer.astro";
 
 <Layout title="VeeHac">
     <NavBar backgroundColor="#433f6c" />
-
+    <div class="body">
   <!-- Header Section -->
   <header class="header">
     <h1>Hackathon Winning Projects</h1>
@@ -60,8 +60,9 @@ import Footer from "../components/Footer.astro";
   </div>
 
   <!-- Carousel Section -->
-  <Carousel />
-  <Footer/>
+  <div class="carousel-wrapper"><Carousel /></div>
+</div>
+  <Footer />
 </Layout>
 
 <style>
@@ -72,22 +73,25 @@ import Footer from "../components/Footer.astro";
     box-sizing: border-box;
   }
 
-  body {
-    font-family: "Chesna Grotesk";
-    background-color: #2d2a55;
-    color: white;
-  }
+.body {
+  font-family: "Chesna Grotesk";
+  background-color: #433f6c;
+  color: white;
+}
 
   a {
     color: inherit;
     text-decoration: none;
   }
 
-  /* Header */
-  .header {
-    text-align: center;
-    margin: 2rem 0;
-  }
+/* Header */
+.header {
+  text-align: center;
+  opacity: 0;
+  cursor: default;
+  user-select: none;
+  animation: fadeInTop 1s ease-out forwards;
+}
 
   .header h1 {
     font-size: 5rem;

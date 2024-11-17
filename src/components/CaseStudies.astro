@@ -30,29 +30,28 @@ const items = [
     topic: "Conservation of Marine Life in the Philippines",
     description:
       "Community-led conservation efforts in the Philippines have protected coral reefs and marine life, boosting biodiversity and supporting sustainable tourism.",
-  }
+  },
 ];
-
 ---
 
 <div class="carousel-container">
-  <p style="font-size: 36px;"> Case Studies</p>
+  <p style="font-size: 36px;">Case Studies</p>
   <div class="carousel">
     {
       items.map((item, index) => (
         <div class="carousel-item">
           <div class="carousel-card">
             <div class="carousel-content">
-            <div class="carousel-title">
-              <p>{item.title}</p>
+              <div class="carousel-title">
+                <p>{item.title}</p>
+              </div>
+              <div class="carousel-topic">
+                <p>{item.topic}</p>
+              </div>
+              <div class="carousel-description">
+                <p>{item.description}</p>
+              </div>
             </div>
-            <div class="carousel-topic">
-              <p>{item.topic}</p>
-            </div>
-            <div class="carousel-description">
-              <p>{item.description}</p>
-            </div>
-          </div>
           </div>
         </div>
       ))
@@ -73,12 +72,33 @@ const items = [
   }
 
   .carousel-item {
-    flex: 0 0 33.3333%; /* 3 items visible at a time */
+    flex: 0 0 33.3333%; 
     padding: 10px;
     box-sizing: border-box;
     text-align: center;
     height: 360px;
     margin: 0 0px;
+  }
+  @media only screen and (max-width: 850px) {
+    .carousel-container {
+    width: 500px;
+    overflow: hidden;
+    position: relative;
+  }
+    .carousel-item {
+      flex: 0 0 50%;
+    }
+  }
+
+  @media only screen and (max-width: 550px) {
+    .carousel-container {
+    width: 300px;
+    overflow: hidden;
+    position: relative;
+  }
+    .carousel-item {
+      flex: 0 0 100%;
+    }
   }
 
   .carousel-card {
@@ -91,8 +111,8 @@ const items = [
     justify-content: space-between;
   }
 
-  .carousel-content{
-padding: 20px;
+  .carousel-content {
+    padding: 20px;
   }
 
   .carousel-title {
@@ -115,7 +135,7 @@ padding: 20px;
     color: #7c7f82;
     font-weight: 400;
   }
-  p{
+  p {
     margin-block-start: 0px;
     margin-block-end: 0px;
   }
@@ -149,7 +169,15 @@ padding: 20px;
       }, 50);
     } else {
       currentIndex++;
-      carousel.style.transform = `translateX(-${currentIndex * 33.33}%)`;
+      if( carousel.offsetWidth>=800){
+        carousel.style.transform = `translateX(-${currentIndex * 33.333}%)`;
+      }
+      else if (carousel.offsetWidth>=550){
+        carousel.style.transform = `translateX(-${currentIndex * 50}%)`;
+      }
+      else{
+        carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+      }
     }
   }
 

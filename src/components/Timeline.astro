@@ -41,7 +41,19 @@ const { timelineData , title} = Astro.props;
     position: relative;
     width: 800px;
   }
-
+  @media only screen and (max-width: 850px) {
+    .card {
+    width: 55vw;
+    }
+    .card .date{
+  
+  font-size: 18px;
+  }
+    .card .title{
+  
+    font-size: 24px;
+    }
+  }
   .card:nth-child(odd) {
     padding: 15px 0 15px 15px;
   }
