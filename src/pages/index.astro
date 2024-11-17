@@ -62,7 +62,13 @@ const showCaseStudies = currentDate < targetDate;
           is our first hackathon! We are definitely not stealing ANYTHING for
           VHack!
         </div>
-      </div>{showCaseStudies ? <Countdown targetDate={targetDate} /> : <CaseStudies />}
+      </div>{
+        showCaseStudies ? (
+          <Countdown targetDate={targetDate} />
+        ) : (
+          <CaseStudies />
+        )
+      }
     </div>
     <div class="timeline">
       <div><p style="font-size: 36px;">TIMELINE</p></div>

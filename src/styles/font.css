@@ -4,7 +4,8 @@
   src:
     local("Chesna Grotesk Extra Light"),
     local("ChesnaGrotesk-ExtraLight"),
-    url("/fonts/ChesnaGrotesk-ExtraLight.eot?#iefix") format("embedded-opentype"),
+    url("/fonts/ChesnaGrotesk-ExtraLight.eot?#iefix")
+      format("embedded-opentype"),
     url("/fonts/ChesnaGrotesk-ExtraLight.woff2") format("woff2"),
     url("/fonts/ChesnaGrotesk-ExtraLight.woff") format("woff"),
     url("/fonts/ChesnaGrotesk-ExtraLight.ttf") format("truetype");
@@ -65,7 +66,8 @@
   src:
     local("Chesna Grotesk Book Italic"),
     local("ChesnaGrotesk-BookItalic"),
-    url("/fonts/ChesnaGrotesk-BookItalic.eot?#iefix") format("embedded-opentype"),
+    url("/fonts/ChesnaGrotesk-BookItalic.eot?#iefix")
+      format("embedded-opentype"),
     url("/fonts/ChesnaGrotesk-BookItalic.woff2") format("woff2"),
     url("/fonts/ChesnaGrotesk-BookItalic.woff") format("woff"),
     url("/fonts/ChesnaGrotesk-BookItalic.ttf") format("truetype");
@@ -203,7 +205,8 @@
   src:
     local("Chesna Grotesk Bold Italic"),
     local("ChesnaGrotesk-BoldItalic"),
-    url("/fonts/ChesnaGrotesk-BoldItalic.eot?#iefix") format("embedded-opentype"),
+    url("/fonts/ChesnaGrotesk-BoldItalic.eot?#iefix")
+      format("embedded-opentype"),
     url("/fonts/ChesnaGrotesk-BoldItalic.woff2") format("woff2"),
     url("/fonts/ChesnaGrotesk-BoldItalic.woff") format("woff"),
     url("/fonts/ChesnaGrotesk-BoldItalic.ttf") format("truetype");
@@ -233,7 +236,8 @@
   src:
     local("Chesna Grotesk Thin Italic"),
     local("ChesnaGrotesk-ThinItalic"),
-    url("/fonts/ChesnaGrotesk-ThinItalic.eot?#iefix") format("embedded-opentype"),
+    url("/fonts/ChesnaGrotesk-ThinItalic.eot?#iefix")
+      format("embedded-opentype"),
     url("/fonts/ChesnaGrotesk-ThinItalic.woff2") format("woff2"),
     url("/fonts/ChesnaGrotesk-ThinItalic.woff") format("woff"),
     url("/fonts/ChesnaGrotesk-ThinItalic.ttf") format("truetype");

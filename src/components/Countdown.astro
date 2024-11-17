@@ -2,29 +2,31 @@
 const { targetDate } = Astro.props;
 ---
 
-
-  <main>
-    <div style="font-size: 36px;">Register before<br><span style="font-size: 48px; font-weight:900">31st December 2024!!</span></div>
-    <div id="countdown" class="countdown">
-      <div class="time">
-        <h2 class="text-gradient" id="days">00</h2>
-        <small>days</small>
-      </div>
-      <div class="time">
-        <h2 class="text-gradient" id="hours">00</h2>
-        <small>hours</small>
-      </div>
-      <div class="time">
-        <h2 class="text-gradient" id="minutes">00</h2>
-        <small>minutes</small>
-      </div>
-      <div class="time">
-        <h2 class="text-gradient" id="seconds">00</h2>
-        <small>seconds</small>
-      </div>
+<main>
+  <div style="font-size: 36px;">
+    Register before<br /><span style="font-size: 48px; font-weight:900"
+      >31st December 2024!!</span
+    >
+  </div>
+  <div id="countdown" class="countdown">
+    <div class="time">
+      <h2 class="text-gradient" id="days">00</h2>
+      <small>days</small>
     </div>
-  </main>
-</Layout>
+    <div class="time">
+      <h2 class="text-gradient" id="hours">00</h2>
+      <small>hours</small>
+    </div>
+    <div class="time">
+      <h2 class="text-gradient" id="minutes">00</h2>
+      <small>minutes</small>
+    </div>
+    <div class="time">
+      <h2 class="text-gradient" id="seconds">00</h2>
+      <small>seconds</small>
+    </div>
+  </div>
+</main>
 
 <style>
   main {
@@ -94,40 +96,48 @@ const { targetDate } = Astro.props;
   }
 </style>
 
-<script define:vars={{targetDate}}>
+<script define:vars={{ targetDate }}>
   document.addEventListener("DOMContentLoaded", () => {
-    const days = document.getElementById("days")
-    const hours = document.getElementById("hours")
-    const minutes = document.getElementById("minutes")
-    const seconds = document.getElementById("seconds")
+    const days = document.getElementById("days");
+    const hours = document.getElementById("hours");
+    const minutes = document.getElementById("minutes");
+    const seconds = document.getElementById("seconds");
 
     // Target date: January 1st, 2025
-    const targetTime = new Date(targetDate)
-    let diff = targetTime.getTime() - new Date().getTime()
+    const targetTime = new Date(targetDate);
+    let diff = targetTime.getTime() - new Date().getTime();
 
     const updateCountdown = () => {
-      const remainingDays = Math.max(Math.floor(diff / 1000 / 60 / 60 / 24))
-      const remainingHours = Math.max(Math.floor(diff / 1000 / 60 / 60) % 24)
-      const remainingMinutes = Math.max(Math.floor(diff / 1000 / 60) % 60)
-      const remainingSeconds = Math.max(Math.floor(diff / 1000) % 60)
+      const remainingDays = Math.max(Math.floor(diff / 1000 / 60 / 60 / 24));
+      const remainingHours = Math.max(Math.floor(diff / 1000 / 60 / 60) % 24);
+      const remainingMinutes = Math.max(Math.floor(diff / 1000 / 60) % 60);
+      const remainingSeconds = Math.max(Math.floor(diff / 1000) % 60);
 
-      if (remainingDays === 0 && remainingHours === 0 && remainingMinutes === 0 && remainingSeconds === 0) {
+      if (
+        remainingDays === 0 &&
+        remainingHours === 0 &&
+        remainingMinutes === 0 &&
+        remainingSeconds === 0
+      ) {
         // Countdown has reached zero
-        clearInterval(countdownInterval)
+        clearInterval(countdownInterval);
       }
 
-      days.innerHTML = remainingDays
-      hours.innerHTML = remainingHours < 10 ? "0" + remainingHours : remainingHours
-      minutes.innerHTML = remainingMinutes < 10 ? "0" + remainingMinutes : remainingMinutes
-      seconds.innerHTML = remainingSeconds < 10 ? "0" + remainingSeconds : remainingSeconds
-    }
+      days.innerHTML = remainingDays;
+      hours.innerHTML =
+        remainingHours < 10 ? "0" + remainingHours : remainingHours;
+      minutes.innerHTML =
+        remainingMinutes < 10 ? "0" + remainingMinutes : remainingMinutes;
+      seconds.innerHTML =
+        remainingSeconds < 10 ? "0" + remainingSeconds : remainingSeconds;
+    };
 
     const countdownInterval = setInterval(() => {
-      updateCountdown()
-      diff -= 1000
+      updateCountdown();
+      diff -= 1000;
       if (diff < 0) {
-        diff = 0 // Ensure diff doesn't go negative
+        diff = 0; // Ensure diff doesn't go negative
       }
-    }, 1000)
-  })
+    }, 1000);
+  });
 </script>

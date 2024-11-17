@@ -1,54 +1,140 @@
 <div class="container">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  />
   <div class="body">
     <h2>Project Submission</h2>
-    <form>
-        <div>
-            <label for="case-study" class="full-width-underline">1. Case Study:</label>
-            <p>Choose your case study *</p>
-            <select id="case-study" name="case-study">
-              <option value="Case Study 1: Web Application">Case Study 1: Web Application</option>
-              <option value="Case Study 2: Educational Mobile App">Case Study 2: Educational Mobile App</option>
-              <option value="Case Study 3: E-commerce Platform">Case Study 3: E-commerce Platform</option>
-            </select>
-          </div>
+    <form id="project-submission-form">
       <div>
-        <label for="project-title" class="full-width-underline">2. Slide Upload:</label>
+        <div class="full-width-underline">1. Project Name & Description:</div>
+        <p>Enter your project name *</p>
+        <input type="text" id="project-name" name="project-name" required />
+        <p>Enter your project description *</p>
+        <input type="text" id="project-desc" name="project-desc" required />
+      </div>
+      <div>
+        <div class="full-width-underline">2. Case Study:</div>
+        <p>Choose your case study *</p>
+        <select
+          id="case-study"
+          name="case-study"
+          form="project-submission-form"
+        >
+          <option>Case Study 1: Web Application</option>
+          <option>Case Study 2: Educational Mobile App</option>
+          <option>Case Study 3: E-commerce Platform</option>
+        </select>
+      </div>
+      <div>
+        <div class="full-width-underline">3. Slide Upload:</div>
         <p>Upload your presentation slides *</p>
         <div class="rectangle-small">Maximum size limit: 10MB</div>
-        <label for="file-upload" class="rectangle-big"> 
-            <i class="fa-solid fa-upload"></i>
-            <p>Click to Upload Slide</br>Accepted File Type: PDF & PPT</p>
-            <p id="file-name" class="file-name"></p>
-        <input id="file-upload" type="file" style="display: none;" /></label>
-        
+        <label for="slide-file" class="rectangle-big">
+          <i class="fa-solid fa-upload"></i>
+          <p style="margin: 0;">Click to Upload Slide</p>
+          <p style="margin: 0;">Accepted File Type: PDF & PPT</p>
+          <p id="slide-file-name" class="file-name"></p>
+          <input
+            id="slide-file"
+            name="slide_file"
+            type="file"
+            accept=".pdf, .pptx, .ppt"
+            style="opacity: 0; font-size: 0rem; padding: 0; margin: 0;"
+            required
+          />
+        </label>
+        <p
+          class="error-message"
+          id="file-error"
+          style="color: red; display: none;"
+        >
+          File size exceeds the maximum limit of 10MB.
+        </p>
       </div>
       <div>
-        <label for="description" class="full-width-underline">3. Link Upload:</label>
+        <div class="full-width-underline">4. Link Upload:</div>
         <p>Enter your presentation video link *</p>
-        <input type="text" id="vid_link" name="link" required />
+        <input type="text" id="vid-link" name="vid-link" required />
         <p>Enter your prototype link *</p>
-        <input type="text" id="proto_link" name="link" required />
+        <input type="text" id="proto-link" name="proto-link" required />
       </div>
       <div class="submit-button-container">
-        <button class="submit-button"><i class="fa-solid fa-check"></i> Submit</button>
+        <button class="submit-button"
+          ><i class="fa-solid fa-check"></i> Submit</button
+        >
       </div>
     </form>
   </div>
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const fileUpload = document.getElementById("file-upload");
-      const fileNameDisplay = document.getElementById("file-name");
-  
-      fileUpload.addEventListener("change", (event) => {
-        const fileName = event.target.files[0].name;
-        fileNameDisplay.textContent = `File selected: ${fileName}`;
-      });
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("project-submission-form");
+    const slideFileInput = document.getElementById("slide-file");
+    const fileNameDisplay = document.getElementById("slide-file-name");
+    const fileError = document.getElementById("file-error");
+    const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB in bytes
+
+    // Populate form fields with local storage data
+    document.getElementById("project-name").value =
+      localStorage.getItem("projectName") || "";
+    document.getElementById("project-desc").value =
+      localStorage.getItem("projectDesc") || "";
+    form.querySelector("#case-study").value =
+      localStorage.getItem("caseStudy") || "";
+    document.getElementById("vid-link").value =
+      localStorage.getItem("vidLink") || "";
+    document.getElementById("proto-link").value =
+      localStorage.getItem("protoLink") || "";
+
+    const slideFileName = localStorage.getItem("slideFile");
+    if (slideFileName) {
+      fileNameDisplay.textContent = `File selected: ${slideFileName}`;
+    }
+
+    // Handle file max size and input changes
+    slideFileInput.addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      if (file && file.size > MAX_FILE_SIZE) {
+        fileError.style.display = "block";
+        slideFileInput.value = "";
+        fileNameDisplay.textContent = "";
+      } else {
+        fileError.style.display = "none";
+        fileNameDisplay.textContent = `File selected: ${file.name}`;
+      }
     });
-  </script>
-  
+
+    // Handle form submission
+    form.addEventListener("submit", handleSubmit);
+  });
+
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    // Collect input data
+    const form = document.getElementById("project-submission-form");
+    const projectName = document.getElementById("project-name").value;
+    const projectDesc = document.getElementById("project-desc").value;
+    const caseStudy = form.querySelector("#case-study").value;
+    const slideFile = document.getElementById("slide-file").value;
+    const vidLink = document.getElementById("vid-link").value;
+    const protoLink = document.getElementById("proto-link").value;
+
+    // Save data to localStorage
+    localStorage.setItem("projectName", projectName);
+    localStorage.setItem("projectDesc", projectDesc);
+    localStorage.setItem("caseStudy", caseStudy);
+    localStorage.setItem("slideFile", slideFile);
+    localStorage.setItem("vidLink", vidLink);
+    localStorage.setItem("protoLink", protoLink);
+
+    alert("Project Submitted!");
+    const submittedEvent = new CustomEvent("formSubmitted");
+    document.dispatchEvent(submittedEvent);
+  }
+</script>
 
 <style>
   .container {
@@ -69,7 +155,6 @@
     color: black;
     background-color: white;
     padding: 1rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     overflow-y: auto;
     margin: 0;
@@ -77,7 +162,8 @@
 
   .body p {
     font-size: 0.75rem;
-    margin-bottom: 0.25rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
     align-items: center;
     flex-direction: column;
   }
@@ -87,44 +173,44 @@
   }
 
   .rectangle-small {
-    height: 2.0rem;
-  width: 25%;
-  color:#ffffff;
-  font-size : 1rem;
-  background-color: rgb(117,112,164);
-  border-radius:6px;
-  display: flex;
-  justify-content:center;
-  align-items: center;
-  margin-bottom: -1rem;
-}
-
-.rectangle-big {
-  height: flex;
-  width: 100%;
-  color:white;
-  background-color: rgb(67,63,108);
-  padding-top: 0.5rem;
-  border-radius:7px;
-  display: block;
-  justify-content:center;
-  text-align: center;
-  align-items: center;
-  cursor: pointer;
-  margin-top: -1.25rem;
-  transition: background-color 0.3s ease;
-}
-
-  .body label {
-    font-weight: bold;
+    height: 2rem;
+    width: 25%;
+    color: #ffffff;
+    font-size: 1rem;
+    background-color: rgb(117, 112, 164);
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: -1rem;
   }
-  
+
+  .rectangle-big {
+    height: flex;
+    width: 100%;
+    color: white;
+    background-color: rgb(67, 63, 108);
+    padding-top: 0.5rem;
+    padding-bottom: 0.1rem;
+    border-radius: 7px;
+    display: block;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    cursor: pointer;
+    margin-top: -1.25rem;
+    transition: background-color 0.3s ease;
+  }
+  .rectangle-big:hover {
+    background-color: rgb(87, 83, 128); /* Change background color on hover */
+  }
   .body input {
     display: block;
     width: 98%;
     padding: 0.5rem;
     font-size: 1rem;
   }
+
   .body select {
     display: block;
     width: 100%;
@@ -142,6 +228,7 @@
     display: block;
     position: relative;
     margin-bottom: 0.5rem;
+    font-weight: bold;
   }
 
   .full-width-underline::after {
@@ -159,18 +246,23 @@
   }
 
   .submit-button {
-  background-color: #433F6C; /* Blue background */
-  border: none; /* Remove borders */
-  border-radius: 16px;
-  color: white; /* White text */
-  padding: 12px 16px; /* Some padding */
-  font-size: px; /* Set a font size */
-  cursor: pointer; /* Mouse pointer on hover */
-  float: right;
-}
+    background-color: #433f6c; /* Blue background */
+    border: none; /* Remove borders */
+    border-radius: 16px;
+    color: white; /* White text */
+    padding: 12px 16px; /* Some padding */
+    font-size: px; /* Set a font size */
+    cursor: pointer; /* Mouse pointer on hover */
+    float: right;
+  }
 
-/* Darker background on mouse-over */
-.submit-button:hover {
-  background-color: rgb(144, 165, 225);
-}
+  /* Darker background on mouse-over */
+  .submit-button:hover {
+    background-color: rgb(87, 83, 128);
+  }
+
+  .file-name {
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+  }
 </style>
