@@ -1,0 +1,36 @@
+---
+import AdminParent from "../components/AdminParent";
+import Layout from "../layouts/Layout.astro";
+---
+
+<script>
+
+</script>
+
+<Layout title="VeeHac">
+  <div class="body">
+    <AdminParent client:load />
+  </div>
+</Layout>
+
+
+
+<style>
+  .body {
+    font-family: "Chesna Grotesk";
+    margin: 0;
+    display:inline-flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 100%;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background-color: #433f6c;
+    /* display: flex;
+    justify-content: center; */
+
+ 
+  }
+
+</style>
