@@ -1,30 +1,13 @@
 import '../styles/JudgeProject.css';
 import RatingSlider from './RatingSlider';
 
-const JudgeProject = ({ setShowJudging }) => {
-  const projects = [
-    {
-      id: 1,
-      name: "Project 1",
-      group: "Then Sherf Low",
-      title: "Tik Tok Tutorial with AI",
-      judged: true,
-    },
-    {
-      id: 2,
-      name: "Project 2",
-      group: "Jarver Skrip",
-      title: "Smart Energy Management",
-      judged: false,
-    },
-    {
-      id: 3,
-      name: "Project 3",
-      group: "Viewjay Ash",
-      title: "Automated Judging System",
-      judged: false,
-    },
-  ];
+const JudgeProject = ({ projects, setId, id, setShowJudging }) => {
+  console.log(projects[id-1]["ytLink"]);
+  let caseStudies = {
+    1: "Web Application",
+    2: "Educational Mobile App",
+    3: "E-commerce Platform",
+  };
 
   return (
     <div style={{ display: 'inline-flex' }}>
@@ -43,22 +26,22 @@ const JudgeProject = ({ setShowJudging }) => {
           <div className="project-title">
             <div>
               <p>Project Title</p>
-              <textarea disabled style={{ height: '30px' }}>spolskfdnfmfdnbfg</textarea>
+              <textarea value={projects[id-1]["title"]} disabled style={{ height: '30px' }}></textarea>
             </div>
             <div className="project-description">
               <p>Description</p>
-              <textarea disabled style={{ height: '300px' }}>spolskfdnfmfdnbfg </textarea>
+              <textarea value={projects[id-1]["description"]} disabled style={{ height: '300px' }}> </textarea>
             </div>
             <div className="project-case-study">
               <p>Case Study</p>
-              <textarea disabled style={{ height: '30px' }}>spolskfdnfmfdnbfg</textarea>
+              <textarea value={"Case Study " + projects[id-1]["caseStudy"] + ": " + caseStudies[projects[id-1]["caseStudy"]]} disabled style={{ height: '30px' }}></textarea>
             </div>
             <div className="project-presentation-video">
               <p>Presentation Video</p>
               <iframe
                 width="100%"
                 height="365"
-                src="https://www.youtube.com/embed/tgbNymZ7vqY"
+                src={projects[id-1]["ytLink"].replace("https://www.youtube.com/watch?v=", "https://www.youtube.com/embed/")}
               >
               </iframe>
             </div>
