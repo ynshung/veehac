@@ -1,20 +1,19 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import NavBar from '../components/NavBar.astro';
-import Footer from '../components/Footer.astro';
-import ProjectSubmissionForm from '../components/ProjectSubmissionForm.astro';
-
+import Layout from "../layouts/Layout.astro";
+import NavBar from "../components/NavBar.astro";
+import Footer from "../components/Footer.astro";
+import ProjectSubmissionForm from "../components/ProjectSubmissionForm.astro";
 
 const title = "Project Submission";
 ---
 
 <Layout title="VeeHac">
-    <NavBar backgroundColor="#827BD2" />
-    <div class="body">
-        <ProjectSubmissionForm />
-      </div>
-    <Footer />
-  </Layout>
+  <NavBar backgroundColor="#827BD2" />
+  <div class="body">
+    <ProjectSubmissionForm />
+  </div>
+  <Footer />
+</Layout>
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
@@ -36,7 +35,7 @@ const title = "Project Submission";
 </script>
 
 <style>
-    .body {
+  .body {
     font-family: "Chesna Grotesk";
     background: linear-gradient(#827bd2 0px, #433f6c 80vh);
     display: flex;
@@ -50,7 +49,7 @@ const title = "Project Submission";
     max-width: 600px;
     margin: auto;
     padding: 1rem;
-    font-family: Arial, sans-serif;
+    /* font-family: Arial, sans-serif; */
   }
 
   .back-link {

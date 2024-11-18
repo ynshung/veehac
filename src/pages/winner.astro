@@ -1,398 +1,439 @@
 ---
-import NavBar from '../components/NavBar.astro';
-import Carousel from '../components/Carousel.astro';
-import Footer from '../components/Footer.astro';
+import NavBar from "../components/NavBar.astro";
+import Carousel from "../components/Carousel.astro";
+import Footer from "../components/Footer.astro";
 import Layout from "../layouts/Layout.astro";
 
 const winners = [
-    { label: 'Champion', name: 'V001 PathFinder', description: 'PathFinder optimizes delivery routes using real-time data like traffic and weather, helping businesses save time, reduce fuel costs, and improve efficiency.', imageSrc: 'anonymous.jpg', class: 'winner', icon: 'gold' },
-    { label: 'Second Place', name: 'V002 SkyRunner', description: 'SkyRunner uses drones and AI for aerial data collection in agriculture, conservation, and infrastructure inspection, offering high-resolution mapping and analysis.', imageSrc: 'anonymous.jpg', class: 'runner-up', icon: 'silver' },
-    { label: 'Third Place', name: 'V003 CodeSprint', description: 'CodeSprint is a real-time, browser-based platform for hackathons and coding competitions, providing integrated coding, debugging, and testing features.', imageSrc: 'anonymous.jpg', class: 'runner-up', icon: 'bronze' },
+  {
+    label: "Champion",
+    name: "V001 PathFinder",
+    description:
+      "PathFinder optimizes delivery routes using real-time data like traffic and weather, helping businesses save time, reduce fuel costs, and improve efficiency.",
+    imageSrc: "anonymous.jpg",
+    class: "winner",
+    icon: "gold",
+  },
+  {
+    label: "Second Place",
+    name: "V002 SkyRunner",
+    description:
+      "SkyRunner uses drones and AI for aerial data collection in agriculture, conservation, and infrastructure inspection, offering high-resolution mapping and analysis.",
+    imageSrc: "anonymous.jpg",
+    class: "runner-up",
+    icon: "silver",
+  },
+  {
+    label: "Third Place",
+    name: "V003 CodeSprint",
+    description:
+      "CodeSprint is a real-time, browser-based platform for hackathons and coding competitions, providing integrated coding, debugging, and testing features.",
+    imageSrc: "anonymous.jpg",
+    class: "runner-up",
+    icon: "bronze",
+  },
 ];
 ---
 
 <Layout title="VeeHac">
-    <NavBar backgroundColor="#433f6c" />
-    <div class="body">
-  <!-- Header Section -->
-  <header class="header">
-    <h1>Hackathon Winning Projects</h1>
-    <p class="title-desc">A compilation of all the wonderful winning projects</p>
-  </header>
+  <NavBar backgroundColor="#433f6c" />
+  <div class="body">
+    <!-- Header Section -->
+    <header class="header">
+      <h1>Hackathon Winning Projects</h1>
+      <p class="title-desc">
+        A compilation of all the wonderful winning projects
+      </p>
+    </header>
 
-  <!-- Trophy Section -->
-  <section class="trophy-section">
-    <div class="trophy-icon">🏆</div> <!-- Trophy Icon -->
-  </section>
+    <!-- Trophy Section -->
+    <section class="trophy-section">
+      <div class="trophy-icon">🏆</div>
+      <!-- Trophy Icon -->
+    </section>
 
-  <!-- Winner Section -->
-  <section class="winner">
-    <div class="winner-label">Champion</div>
-    <div class="winner-content">
-      <div class="winner-image">
-        <div class="image-overlay"></div>
-        <img src="anonymous.jpg" alt="Champion Image" />
-        <div class="medal-icon gold">🥇</div> <!-- Gold Medal Icon -->
-      </div>
-      <div class="winner-description">
-        <h2>{winners[0].name}</h2>
-        <p>{winners[0].description}</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Runner-up Sections -->
-  <div class="runner-up-places">
-    {winners.slice(1).map((winner) => (
-      <section class="runner-up">
-        <div class="runner-up-label">{winner.label}</div>
-        <div class="runner-up-content">
-          <div class="runner-up-image">
-            <div class="image-overlay"></div>
-            <img src={winner.imageSrc} alt="Runner-up Image" />
-            <div class={`medal-icon ${winner.icon}`}>{winner.icon === 'silver' ? '🥈' : winner.icon === 'bronze' ? '🥉' : ''}</div>
-          </div>
-          <div class="runner-up-description">
-            <h2>{winner.name}</h2>
-            <p>{winner.description}</p>
-          </div>
+    <!-- Winner Section -->
+    <section class="winner">
+      <div class="winner-label">Champion</div>
+      <div class="winner-content">
+        <div class="winner-image">
+          <div class="image-overlay"></div>
+          <img src="anonymous.jpg" alt="Champion Image" />
+          <div class="medal-icon gold">🥇</div>
+          <!-- Gold Medal Icon -->
         </div>
-      </section>
-    ))}
+        <div class="winner-description">
+          <h2>{winners[0].name}</h2>
+          <p>{winners[0].description}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Runner-up Sections -->
+    <div class="runner-up-places">
+      {
+        winners.slice(1).map((winner) => (
+          <section class="runner-up">
+            <div class="runner-up-label">{winner.label}</div>
+            <div class="runner-up-content">
+              <div class="runner-up-image">
+                <div class="image-overlay" />
+                <img src={winner.imageSrc} alt="Runner-up Image" />
+                <div class={`medal-icon ${winner.icon}`}>
+                  {winner.icon === "silver"
+                    ? "🥈"
+                    : winner.icon === "bronze"
+                      ? "🥉"
+                      : ""}
+                </div>
+              </div>
+              <div class="runner-up-description">
+                <h2>{winner.name}</h2>
+                <p>{winner.description}</p>
+              </div>
+            </div>
+          </section>
+        ))
+      }
+    </div>
+
+    <!-- Consolation Prizes Section -->
+    <section class="consolation-prizes">
+      <h2>Consolation Prizes</h2>
+    </section>
+
+    <!-- Carousel Section -->
+    <div class="carousel-wrapper"><Carousel /></div>
   </div>
-
-  <!-- Consolation Prizes Section -->
-  <section class="consolation-prizes">
-    <h2>Consolation Prizes</h2>
-  </section>
-
-  <!-- Carousel Section -->
-  <div class="carousel-wrapper"><Carousel /></div>
-</div>
   <Footer />
 </Layout>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Chesna Grotesk";
+  }
 
-.body {
-  font-family: "Chesna Grotesk";
-  background-color: #433f6c;
-  color: white;
-}
+  .body {
+    overflow-x: hidden;
+    background-color: #433f6c;
+    color: white;
+  }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 
-/* Header */
-.header {
-  text-align: center;
-  opacity: 0;
-  cursor: default;
-  user-select: none;
-  animation: fadeInTop 1s ease-out forwards;
-}
-
-.header h1 {
-  font-size: 4.5rem;
-  font-weight: bold;
-  padding: 30px 0;
-  cursor: default;
-  user-select: none;
-  transition: transform 0.3s ease-in-out;
-}
-
-.header .title-desc {
-  font-size: 2rem;
-  font-weight: normal;
-  transition: transform 0.3s ease-in-out;
-}
-
-.header h1:hover, .header .title-desc:hover {
-  transform: scale(1.1);
-}
-
-/* Trophy Section */
-.trophy-section {
-  text-align: center;
-  position: relative;
-  padding-bottom: 30px;
-}
-
-.trophy-icon {
-  font-size: 10rem; /* Large size for the trophy */
-  color: gold;
-  animation: bounceAnimation 1s ease-out forwards;
-  transform-origin: center bottom;
-  user-select: none;
-  transition: 0.25s ease-in-out;
-  display: inline-block;
-}
-
-.trophy-icon:hover {
-  scale: 1.2;
-}
-
-/* Bounce Animation */
-@keyframes bounceAnimation {
-  0% {
-    transform: translateY(-50px) scale(0.8);
+  /* Header */
+  .header {
+    text-align: center;
     opacity: 0;
+    cursor: default;
+    user-select: none;
+    animation: fadeInTop 1s ease-out forwards;
   }
-  30% {
-    transform: translateY(0) scale(1.1);
-    opacity: 1;
+
+  .header h1 {
+    font-size: 4.5rem;
+    font-weight: bold;
+    padding: 30px 0;
+    cursor: default;
+    user-select: none;
+    transition: transform 0.3s ease-in-out;
   }
-  50% {
-    transform: translateY(-20px) scale(1);
+
+  .header .title-desc {
+    font-size: 2rem;
+    font-weight: normal;
+    transition: transform 0.3s ease-in-out;
   }
-  70% {
-    transform: translateY(0) scale(1.05);
+
+  .header h1:hover,
+  .header .title-desc:hover {
+    transform: scale(1.1);
   }
-  100% {
-    transform: translateY(0) scale(1);
+
+  /* Trophy Section */
+  .trophy-section {
+    text-align: center;
+    position: relative;
+    padding-bottom: 30px;
   }
-}
 
-/* Winner Section */
-.winner {
-  background-color: white;
-  color: black;
-  padding: 20px;
-  border-radius: 10px;
-  width: 80%;
-  max-width: 1200px;
-  margin: 0 auto 20px;
-  text-align: left;
-  min-height: 500px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  opacity: 0;
-  animation: fadeInTop 1s ease-out forwards;
-  animation-delay: 0.25s;
-}
+  .trophy-icon {
+    font-size: 10rem; /* Large size for the trophy */
+    color: gold;
+    animation: bounceAnimation 1s ease-out forwards;
+    transform-origin: center bottom;
+    user-select: none;
+    transition: 0.25s ease-in-out;
+    display: inline-block;
+  }
 
-.carousel-wrapper {
-  opacity: 0;
-  animation: fadeInTop 1s ease-out forwards;
-  animation-delay: 0.75s;
-}
+  .trophy-icon:hover {
+    scale: 1.2;
+  }
 
-.winner-label {
-  font-size: 1.5rem;
-  font-weight: bold;
-  background-color: #a093ff;
-  color: white;
-  padding: 15px 10px;
-  border-radius: 5px;
-  display: inline-block;
-  margin-bottom: 15px;
-  transition: transform 0.3s ease-in-out;
-  cursor: default;
-}
+  /* Bounce Animation */
+  @keyframes bounceAnimation {
+    0% {
+      transform: translateY(-50px) scale(0.8);
+      opacity: 0;
+    }
+    30% {
+      transform: translateY(0) scale(1.1);
+      opacity: 1;
+    }
+    50% {
+      transform: translateY(-20px) scale(1);
+    }
+    70% {
+      transform: translateY(0) scale(1.05);
+    }
+    100% {
+      transform: translateY(0) scale(1);
+    }
+  }
 
-.winner-label:hover {
-  transform: scale(1.03);
-}
-
-.winner-content {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 5%;
-  flex-wrap: wrap;
-  width: 100%;
-}
-
-.winner-image {
-  position: relative;
-  width: 40%;
-  height: auto;
-  overflow: hidden;
-  border-radius: 8px;
-  flex-grow: 1;
-}
-
-.winner-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  transition: filter 0.3s ease-in-out;
-}
-
-.winner-description {
-  width: 55%;
-  flex-grow: 1;
-}
-
-.winner-description h2 {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
-.winner-description p {
-  font-size: 1.5rem;
-  color: #555;
-  line-height: 1.6;
-}
-
-/* Medal Icon Hover Effect */
-.medal-icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 3rem;
-  opacity: 0;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  user-select: none;
-  cursor: default;
-}
-
-.winner-image:hover .medal-icon, .runner-up-image:hover .medal-icon {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1.2); /* Slightly enlarge on hover */
-}
-
-.medal-icon.gold {
-  color: gold;
-}
-
-.medal-icon.silver {
-  color: silver;
-}
-
-.medal-icon.bronze {
-  color: #cd7f32;
-}
-
-/* Runner-up Section */
-.runner-up-places {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin: 0 auto;
-  width: 80%;
-}
-
-.runner-up {
-  background-color: white;
-  color: black;
-  padding: 20px;
-  border-radius: 10px;
-  min-height: 400px;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  max-width: 1200px;
-  overflow: hidden;
-  opacity: 0;
-  animation: fadeInTop 1s ease-in forwards;
-  animation-delay: 0.5s;
-}
-
-.runner-up-label {
-  font-size: 1.5rem;
-  font-weight: bold;
-  background-color: #d4c6ff;
-  color: white;
-  padding: 15px 10px;
-  border-radius: 5px;
-  display: inline-block;
-  margin-bottom: 15px;
-  transition: transform 0.3s ease-in-out;
-}
-
-.runner-up-label:hover {
-  transform: scale(1.05);
-}
-
-.runner-up-content {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 5%;
-  flex-wrap: wrap;
-  width: 100%;
-}
-
-.runner-up-image {
-  position: relative;
-  width: 45%;
-  height: auto;
-  overflow: hidden;
-  border-radius: 8px;
-  flex-grow: 1;
-}
-
-.runner-up-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: filter 0.3s ease-in-out; /* Smooth transition */
-}
-
-.runner-up-image:hover img {
-  filter: brightness(50%) blur(2px); /* Darken and blur image on hover */
-}
-
-.winner-image:hover img {
-  filter: brightness(50%) blur(2px);
-}
-
-.runner-up-description {
-  width: 50%;
-  flex-grow: 1;
-}
-
-.runner-up-description h2 {
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
-.runner-up-description p {
-  color: #555;
-  line-height: 1.6;
-}
-
-.consolation-prizes {
-  text-align: center;
-  margin: 5rem 6rem -3rem 6rem;
-  border-radius: 10px;
-  user-select: none;
-  opacity: 0;
-  animation: fadeInTop 1s ease-in forwards;
-  animation-delay: 0.75s;
-}
-
-.consolation-prizes h2 {
-  font-size: 2.5rem;
-  font-weight: bolder;
-  color: white;
-  padding: 10px 0;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-/* Animations */
-@keyframes fadeInTop {
-  0% {
+  /* Winner Section */
+  .winner {
+    background-color: white;
+    color: black;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto 20px;
+    text-align: left;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
     opacity: 0;
-    transform: translateY(20px);
+    animation: fadeInTop 1s ease-out forwards;
+    animation-delay: 0.25s;
   }
-  100% {
+
+  .carousel-wrapper {
+    opacity: 0;
+    animation: fadeInTop 1s ease-out forwards;
+    animation-delay: 0.75s;
+  }
+
+  .winner-label {
+    font-size: 1.5rem;
+    font-weight: bold;
+    background-color: #a093ff;
+    color: white;
+    padding: 15px 10px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease-in-out;
+    cursor: default;
+  }
+
+  .winner-label:hover {
+    transform: scale(1.03);
+  }
+
+  .winner-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5%;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .winner-image {
+    position: relative;
+    width: 40%;
+    height: auto;
+    overflow: hidden;
+    border-radius: 8px;
+    flex-grow: 1;
+  }
+
+  .winner-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: filter 0.3s ease-in-out;
+  }
+
+  .winner-description {
+    width: 55%;
+    flex-grow: 1;
+  }
+
+  .winner-description h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .winner-description p {
+    font-size: 1.5rem;
+    color: #555;
+    line-height: 1.6;
+  }
+
+  /* Medal Icon Hover Effect */
+  .medal-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    opacity: 0;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
+    user-select: none;
+    cursor: default;
+  }
+
+  .winner-image:hover .medal-icon,
+  .runner-up-image:hover .medal-icon {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate(-50%, -50%) scale(1.2); /* Slightly enlarge on hover */
   }
-}
+
+  .medal-icon.gold {
+    color: gold;
+  }
+
+  .medal-icon.silver {
+    color: silver;
+  }
+
+  .medal-icon.bronze {
+    color: #cd7f32;
+  }
+
+  /* Runner-up Section */
+  .runner-up-places {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 0 auto;
+    width: 80%;
+  }
+
+  .runner-up {
+    background-color: white;
+    color: black;
+    padding: 20px;
+    border-radius: 10px;
+    min-height: 400px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    max-width: 1200px;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeInTop 1s ease-in forwards;
+    animation-delay: 0.5s;
+  }
+
+  .runner-up-label {
+    font-size: 1.5rem;
+    font-weight: bold;
+    background-color: #d4c6ff;
+    color: white;
+    padding: 15px 10px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .runner-up-label:hover {
+    transform: scale(1.05);
+  }
+
+  .runner-up-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5%;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .runner-up-image {
+    position: relative;
+    width: 45%;
+    height: auto;
+    overflow: hidden;
+    border-radius: 8px;
+    flex-grow: 1;
+  }
+
+  .runner-up-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: filter 0.3s ease-in-out; /* Smooth transition */
+  }
+
+  .runner-up-image:hover img {
+    filter: brightness(50%) blur(2px); /* Darken and blur image on hover */
+  }
+
+  .winner-image:hover img {
+    filter: brightness(50%) blur(2px);
+  }
+
+  .runner-up-description {
+    width: 50%;
+    flex-grow: 1;
+  }
+
+  .runner-up-description h2 {
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .runner-up-description p {
+    color: #555;
+    line-height: 1.6;
+  }
+
+  .consolation-prizes {
+    text-align: center;
+    margin: 5rem 6rem -3rem 6rem;
+    border-radius: 10px;
+    user-select: none;
+    opacity: 0;
+    animation: fadeInTop 1s ease-in forwards;
+    animation-delay: 0.75s;
+  }
+
+  .consolation-prizes h2 {
+    font-size: 2.5rem;
+    font-weight: bolder;
+    color: white;
+    padding: 10px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* Animations */
+  @keyframes fadeInTop {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 </style>
