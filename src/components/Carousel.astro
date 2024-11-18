@@ -46,15 +46,26 @@ const developers = [
     </div>
 
     <!-- Modal Popup -->
-    <div class="modal" id="modal" style="display: none;">
-        <div class="modal-content">
-            <span class="close" id="close">&times;</span>
-            <img id="modal-image" class="modal-image" src="" alt="Developer Image">
-            <h2 id="modal-name"></h2>
-            <p id="modal-title"></p>
-            <p id="modal-description"></p> <!-- For more details about the developer -->
-        </div>
+    <!-- Modal Popup -->
+<div class="modal" id="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" id="close">&times;</span>
+        <iframe 
+            id="modal-video" 
+            class="modal-video" 
+            width="560" 
+            height="315" 
+            src="" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <h2 id="modal-name"></h2>
+        <p id="modal-title"></p>
+        <p id="modal-description"></p> <!-- Additional details about the developer -->
     </div>
+</div>
+
 
 </body>
 
@@ -279,38 +290,53 @@ const developers = [
 
 
 
-    document.querySelectorAll('.card-button').forEach(button => {
-        button.addEventListener('click', function() {
-            const cardItem = button.closest('.card-item');
-            
-            // Retrieve data from the clicked card
-            const name = cardItem.querySelector('.badge').textContent; 
-            const title = cardItem.querySelector('.card-title').textContent; 
-            const description = cardItem.getAttribute('data-description'); 
-            const imageSrc = cardItem.querySelector('.card-image').src; 
+document.querySelectorAll('.card-button').forEach(button => {
+    button.addEventListener('click', function() {
+        const cardItem = button.closest('.card-item');
+        
+        // Retrieve data from the clicked card
+        const name = cardItem.querySelector('.badge').textContent; 
+        const title = cardItem.querySelector('.card-title').textContent; 
+        const description = cardItem.getAttribute('data-description'); 
 
-            // Show the modal and populate with the corresponding data
-            const modal = document.getElementById('modal');
-            document.getElementById('modal-image').src = imageSrc; 
-            document.getElementById('modal-name').textContent = name;
-            document.getElementById('modal-title').textContent = title;
-            document.getElementById('modal-description').textContent = description;
+        // Define YouTube Embed URL
+        const youtubeUrl = `https://www.youtube.com/embed/dQw4w9WgXcQ`; // Replace with the actual video URL as needed
 
-            modal.style.display = 'flex'; // Make modal visible
-        });
+        // Show the modal and populate with the corresponding data
+        const modal = document.getElementById('modal');
+        const modalVideo = document.getElementById('modal-video');
+
+        document.getElementById('modal-name').textContent = name;
+        document.getElementById('modal-title').textContent = title;
+        document.getElementById('modal-description').textContent = description;
+
+        // Set the iframe src to the YouTube URL
+        modalVideo.src = youtubeUrl;
+
+        modal.style.display = 'flex'; // Make modal visible
     });
+});
 
-    // Close the modal when the "X" is clicked
-    document.getElementById('close').addEventListener('click', () => {
-        document.getElementById('modal').style.display = 'none';
-    });
+// Close modal logic
+document.getElementById('close').addEventListener('click', () => {
+    const modal = document.getElementById('modal');
+    const modalVideo = document.getElementById('modal-video');
 
-    // Close the modal if the user clicks outside of it
-    window.addEventListener('click', (event) => {
-        if (event.target === document.getElementById('modal')) {
-            document.getElementById('modal').style.display = 'none';
-        }
-    });
+    modal.style.display = 'none'; // Hide modal
+    modalVideo.src = ''; // Clear the iframe src to stop playback
+});
+
+window.addEventListener('click', (event) => {
+    const modal = document.getElementById('modal');
+    const modalVideo = document.getElementById('modal-video');
+
+    if (event.target === modal) {
+        modal.style.display = 'none'; // Hide modal
+        modalVideo.src = ''; // Clear the iframe src to stop playback
+    }
+});
+
+
 
 
 </script>
