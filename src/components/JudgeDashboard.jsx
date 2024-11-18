@@ -1,29 +1,7 @@
 import '../styles/JudgeDashboard.css';
 
-const JudgeDashboard = ({ setShowJudging }) => {
-  const projects = [
-    {
-      id: 1,
-      name: "Project 1",
-      group: "Then Sherf Low",
-      title: "Tik Tok Tutorial with AI",
-      judged: true,
-    },
-    {
-      id: 2,
-      name: "Project 2",
-      group: "Jarver Skrip",
-      title: "Smart Energy Management",
-      judged: false,
-    },
-    {
-      id: 3,
-      name: "Project 3",
-      group: "Viewjay Ash",
-      title: "Automated Judging System",
-      judged: false,
-    },
-  ];
+const JudgeDashboard = ({ projects, setId, setShowJudging }) => {
+
 
   return (
     <div className="judge-dashboard-card">
@@ -70,7 +48,10 @@ const JudgeDashboard = ({ setShowJudging }) => {
                 <td className="project-judged" id="project-judged">
                   <a
                     className={`judged-button ${project.judged ? 'judged' : 'not-judged'}`}
-                    onClick={() => setShowJudging(project.id)}
+                    onClick={() => {
+                      setShowJudging(project.id);  // This updates the showJudging state in the parent
+                      setId(project.id);           // This updates the id in the parent
+                    }}
                   >
                     <i className="fa fa-file-text" aria-hidden="true" />
                   </a>
