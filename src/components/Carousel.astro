@@ -9,6 +9,7 @@ const developers = [
     { name: 'V055 Quantum Quokkas', title: 'Innovating a quantum-powered encryption service that allows users to securely share sensitive files with impenetrable privacy in milliseconds.' },
     { name: 'V102 Syntax Samurai', title: 'Creating an AI-powered code correction tool that detects and repairs errors in real time, saving developers from syntax struggles and boosting productivity.' },
     { name: 'V010 Hackstreet Boys', title: 'Developing a gamified wellness app that encourages healthier lifestyle choices through fun challenges, badges, and leaderboards.' },
+    { name: 'V123 Cyber Guardians', title: 'Building a cybersecurity platform that helps small businesses detect, prevent, and respond to threats using machine learning and real-time alerts.' },
 ];
 
 ---
@@ -45,15 +46,26 @@ const developers = [
     </div>
 
     <!-- Modal Popup -->
-    <div class="modal" id="modal" style="display: none;">
-        <div class="modal-content">
-            <span class="close" id="close">&times;</span>
-            <img id="modal-image" class="modal-image" src="" alt="Developer Image">
-            <h2 id="modal-name"></h2>
-            <p id="modal-title"></p>
-            <p id="modal-description"></p> <!-- For more details about the developer -->
-        </div>
+    <!-- Modal Popup -->
+<div class="modal" id="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" id="close">&times;</span>
+        <iframe 
+            id="modal-video" 
+            class="modal-video" 
+            width="560" 
+            height="315" 
+            src="" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <h2 id="modal-name"></h2>
+        <p id="modal-title"></p>
+        <p id="modal-description"></p> <!-- Additional details about the developer -->
     </div>
+</div>
+
 
 </body>
 
@@ -64,36 +76,42 @@ const developers = [
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: sans-serif;
+  }
+
+  body {
+        overflow-x: hidden;
   }
 
   .container {
-    padding: 60px 0 60px 0;
+    margin: 40px;
+    display: flex;
+    justify-content: center;
   }
 
   .card-wrapper {
-    /* max-width: 1100px; */
-    margin: 0 150px 30px;
+    max-width: 1500px;
     overflow: hidden;
-    padding: 20px 0 20px 0;
+    padding: 20px 0px 20px 0px;
   }
 
   .card-list .card-item {
     list-style: none;
   }
 
-    .card-list .card-item .card-link {
-        width: 400px;
-        user-select: none;
-        display: block;
-        padding: 18px;
-        background: #fff;
-        border-radius: 12px;
-        text-decoration: none;
-        border: 2px solid transparent;
-        box-shadow: 0 10px 10px rgba(0, 0, 0, 0.05);
-        transition: 0.4 ease;
-    }
+.card-list .card-item .card-link {
+    width: 400px;
+    min-height: 550px;
+    user-select: none;
+    display: block;
+    padding: 18px;
+    background: #fff;
+    border-radius: 12px;
+    text-decoration: none;
+    border: 2px solid transparent;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* More prominent shadow */
+    transition: 0.3s ease; /* Smooth transition for hover effect */
+}
+
     
     .card-list .card-item .card-link:hover {
         border-color: #5372f0;
@@ -101,7 +119,7 @@ const developers = [
 
   .card-list .card-link .card-image {
     width: 100%;
-    aspect-ratio: 16/9;
+    // aspect-ratio: 16/9;
     object-fit: cover;
     border-radius: 10px;
   }
@@ -141,29 +159,28 @@ const developers = [
     }
 
   .swiper-button-prev {
-    margin-left: 50px;
+    margin-left: -10px;
   }
 
-    .swiper-button-next {
-        margin-right: 50px;
-    }
-    
-    
-    /* Modal Styles */
-    .modal {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 90%, rgba(0, 0, 0, 0));
-        display: none;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-        animation: fadeInTop 0.2s ease-out forwards;
-        user-select: none;
-    }
+  .swiper-button-next {
+      margin-right: -10px;
+  }
+  
+  /* Modal Styles */
+  .modal {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 90%, rgba(0, 0, 0, 0));
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      animation: fadeInTop 0.2s ease-out forwards;
+      user-select: none;
+  }
 
     /* Modal Image Styles */
     .modal-image {
@@ -213,7 +230,7 @@ const developers = [
         right: 20px;
         font-size: 2rem; /* Increase size of close button */
         cursor: pointer;
-        color: #333;
+        color: #555;
     }
 
     .close:hover {
@@ -231,6 +248,8 @@ const developers = [
         }
     }
 
+    
+
 
 
 </style>
@@ -240,72 +259,84 @@ const developers = [
   import "swiper/css/bundle";
 
   new Swiper(".card-wrapper", {
-    // Optional parameters
     loop: true,
-    spaceBetween: 405,
-
-    // Pagination
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
+    speed: 1000,
+    autoplay: {
+        delay: 3000,
     },
+    effect: 'coverflow',
+    grabCursor: true,
+    centeredSlides: true,
+    slidesPerView: 'auto',
+    coverflowEffect: {
+        rotate: 0,
+        stretch: 80,
+        depth: 200,
+        modifier: 1,
+        slideShadows: false,
+    },
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+    },
+    breakpoints: {
+        320: { slidesPerView: 1, spaceBetween: 10 },
+        768: { slidesPerView: 2, spaceBetween: 15 },
+        1024: { slidesPerView: 3, spaceBetween: 20 },
+        1440: { slidesPerView: 4, spaceBetween: 25 },
+    },
+});
 
-        // Navigation arrows
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-        breakpoints: {
-            0: {
-              slidesPerView: 1  
-            },
-            768: {
-              slidesPerView: 2  
-            },
-            1024: {
-              slidesPerView: 3  
-            },
-            1500: {
-              slidesPerView: 4  
-            },
-            2000: {
-              slidesPerView: 5  
-            }
-        }
+
+
+
+document.querySelectorAll('.card-button').forEach(button => {
+    button.addEventListener('click', function() {
+        const cardItem = button.closest('.card-item');
+        
+        // Retrieve data from the clicked card
+        const name = cardItem.querySelector('.badge').textContent; 
+        const title = cardItem.querySelector('.card-title').textContent; 
+        const description = cardItem.getAttribute('data-description'); 
+
+        // Define YouTube Embed URL
+        const youtubeUrl = `https://www.youtube.com/embed/dQw4w9WgXcQ`; // Replace with the actual video URL as needed
+
+        // Show the modal and populate with the corresponding data
+        const modal = document.getElementById('modal');
+        const modalVideo = document.getElementById('modal-video');
+
+        document.getElementById('modal-name').textContent = name;
+        document.getElementById('modal-title').textContent = title;
+        document.getElementById('modal-description').textContent = description;
+
+        // Set the iframe src to the YouTube URL
+        modalVideo.src = youtubeUrl;
+
+        modal.style.display = 'flex'; // Make modal visible
     });
+});
 
-    document.querySelectorAll('.card-button').forEach(button => {
-        button.addEventListener('click', function() {
-            const cardItem = button.closest('.card-item');
-            
-            // Retrieve data from the clicked card
-            const name = cardItem.querySelector('.badge').textContent; 
-            const title = cardItem.querySelector('.card-title').textContent; 
-            const description = cardItem.getAttribute('data-description'); 
-            const imageSrc = cardItem.querySelector('.card-image').src; 
+// Close modal logic
+document.getElementById('close').addEventListener('click', () => {
+    const modal = document.getElementById('modal');
+    const modalVideo = document.getElementById('modal-video');
 
-            // Show the modal and populate with the corresponding data
-            const modal = document.getElementById('modal');
-            document.getElementById('modal-image').src = imageSrc; 
-            document.getElementById('modal-name').textContent = name;
-            document.getElementById('modal-title').textContent = title;
-            document.getElementById('modal-description').textContent = description;
+    modal.style.display = 'none'; // Hide modal
+    modalVideo.src = ''; // Clear the iframe src to stop playback
+});
 
-            modal.style.display = 'flex'; // Make modal visible
-        });
-    });
+window.addEventListener('click', (event) => {
+    const modal = document.getElementById('modal');
+    const modalVideo = document.getElementById('modal-video');
 
-    // Close the modal when the "X" is clicked
-    document.getElementById('close').addEventListener('click', () => {
-        document.getElementById('modal').style.display = 'none';
-    });
+    if (event.target === modal) {
+        modal.style.display = 'none'; // Hide modal
+        modalVideo.src = ''; // Clear the iframe src to stop playback
+    }
+});
 
-    // Close the modal if the user clicks outside of it
-    window.addEventListener('click', (event) => {
-        if (event.target === document.getElementById('modal')) {
-            document.getElementById('modal').style.display = 'none';
-        }
-    });
+
 
 
 </script>
