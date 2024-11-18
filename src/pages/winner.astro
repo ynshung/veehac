@@ -168,7 +168,7 @@ a {
   background-color: white;
   color: black;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 20px;
   width: 80%;
   max-width: 1200px;
   margin: 0 auto 20px;
@@ -189,13 +189,14 @@ a {
 }
 
 .winner-label {
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: bold;
   background-color: #a093ff;
   color: white;
   padding: 15px 10px;
-  border-radius: 5px;
-  display: inline-block;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
   margin-bottom: 15px;
   transition: transform 0.3s ease-in-out;
   cursor: default;
@@ -219,7 +220,7 @@ a {
   width: 40%;
   height: auto;
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 10px;
   flex-grow: 1;
 }
 
@@ -237,7 +238,7 @@ a {
 }
 
 .winner-description h2 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: bold;
   margin-bottom: 20px;
 }
@@ -291,7 +292,7 @@ a {
   background-color: white;
   color: black;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 20px;
   min-height: 400px;
   text-align: left;
   display: flex;
@@ -305,13 +306,14 @@ a {
 }
 
 .runner-up-label {
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: bold;
-  background-color: #d4c6ff;
+  background-color: #a093ff;
   color: white;
   padding: 15px 10px;
-  border-radius: 5px;
-  display: inline-block;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
   margin-bottom: 15px;
   transition: transform 0.3s ease-in-out;
 }
@@ -334,7 +336,7 @@ a {
   width: 45%;
   height: auto;
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 10px;
   flex-grow: 1;
 }
 
@@ -361,11 +363,13 @@ a {
 .runner-up-description h2 {
   font-weight: bold;
   margin-bottom: 20px;
+  font-size: 2rem;
 }
 
 .runner-up-description p {
   color: #555;
   line-height: 1.6;
+  font-size: 1.5rem;
 }
 
 .consolation-prizes {
@@ -398,4 +402,73 @@ a {
     transform: translateY(0);
   }
 }
+
+@media (max-width: 1024px) {
+  .runner-up-places {
+    flex-direction: column; /* Change to column layout */
+    align-items: center; /* Center align the items */
+  }
+
+  .runner-up {
+    width: 100%; /* Make each item take the full width */
+    max-width: 1000px; /* Optionally limit the max width */
+  }
+
+    /* Winner Section: Adjust layout for smaller screens */
+    .winner-content {
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center align items */
+  }
+
+  .winner-image {
+    width: 100%; /* Full width for the image */
+    margin-bottom: 20px; /* Add spacing below the image */
+  }
+
+  .winner-description {
+    text-align: center; /* Center align the text */
+    width: 100%; /* Full width for the description */
+  }
+
+  /* Runner-up Section: Adjust layout for smaller screens */
+  .runner-up-content {
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center align items */
+  }
+
+  .runner-up-image {
+    width: 100%; /* Full width for the image */
+    margin-bottom: 20px; /* Add spacing below the image */
+  }
+
+  .runner-up-description {
+    text-align: center; /* Center align the text */
+    width: 100%; /* Full width for the description */
+  }
+}
+
+@media (max-width: 1280px) {
+    /* Runner-up Section: Adjust layout for smaller screens */
+    .runner-up-content {
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center align items */
+  }
+
+  .runner-up-image {
+    width: 100%; /* Full width for the image */
+    margin-bottom: 20px; /* Add spacing below the image */
+  }
+
+  .runner-up-description {
+    text-align: center; /* Center align the text */
+    width: 100%; /* Full width for the description */
+  }
+
+  .runner-up-places {
+    align-items: center; /* Center align the items */
+  }
+
+
+}
+
 </style>
