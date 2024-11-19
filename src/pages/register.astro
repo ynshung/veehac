@@ -10,10 +10,10 @@ import Layout from "../layouts/Layout.astro";
         <Icon size={24} name="fa6-solid:arrow-right-from-bracket" /> Return to Homepage
       </a>
       <h1>Register.</h1>
-      <form>
+      <form id="form">
         <div class="input-row">
           <Icon size={24} name="fa6-solid:envelope" />
-          <input type="email" id="email" name="email" placeholder="Email" />
+          <input type="email" id="email" name="email" placeholder="Email" required />
         </div>
         <div class="input-row">
           <Icon size={24} name="fa6-solid:lock" />
@@ -22,6 +22,7 @@ import Layout from "../layouts/Layout.astro";
             id="password"
             name="password"
             placeholder="Password"
+            required
           />
         </div>
         <div class="input-row">
@@ -31,6 +32,7 @@ import Layout from "../layouts/Layout.astro";
             id="confirm-password"
             name="confirm-password"
             placeholder="Confirm Password"
+            required
           />
         </div>
         <button type="submit">Register</button>
@@ -42,6 +44,13 @@ import Layout from "../layouts/Layout.astro";
     </div>
   </main>
 </Layout>
+
+<script>
+  document.querySelector("#form")?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    window.location.href = "/dashboard";
+  });
+</script>
 
 <style>
   body {
