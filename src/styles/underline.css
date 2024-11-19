@@ -1,0 +1,17 @@
+/* styles.css */
+.full-width-underline {
+  position: relative;
+  display: inline-block;
+  width: 100%; /* Make the label span the entire width */
+  margin-bottom: 0.5rem; /* Add margin to the label */
+}
+
+.full-width-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px; /* Adjust this value to control the distance from the text */
+  width: 80vw; /* Make the underline span the entire width of the viewport */
+  height: 2px; /* Adjust this value to control the thickness of the underline */
+  background-color: white; /* Set the color of the underline */
+}

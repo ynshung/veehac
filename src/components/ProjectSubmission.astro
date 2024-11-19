@@ -1,0 +1,133 @@
+---
+import ProjectSubmissionForm from "./ProjectSubmissionForm.astro";
+import "../styles/ProjectSubmission.css";
+---
+
+<div class="body-submission">
+  <label for="case-study" class="full-width-underline"
+    >Project Submission:</label
+  >
+  <div class="rectangle-container">
+    <div class="rectangle">
+      <div class="countdown-container">
+        <div class="countdown-text">Time Left:</div>
+        <div class="countdown-text" id="countdown">Time Left:</div>
+      </div>
+    </div>
+  </div>
+  <div class="rectangle-container">
+    <div class="rectangle" id="submission-content"></div>
+  </div>
+  <div
+    class="overlay"
+    id="overlay"
+    style="display: none;"
+    onclick="document.getElementById('overlay').style.display = 'none';"
+  >
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <button
+          class="close-button"
+          onclick="document.getElementById('overlay').style.display = 'none';"
+        >
+          <i class="fa-solid fa-times"></i>
+        </button>
+      </div>
+      <ProjectSubmissionForm />
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const countdownElement = document.getElementById("countdown");
+    const submissionContent = document.getElementById("submission-content");
+    const overlay = document.getElementById("overlay");
+    const targetDate = new Date("2024-12-31T23:59:59").getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const timeLeft = targetDate - now;
+
+      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+      const hours = Math.floor(
+        (timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+      );
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+      const formattedDays = String(days).padStart(2, "0");
+      const formattedHours = String(hours).padStart(2, "0");
+      const formattedMinutes = String(minutes).padStart(2, "0");
+      const formattedSeconds = String(seconds).padStart(2, "0");
+
+      countdownElement.innerHTML = `${formattedDays}:${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+
+      if (timeLeft < 0) {
+        clearInterval(countdownInterval);
+        countdownElement.innerHTML = "EXPIRED";
+      }
+    }
+
+    const countdownInterval = setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    function updateSubmissionContent() {
+      const projectName = localStorage.getItem("projectName");
+      const projectDesc = localStorage.getItem("projectDesc");
+      const caseStudy = localStorage.getItem("caseStudy");
+      const slideFile = localStorage.getItem("slideFile");
+      const vidLink = localStorage.getItem("vidLink");
+      const protoLink = localStorage.getItem("protoLink");
+
+      if (
+        projectName &&
+        projectDesc &&
+        caseStudy &&
+        slideFile &&
+        vidLink &&
+        protoLink
+      ) {
+        submissionContent.innerHTML = `
+          <h2>${caseStudy}</h2>
+          <h3>Project Name: ${projectName}</h3>
+          <p>${projectDesc}</p>
+          <p><b>Uploaded Slide File: </b>${slideFile}</p>
+          <p><b>Video Link: </b>${vidLink}</p>
+          <p><b>Prototype Link: </b>${protoLink}</p>
+          <div class="button-container">
+            <button class="add-submission-button">
+              <i class="fa-solid fa-pen-to-square"></i> Update Submission
+            </button>
+          </div>
+        `;
+      } else {
+        submissionContent.innerHTML = `
+          <h3>No Submission Yet</h3>
+          <div class="button-container">
+            <button class="add-submission-button">
+              <i class="fa-solid fa-plus"></i> Add Submission
+            </button>
+          </div>
+        `;
+      }
+
+      document
+        .querySelector(".add-submission-button")
+        .addEventListener("click", () => {
+          overlay.style.display = "block";
+        });
+    }
+
+    updateSubmissionContent();
+
+    document.addEventListener("formSubmitted", () => {
+      updateSubmissionContent();
+      overlay.style.display = "none";
+    });
+  });
+
+  function closeModal() {
+    document.getElementById("overlay").style.display = "none";
+  }
+</script>

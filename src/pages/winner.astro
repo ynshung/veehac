@@ -36,15 +36,27 @@ const winners = [
 ---
 
 <Layout title="VeeHac">
-  <NavBar backgroundColor="#433f6c" />
-  <div class="body">
-    <!-- Header Section -->
-    <header class="header">
-      <h1>Hackathon Winning Projects</h1>
-      <p class="title-desc">
-        A compilation of all the wonderful winning projects
-      </p>
-    </header>
+  <div class="modal2" id="modal2" style="display: none;">
+    <div class="modal2-content">
+        <span class="close2" id="close2">&times;</span>
+        <div class="video-container">
+            <iframe id="modal2-video" class="modal2-video" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <h2 id="modal2-name"></h2>
+        <p id="modal2-title"></p>
+        <p id="modal2-description"></p>
+    </div>
+  </div>
+  <div id="overlay" class="overlay"></div>
+    <NavBar backgroundColor="#433f6c" />
+
+  <!-- Header Section -->
+  <header class="header">
+    <h1>Hackathon Winning Projects</h1>
+    <p class="title-desc">
+      A compilation of all the wonderful winning projects
+    </p>
+  </header>
 
     <!-- Trophy Section -->
     <section class="trophy-section">
@@ -52,59 +64,54 @@ const winners = [
       <!-- Trophy Icon -->
     </section>
 
-    <!-- Winner Section -->
-    <section class="winner">
-      <div class="winner-label">Champion</div>
-      <div class="winner-content">
-        <div class="winner-image">
-          <div class="image-overlay"></div>
-          <img src="anonymous.jpg" alt="Champion Image" />
-          <div class="medal-icon gold">🥇</div>
-          <!-- Gold Medal Icon -->
-        </div>
-        <div class="winner-description">
-          <h2>{winners[0].name}</h2>
-          <p>{winners[0].description}</p>
-        </div>
+  <!-- Winner Section -->
+  <section class="winner">
+    <div class="winner-label">Champion</div>
+    <div class="winner-content">
+      <div class="winner-image">
+        <div class="image-overlay"></div>
+        <img src="anonymous.jpg" alt="Champion Image" />
+        <div class="medal-icon gold">🥇</div> <!-- Gold Medal Icon -->
       </div>
-    </section>
-
-    <!-- Runner-up Sections -->
-    <div class="runner-up-places">
-      {
-        winners.slice(1).map((winner) => (
-          <section class="runner-up">
-            <div class="runner-up-label">{winner.label}</div>
-            <div class="runner-up-content">
-              <div class="runner-up-image">
-                <div class="image-overlay" />
-                <img src={winner.imageSrc} alt="Runner-up Image" />
-                <div class={`medal-icon ${winner.icon}`}>
-                  {winner.icon === "silver"
-                    ? "🥈"
-                    : winner.icon === "bronze"
-                      ? "🥉"
-                      : ""}
-                </div>
-              </div>
-              <div class="runner-up-description">
-                <h2>{winner.name}</h2>
-                <p>{winner.description}</p>
-              </div>
-            </div>
-          </section>
-        ))
-      }
+      <div class="winner-description">
+        <h2>{winners[0].name}</h2>
+        <p>{winners[0].description}</p>
+        <button class="card-button material-symbols-rounded" onclick="openModal(0)">visibility</button> <!-- Visibility Icon Button -->
+      </div>
     </div>
+  </section>
+
+  <!-- Runner-up Sections -->
+  <div class="runner-up-places">
+    {winners.slice(1).map((winner) => (
+      <section class="runner-up">
+        <div class="runner-up-label">{winner.label}</div>
+        <div class="runner-up-content">
+          <div class="runner-up-image">
+            <div class="image-overlay"></div>
+            <img src={winner.imageSrc} alt="Runner-up Image" />
+            <div class={`medal-icon ${winner.icon}`}>{winner.icon === 'silver' ? '🥈' : winner.icon === 'bronze' ? '🥉' : ''}</div>
+          </div>
+          <div class="runner-up-description">
+            <h2>{winner.name}</h2>
+            <p>{winner.description}</p>
+            <button class="card-button material-symbols-rounded" onclick="openModal(0)">visibility</button> <!-- Visibility Icon Button -->
+
+          </div>
+        </div>
+      </section>
+    ))}
+  </div>
 
     <!-- Consolation Prizes Section -->
     <section class="consolation-prizes">
       <h2>Consolation Prizes</h2>
     </section>
 
-    <!-- Carousel Section -->
-    <div class="carousel-wrapper"><Carousel /></div>
-  </div>
+  <!-- Carousel Section -->
+  <div class="carousel-wrapper"><Carousel /></div>
+
+
   <Footer />
 </Layout>
 
@@ -116,16 +123,28 @@ const winners = [
     font-family: "Chesna Grotesk";
   }
 
-  .body {
-    overflow-x: hidden;
-    background-color: #433f6c;
-    color: white;
-  }
+body {
+  font-family: "Chesna Grotesk", sans-serif;
+  background-color: #433f6c;
+  color: white;
+  height: 100vh;
+}
 
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark transparent background */
+    z-index: 9998; /* Slightly lower than the modal2 so it's behind it */
+    display: none; /* Hidden by default */
+}
 
   /* Header */
   .header {
@@ -198,43 +217,49 @@ const winners = [
     }
   }
 
-  /* Winner Section */
-  .winner {
-    background-color: white;
-    color: black;
-    padding: 20px;
-    border-radius: 10px;
-    width: 80%;
-    max-width: 1200px;
-    margin: 0 auto 20px;
-    text-align: left;
-    min-height: 500px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    opacity: 0;
-    animation: fadeInTop 1s ease-out forwards;
-    animation-delay: 0.25s;
-  }
+/* Winner Section */
+.winner {
+  background-color: white;
+  color: black;
+  padding: 20px;
+  border-radius: 20px;
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto 20px;
+  text-align: left;
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  opacity: 0;
+  animation: fadeInTop 1s ease-out forwards;
+  animation-delay: 0.25s;
+}
 
-  .carousel-wrapper {
-    opacity: 0;
-    animation: fadeInTop 1s ease-out forwards;
-    animation-delay: 0.75s;
-  }
+.carousel-wrapper {
+  opacity: 0;
+  animation: fadeInTop 1s ease-out forwards;
+  animation-delay: 0.75s;
+  margin-bottom: 0; /* Ensure no gap below the carousel */
+  padding-bottom: 0; /* Remove any internal spacing */
+  position: relative;
+  bottom: 0;
+}
 
-  .winner-label {
-    font-size: 1.5rem;
-    font-weight: bold;
-    background-color: #a093ff;
-    color: white;
-    padding: 15px 10px;
-    border-radius: 5px;
-    display: inline-block;
-    margin-bottom: 15px;
-    transition: transform 0.3s ease-in-out;
-    cursor: default;
-  }
+
+.winner-label {
+  font-size: 2rem;
+  font-weight: bold;
+  background-color: #a093ff;
+  color: white;
+  padding: 15px 10px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease-in-out;
+  cursor: default;
+}
 
   .winner-label:hover {
     transform: scale(1.03);
@@ -249,14 +274,14 @@ const winners = [
     width: 100%;
   }
 
-  .winner-image {
-    position: relative;
-    width: 40%;
-    height: auto;
-    overflow: hidden;
-    border-radius: 8px;
-    flex-grow: 1;
-  }
+.winner-image {
+  position: relative;
+  width: 40%;
+  height: auto;
+  overflow: hidden;
+  border-radius: 10px;
+  flex-grow: 1;
+}
 
   .winner-image img {
     width: 100%;
@@ -271,11 +296,11 @@ const winners = [
     flex-grow: 1;
   }
 
-  .winner-description h2 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
+.winner-description h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
 
   .winner-description p {
     font-size: 1.5rem;
@@ -325,34 +350,35 @@ const winners = [
     width: 80%;
   }
 
-  .runner-up {
-    background-color: white;
-    color: black;
-    padding: 20px;
-    border-radius: 10px;
-    min-height: 400px;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    max-width: 1200px;
-    overflow: hidden;
-    opacity: 0;
-    animation: fadeInTop 1s ease-in forwards;
-    animation-delay: 0.5s;
-  }
+.runner-up {
+  background-color: white;
+  color: black;
+  padding: 20px;
+  border-radius: 20px;
+  min-height: 400px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  max-width: 1200px;
+  overflow: hidden;
+  opacity: 0;
+  animation: fadeInTop 1s ease-in forwards;
+  animation-delay: 0.5s;
+}
 
-  .runner-up-label {
-    font-size: 1.5rem;
-    font-weight: bold;
-    background-color: #d4c6ff;
-    color: white;
-    padding: 15px 10px;
-    border-radius: 5px;
-    display: inline-block;
-    margin-bottom: 15px;
-    transition: transform 0.3s ease-in-out;
-  }
+.runner-up-label {
+  font-size: 2rem;
+  font-weight: bold;
+  background-color: #a093ff;
+  color: white;
+  padding: 15px 10px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease-in-out;
+}
 
   .runner-up-label:hover {
     transform: scale(1.05);
@@ -367,14 +393,14 @@ const winners = [
     width: 100%;
   }
 
-  .runner-up-image {
-    position: relative;
-    width: 45%;
-    height: auto;
-    overflow: hidden;
-    border-radius: 8px;
-    flex-grow: 1;
-  }
+.runner-up-image {
+  position: relative;
+  width: 45%;
+  height: auto;
+  overflow: hidden;
+  border-radius: 10px;
+  flex-grow: 1;
+}
 
   .runner-up-image img {
     width: 100%;
@@ -396,25 +422,27 @@ const winners = [
     flex-grow: 1;
   }
 
-  .runner-up-description h2 {
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
+.runner-up-description h2 {
+  font-weight: bold;
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
 
-  .runner-up-description p {
-    color: #555;
-    line-height: 1.6;
-  }
+.runner-up-description p {
+  color: #555;
+  line-height: 1.6;
+  font-size: 1.5rem; 
+}
 
-  .consolation-prizes {
-    text-align: center;
-    margin: 5rem 6rem -3rem 6rem;
-    border-radius: 10px;
-    user-select: none;
-    opacity: 0;
-    animation: fadeInTop 1s ease-in forwards;
-    animation-delay: 0.75s;
-  }
+.consolation-prizes {
+  text-align: center;
+  margin: 5rem 6rem 2rem 6rem;
+  border-radius: 10px;
+  user-select: none;
+  opacity: 0;
+  animation: fadeInTop 1s ease-in forwards;
+  animation-delay: 0.75s;
+}
 
   .consolation-prizes h2 {
     font-size: 2.5rem;
@@ -425,15 +453,238 @@ const winners = [
     letter-spacing: 1px;
   }
 
-  /* Animations */
-  @keyframes fadeInTop {
-    0% {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
+/* Animations */
+@keyframes fadeInTop {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
   }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1024px) {
+  .runner-up-places {
+    flex-direction: column; /* Change to column layout */
+    align-items: center; /* Center align the items */
+  }
+
+  .runner-up {
+    width: 100%; /* Make each item take the full width */
+    max-width: 1000px; /* Optionally limit the max width */
+  }
+
+    /* Winner Section: Adjust layout for smaller screens */
+    .winner-content {
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center align items */
+  }
+
+  .winner-image {
+    width: 100%; /* Full width for the image */
+    margin-bottom: 20px; /* Add spacing below the image */
+  }
+
+  .winner-description {
+    text-align: center; /* Center align the text */
+    width: 100%; /* Full width for the description */
+  }
+
+  /* Runner-up Section: Adjust layout for smaller screens */
+  .runner-up-content {
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center align items */
+  }
+
+  .runner-up-image {
+    width: 100%; /* Full width for the image */
+    margin-bottom: 20px; /* Add spacing below the image */
+  }
+
+  .runner-up-description {
+    text-align: center; /* Center align the text */
+    width: 100%; /* Full width for the description */
+  }
+}
+
+@media (max-width: 1280px) {
+    /* Runner-up Section: Adjust layout for smaller screens */
+    .runner-up-content {
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center align items */
+  }
+
+  .runner-up-image {
+    width: 100%; /* Full width for the image */
+    margin-bottom: 20px; /* Add spacing below the image */
+  }
+
+  .runner-up-description {
+    text-align: center; /* Center align the text */
+    width: 100%; /* Full width for the description */
+  }
+
+  .runner-up-places {
+    align-items: center; /* Center align the items */
+  }
+
+
+}
+
+.card-button {
+        font-size: 1.5rem;
+        padding: 10px 15px;
+        background-color: #a093ff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        color: white;
+        transition: background-color 0.3s;
+    }
+
+    .card-button:hover {
+        background-color: #7f75f7;
+    }
+
+
+
+    .close2 {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 2rem;
+        cursor: pointer;
+        color: #555;
+    }
+
+    .close2:hover {
+      color: red;
+    }
+
+    .video-container {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      width: 100%; /* Decrease width to make video smaller */
+      padding-top: 56.25%; /* Maintain 16:9 aspect ratio */
+      overflow: hidden;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%; /* Ensure it fills the container */
+        height: 100%; /* Maintain aspect ratio */
+        border: none;
+    }
+
+/* modal2 Styles */
+.modal2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed; /* Position it relative to the viewport */
+    top: 0%; /* Position it 50% from the top */
+    left: 0%; /* Position it 50% from the left */
+    transform: translate(50%, 50%); /* Offset by 50% of the modal2's width and height to center it */
+    width: 100%;
+    height: 100%; /* Let the height adjust based on content */
+    display: none; /* Hidden by default */
+    z-index: 9999; /* Make sure it stays on top of other content */
+    animation: fadeInTop 0.2s ease-out forwards; /* Animation when appearing */
+    user-select: none; /* Disable text selection */
+}
+
+.modal2-content {
+  position: relative;
+  background-color: white;
+  padding: 40px;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 800px;
+}
+.modal2-image {
+    width: 100%;
+    height: auto;
+    max-width: 250px; /* Adjust the image size */
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+#modal2-name {
+    font-size: 2rem; /* Adjust font size for name */
+    font-weight: bold;
+    color: black;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+#modal2-title {
+    font-size: 1.5rem;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+#modal2-description {
+    font-size: 1.2rem;
+    color: #333;
+    margin-top: 10px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+
+
+
 </style>
+
+<script>
+  document.querySelectorAll('.card-button').forEach(button => {
+    button.addEventListener('click', function() {
+      // Retrieve the relevant data for the clicked winner/runner-up
+      const winnerSection = button.closest('.winner') || button.closest('.runner-up');
+      const name = winnerSection.querySelector('h2').textContent;
+      const description = winnerSection.querySelector('p').textContent;
+
+      // You can change this to match the specific media source or YouTube link for each winner
+      const youtubeUrl = `https://www.youtube.com/embed/dQw4w9WgXcQ`; // Replace with actual YouTube link or other media URL
+
+      // Populate the modal2 with the winner's details
+      document.getElementById('modal2-name').textContent = name;
+      document.getElementById('modal2-description').textContent = description;
+      document.getElementById('modal2-video').src = youtubeUrl; // Set the video iframe source
+
+      // Show the modal2
+      document.getElementById('modal2').style.display = 'flex'; // Make the modal2 visible
+      document.getElementById('overlay').style.display = 'block'; // Show overlay
+    });
+  });
+
+  // close2 the modal2 when the close2 button is clicked
+  document.getElementById('close2').addEventListener('click', () => {
+    const modal2 = document.getElementById('modal2');
+    const modalVideo = document.getElementById('modal2-video');
+
+    modal2.style.display = 'none'; // Hide modal2
+    modalVideo.src = ''; // Clear the iframe src to stop playback
+    document.getElementById('overlay').style.display = 'none'; // Hide overlay
+});
+
+  // close2 the modal2 if clicked outside the modal2 content
+  window.addEventListener('click', (event) => {
+    const modal2 = document.getElementById('modal2');
+    const modalVideo = document.getElementById('modal2-video');
+
+    if (event.target === modal2) {
+        modal2.style.display = 'none'; // Hide modal2
+        modalVideo.src = ''; // Clear the iframe src to stop playback
+        document.getElementById('overlay').style.display = 'none'; // Hide overlay
+
+    }
+});
+</script>

@@ -1,19 +1,19 @@
----  
+---
 // faq.astro
 const { items } = Astro.props;
 ---
 
 <div class="faq">
-  {items.map((item: { question: string; answer: string; }, index: any) => (
-    <div class="faq-item" key={index} aria-expanded="false">
-      <button class="faq-header">
-        {item.question}
-      </button>
-      <div class="faq-content">
-        <p>{item.answer}</p>
+  {
+    items.map((item: { question: string; answer: string }, index: any) => (
+      <div class="faq-item" key={index} aria-expanded="false">
+        <button class="faq-header">{item.question}</button>
+        <div class="faq-content">
+          <p>{item.answer}</p>
+        </div>
       </div>
-    </div>
-  ))}
+    ))
+  }
 </div>
 
 <style>
@@ -32,7 +32,7 @@ const { items } = Astro.props;
   }
 
   .faq-header {
-    background-color: #433f6c ;
+    background-color: #433f6c;
     padding: 10px;
     text-align: left;
     font-weight: 600;
@@ -42,7 +42,7 @@ const { items } = Astro.props;
     font-size: 24px;
     color: #f1f9f6;
     transition: background-color 0.3s;
-    font-family: 'Chesna Grotesk';
+    font-family: "Chesna Grotesk";
   }
 
   .faq-header:hover {
@@ -59,7 +59,9 @@ const { items } = Astro.props;
     max-height: 0; /* Collapsed by default */
     overflow: hidden;
     opacity: 0;
-    transition: max-height 0.3s ease, opacity 0.3s ease;
+    transition:
+      max-height 0.3s ease,
+      opacity 0.3s ease;
   }
 
   .faq-item[aria-expanded="true"] .faq-content {
@@ -70,17 +72,17 @@ const { items } = Astro.props;
 
 <script type="module">
   // Simple JS to toggle faq with smooth dropdown, without collapsing other items
-  document.querySelectorAll('.faq-header').forEach((header) => {
-    header.addEventListener('click', function () {
-      const item = header.closest('.faq-item');
-      const expanded = item.getAttribute('aria-expanded') === 'true';
-      
+  document.querySelectorAll(".faq-header").forEach((header) => {
+    header.addEventListener("click", function () {
+      const item = header.closest(".faq-item");
+      const expanded = item.getAttribute("aria-expanded") === "true";
+
       // Toggle the clicked item (expand or collapse it)
-      item.setAttribute('aria-expanded', !expanded);
+      item.setAttribute("aria-expanded", !expanded);
 
       // Add a small delay before transitioning the max-height for smoother animations
-      const content = item.querySelector('.faq-content');
-      content.style.maxHeight = !expanded ? `${content.scrollHeight}px` : '0';
+      const content = item.querySelector(".faq-content");
+      content.style.maxHeight = !expanded ? `${content.scrollHeight}px` : "0";
     });
   });
 </script>

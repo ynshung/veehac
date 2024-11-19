@@ -1,31 +1,74 @@
 import '../styles/JudgeProject.css';
 import RatingSlider from './RatingSlider';
+import Confirm from './Confirm';
+import React, { useState } from 'react';
 
-const JudgeProject = ({ setShowJudging }) => {
-  const projects = [
-    {
-      id: 1,
-      name: "Project 1",
-      group: "Then Sherf Low",
-      title: "Tik Tok Tutorial with AI",
-      judged: true,
-    },
-    {
-      id: 2,
-      name: "Project 2",
-      group: "Jarver Skrip",
-      title: "Smart Energy Management",
-      judged: false,
-    },
-    {
-      id: 3,
-      name: "Project 3",
-      group: "Viewjay Ash",
-      title: "Automated Judging System",
-      judged: false,
-    },
-  ];
+const JudgeProject = ({ projects, setId, id, setProjects, setShowJudging }) => {
+  let caseStudies = {
+    1: "Web Application",
+    2: "Educational Mobile App",
+    3: "E-commerce Platform",
+  };
+  const [description, setDescription] = useState(projects[id - 1]["judgeDescription"]);
+  const [isDialogOpen, setDialogOpen] = useState(false);
+  const [result, setResult,] = useState(null);
+  const [tempResults, setTempResults] = useState({
+    ideaImpact: null,
+    uniqueness: null,
+    business: null,
+    design: null,
+    pitching: null,
+    judgeDescription: projects[id - 1]["judgeDescription"],
+  });
 
+  const handleChangeRating = (category, newRating) => {
+    setTempResults((prevResults) => ({
+      ...prevResults,
+      [category]: newRating, // Dynamically update the specific category's value
+    }));
+  };
+
+  const handleOpenDialog = () => {
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+  };
+
+  const handleConfirm = (confirmed) => {
+    setResult(confirmed);
+    if (confirmed === true) {
+      const updatedProjects = projects.map((project) => {
+        const updatedProject = { ...project };
+        console.log(project.id)
+        console.log(id)
+        if (project.id === id) {
+          Object.keys(tempResults).forEach((key) => {
+            if (tempResults[key] !== null && tempResults[key] !== "") {
+              updatedProject[key] = tempResults[key];
+            }
+          });
+        }
+        return updatedProject;
+      });
+      console.log(updatedProjects);
+      console.log(projects);
+      setProjects(updatedProjects);
+      setShowJudging('');  // Close the dialog
+    }
+  };
+
+  const handleChange = (e) => {
+    const { value } = e.target;
+
+    // Update the judgeDescription in tempResults state
+    setTempResults((prevResults) => ({
+      ...prevResults,
+      judgeDescription: value, // Update the judgeDescription with the new value
+    }));
+  };
+  console.log(tempResults)
   return (
     <div style={{ display: 'inline-flex' }}>
       <div className="judge-project-card">
@@ -43,22 +86,22 @@ const JudgeProject = ({ setShowJudging }) => {
           <div className="project-title">
             <div>
               <p>Project Title</p>
-              <textarea disabled style={{ height: '30px' }}>spolskfdnfmfdnbfg</textarea>
+              <textarea value={projects[id - 1]["title"]} disabled style={{ height: '30px' }}></textarea>
             </div>
             <div className="project-description">
               <p>Description</p>
-              <textarea disabled style={{ height: '300px' }}>spolskfdnfmfdnbfg </textarea>
+              <textarea value={projects[id - 1]["description"]} disabled style={{ height: '300px' }}> </textarea>
             </div>
             <div className="project-case-study">
               <p>Case Study</p>
-              <textarea disabled style={{ height: '30px' }}>spolskfdnfmfdnbfg</textarea>
+              <textarea value={"Case Study " + projects[id - 1]["caseStudy"] + ": " + caseStudies[projects[id - 1]["caseStudy"]]} disabled style={{ height: '30px' }}></textarea>
             </div>
             <div className="project-presentation-video">
               <p>Presentation Video</p>
               <iframe
                 width="100%"
                 height="365"
-                src="https://www.youtube.com/embed/tgbNymZ7vqY"
+                src={projects[id - 1]["ytLink"].replace("https://www.youtube.com/watch?v=", "https://www.youtube.com/embed/")}
               >
               </iframe>
             </div>
@@ -77,33 +120,38 @@ const JudgeProject = ({ setShowJudging }) => {
         </div>
         <div className="judge-rating-slider">
           <p style={{ fontSize: '16px', fontWeight: 500 }}>Idea Impact</p>
-          <RatingSlider />
+          <RatingSlider tempResults={tempResults} handleChangeRating={handleChangeRating} id={id} category={"ideaImpact"} rating={projects[id - 1]["ideaImpact"]} />
         </div>
         <div className="judge-rating-slider">
           <p style={{ fontSize: '16px', fontWeight: 500 }}>Idea Novelty/ Uniqueness</p>
-          <RatingSlider />
+          <RatingSlider tempResults={tempResults} handleChangeRating={handleChangeRating} id={id} category={"uniqueness"} rating={projects[id - 1]["uniqueness"]} />
         </div>
         <div className="judge-rating-slider">
           <p style={{ fontSize: '16px', fontWeight: 500 }}>Business</p>
-          <RatingSlider />
+          <RatingSlider tempResults={tempResults} handleChangeRating={handleChangeRating} id={id} category={"business"} rating={projects[id - 1]["business"]} />
         </div>
         <div className="judge-rating-slider">
           <p style={{ fontSize: '16px', fontWeight: 500 }}>Prototype UI Design</p>
-          <RatingSlider />
+          <RatingSlider tempResults={tempResults} handleChangeRating={handleChangeRating} id={id} category={"design"} rating={projects[id - 1]["design"]} />
         </div>
         <div className="judge-rating-slider">
           <p style={{ fontSize: '16px', fontWeight: 500 }}>Pitching</p>
-          <RatingSlider />
+          <RatingSlider tempResults={tempResults} handleChangeRating={handleChangeRating} id={id} category={"pitching"} rating={projects[id - 1]["pitching"]} />
         </div>
 
         <div className="project-comments">
           <p>Description</p>
-          <textarea style={{ height: '200px' }}></textarea>
+          <textarea value={tempResults.judgeDescription} onChange={handleChange} style={{ height: '200px' }}></textarea>
         </div>
         <div>
-          <div onClick={() => setShowJudging('')} className="submit">
+          <div onClick={handleOpenDialog} className="submit">
             <p>Submit</p>
           </div>
+          <Confirm
+            isOpen={isDialogOpen}
+            onClose={handleCloseDialog}
+            onConfirm={handleConfirm}
+          />
         </div>
       </div>
     </div>
