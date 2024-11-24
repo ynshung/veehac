@@ -6,7 +6,7 @@ const JudgeDashboard = ({ projects, setId, setShowJudging }) => {
   return (
     <div className="judge-dashboard-card">
       <div>
-        <a href="#">Back to home</a>
+        <a href="/">Back to home</a>
       </div>
       <div className="judge-dashboard">
         <div>
