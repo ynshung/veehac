@@ -46,7 +46,7 @@ const AdminDashboard = ({ setShowJudging }) => {
   return (
     <><div className="admin-dashboard-card">
       <div>
-        <a href="#">Back to home</a>
+        <a href="/">Back to home</a>
       </div>
       <div className="admin-dashboard">
         <div>
