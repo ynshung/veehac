@@ -72,13 +72,17 @@ import Layout from "../layouts/Layout.astro";
     const user = emailList.find((user) => user.email === email);
     if (user) {
       if (user.role === "admin") {
+        localStorage.setItem("role", "admin");
         window.location.href = "/admin";
       } else if (user.role === "judge") {
+        localStorage.setItem("role", "judge");
         window.location.href = "/judge-dashboard";
       } else {
+        localStorage.setItem("role", "participant");
         window.location.href = "/participant-dashboard";
       }
     } else {
+      localStorage.setItem("role", "participant");
       window.location.href = "/participant-dashboard";
     }
   });

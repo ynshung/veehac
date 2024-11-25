@@ -61,6 +61,10 @@ function JudgeDashboardParent() {
   const [isIdSet, setIsIdSet] = useState(false)
   // const [isIdSet, setIsIdSet] = useState(false);
   useEffect(() => {
+    if (localStorage.getItem("role") !== "judge") {
+      window.location.href = "/";
+    }
+
     if (id !== null) {
       console.log("@PIOAEFER", id)
       setIsIdSet(true);

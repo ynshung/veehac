@@ -1,7 +1,7 @@
 import '../styles/JudgeProject.css';
 import RatingSlider from './RatingSlider';
 import Confirm from './Confirm';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const JudgeProject = ({ projects, setId, id, setProjects, setShowJudging }) => {
   let caseStudies = {
@@ -9,24 +9,26 @@ const JudgeProject = ({ projects, setId, id, setProjects, setShowJudging }) => {
     2: "Educational Mobile App",
     3: "E-commerce Platform",
   };
-  const [description, setDescription] = useState(projects[id - 1]["judgeDescription"]);
+  const [ideaImpact, setIdeaImpact] = useState(0);
+  const [uniqueness, setUniqueness] = useState(0);
+  const [business, setBusiness] = useState(0);
+  const [design, setDesign] = useState(0);
+  const [pitching, setPitching] = useState(0);
+  const [description, setDescription] = useState("");
   const [isDialogOpen, setDialogOpen] = useState(false);
-  const [result, setResult,] = useState(null);
-  const [tempResults, setTempResults] = useState({
-    ideaImpact: null,
-    uniqueness: null,
-    business: null,
-    design: null,
-    pitching: null,
-    judgeDescription: projects[id - 1]["judgeDescription"],
-  });
 
-  const handleChangeRating = (category, newRating) => {
-    setTempResults((prevResults) => ({
-      ...prevResults,
-      [category]: newRating, // Dynamically update the specific category's value
-    }));
-  };
+  useEffect(() => {
+    if (localStorage.getItem("project" + id)) {
+      const tempProject = JSON.parse(localStorage.getItem("project" + id));
+      console.log(tempProject);
+      setIdeaImpact(tempProject.ideaImpact);
+      setUniqueness(tempProject.uniqueness);
+      setBusiness(tempProject.business);
+      setDesign(tempProject.design);
+      setPitching(tempProject.pitching);
+      setDescription(tempProject.judgeDescription);
+    }
+  }, []);
 
   const handleOpenDialog = () => {
     setDialogOpen(true);
@@ -37,38 +39,20 @@ const JudgeProject = ({ projects, setId, id, setProjects, setShowJudging }) => {
   };
 
   const handleConfirm = (confirmed) => {
-    setResult(confirmed);
-    if (confirmed === true) {
-      const updatedProjects = projects.map((project) => {
-        const updatedProject = { ...project };
-        console.log(project.id)
-        console.log(id)
-        if (project.id === id) {
-          Object.keys(tempResults).forEach((key) => {
-            if (tempResults[key] !== null && tempResults[key] !== "") {
-              updatedProject[key] = tempResults[key];
-            }
-          });
-        }
-        return updatedProject;
-      });
-      console.log(updatedProjects);
-      console.log(projects);
-      setProjects(updatedProjects);
-      setShowJudging('');  // Close the dialog
+    // set local storage
+    const tempProject = {
+      ideaImpact: ideaImpact,
+      uniqueness: uniqueness,
+      business: business,
+      design: design,
+      pitching: pitching,
+      judgeDescription: description,
     }
+    console.log(tempProject)
+    localStorage.setItem("project" + id, JSON.stringify(tempProject));
+    setShowJudging('');  // Close the dialog
   };
 
-  const handleChange = (e) => {
-    const { value } = e.target;
-
-    // Update the judgeDescription in tempResults state
-    setTempResults((prevResults) => ({
-      ...prevResults,
-      judgeDescription: value, // Update the judgeDescription with the new value
-    }));
-  };
-  console.log(tempResults)
   return (
     <div style={{ display: 'inline-flex' }}>
       <div className="judge-project-card">
@@ -120,28 +104,28 @@ const JudgeProject = ({ projects, setId, id, setProjects, setShowJudging }) => {
         </div>
         <div className="judge-rating-slider">
           <p style={{ fontSize: '16px', fontWeight: 500 }}>Idea Impact</p>
-          <RatingSlider tempResults={tempResults} handleChangeRating={handleChangeRating} id={id} category={"ideaImpact"} rating={projects[id - 1]["ideaImpact"]} />
+          <RatingSlider handleChangeRating={setIdeaImpact} id={id} rating={ideaImpact} />
         </div>
         <div className="judge-rating-slider">
           <p style={{ fontSize: '16px', fontWeight: 500 }}>Idea Novelty/ Uniqueness</p>
-          <RatingSlider tempResults={tempResults} handleChangeRating={handleChangeRating} id={id} category={"uniqueness"} rating={projects[id - 1]["uniqueness"]} />
+          <RatingSlider handleChangeRating={setUniqueness} id={id} rating={uniqueness} />
         </div>
         <div className="judge-rating-slider">
           <p style={{ fontSize: '16px', fontWeight: 500 }}>Business</p>
-          <RatingSlider tempResults={tempResults} handleChangeRating={handleChangeRating} id={id} category={"business"} rating={projects[id - 1]["business"]} />
+          <RatingSlider handleChangeRating={setBusiness} id={id} rating={business} />
         </div>
         <div className="judge-rating-slider">
           <p style={{ fontSize: '16px', fontWeight: 500 }}>Prototype UI Design</p>
-          <RatingSlider tempResults={tempResults} handleChangeRating={handleChangeRating} id={id} category={"design"} rating={projects[id - 1]["design"]} />
+          <RatingSlider handleChangeRating={setDesign} id={id} rating={design} />
         </div>
         <div className="judge-rating-slider">
           <p style={{ fontSize: '16px', fontWeight: 500 }}>Pitching</p>
-          <RatingSlider tempResults={tempResults} handleChangeRating={handleChangeRating} id={id} category={"pitching"} rating={projects[id - 1]["pitching"]} />
+          <RatingSlider handleChangeRating={setPitching} id={id} rating={pitching} />
         </div>
 
         <div className="project-comments">
           <p>Description</p>
-          <textarea value={tempResults.judgeDescription} onChange={handleChange} style={{ height: '200px' }}></textarea>
+          <textarea value={description} style={{ height: '200px' }} onChange={(e) => setDescription(e.target.value)}></textarea>
         </div>
         <div>
           <div onClick={handleOpenDialog} className="submit">
