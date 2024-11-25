@@ -23,11 +23,32 @@ const { backgroundColor } = Astro.props;
         <a href="">About</a>
       </div>
       <div class="navbar-item login">
-        <a style="color: #433F6C" href="/login">Login</a>
+        <a style="color: #433F6C" href="/login" id="login-button"></a>
       </div>
     </div>
   </div>
 </body>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const role = localStorage.getItem('role');
+    const loginButton = document.getElementById('login-button');
+
+    if (role) {
+      loginButton.textContent = 'Dashboard';
+      if (role === 'participant') {
+        loginButton.href = '/participant-dashboard';
+      } else if (role === 'judge') {
+        loginButton.href = '/judge-dashboard';
+      } else if (role === 'admin') {
+        loginButton.href = '/admin';
+      }
+    } else{
+      loginButton.textContent = 'Login';
+    }
+  });
+</script>
+
 
 <style>
   body {
@@ -66,6 +87,7 @@ const { backgroundColor } = Astro.props;
 
   .login {
     background-color: #faf9f6;
+    padding: 6px 16px;
   }
   .navbar-item {
     width: 120px;
