@@ -19,6 +19,14 @@ const title = "Participant Dashboard";
   <Footer />
 </Layout>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (localStorage.getItem('role') !== 'participant') {
+      window.location.href = '/login';
+    }
+  });
+</script>
+
 <style>
   .body {
     font-family: "Chesna Grotesk";
