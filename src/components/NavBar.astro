@@ -7,9 +7,6 @@ const { backgroundColor } = Astro.props;
     <a href="/" style="font-weight: 900; font-size: 48px;">V</a>
     <div class="navbar-contents">
       <div class="navbar-item">
-        <a href="/participant-dashboard">Dashboard</a>
-      </div>
-      <div class="navbar-item">
         <a href="/timeline">Timeline</a>
       </div>
       <div class="navbar-item">
@@ -25,30 +22,38 @@ const { backgroundColor } = Astro.props;
       <div class="navbar-item login">
         <a style="color: #433F6C" href="/login" id="login-button"></a>
       </div>
+      <div class="navbar-item login" id="logout">
+        <a style="color: #433F6C" href="#" onclick="logout">Log Out</a>
+      </div>
     </div>
   </div>
 </body>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const role = localStorage.getItem('role');
-    const loginButton = document.getElementById('login-button');
+  document.addEventListener("DOMContentLoaded", function () {
+    const role = localStorage.getItem("role");
+    const loginButton = document.getElementById("login-button");
 
     if (role) {
-      loginButton.textContent = 'Dashboard';
-      if (role === 'participant') {
-        loginButton.href = '/participant-dashboard';
-      } else if (role === 'judge') {
-        loginButton.href = '/judge-dashboard';
-      } else if (role === 'admin') {
-        loginButton.href = '/admin';
+      loginButton.textContent = "Dashboard";
+      if (role === "participant") {
+        loginButton.href = "/participant-dashboard";
+      } else if (role === "judge") {
+        loginButton.href = "/judge-dashboard";
+      } else if (role === "admin") {
+        loginButton.href = "/admin";
       }
-    } else{
-      loginButton.textContent = 'Login';
+    } else {
+      loginButton.textContent = "Login";
+      logout.style.display = "none";
     }
   });
-</script>
 
+  logout.onclick = function() {
+    localStorage.removeItem("role");
+    location.reload();
+  }
+</script>
 
 <style>
   body {
