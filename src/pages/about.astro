@@ -1,0 +1,65 @@
+---
+import NavBar from "../components/NavBar.astro";
+import Layout from "../layouts/Layout.astro";
+import PersonCard from "../components/PersonCard.astro";
+import Footer from "../components/Footer.astro";
+
+---
+<Layout title="VeeHac">
+    <NavBar backgroundColor="#433f6c" />
+    <div class="body">
+        <div class="judges">
+            <div >
+                <p style="font-size: 36px;">Judges</p>
+            </div>
+            
+            <div class="judge-cards">
+                <PersonCard />
+                <PersonCard />
+                <PersonCard />
+                <PersonCard />
+                <PersonCard />
+                <PersonCard />
+                <PersonCard />
+                <PersonCard />
+            </div>
+        </div>
+
+</div>
+
+
+  
+    <Footer />
+  </Layout>
+
+
+  <style>
+    .body{
+    background-color: #433f6c;
+    align-items: center;
+    justify-items: center;
+    text-align: center;
+}
+p{
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+}
+.judges{
+    padding-top: 50px;
+    padding-bottom: 50px;
+    width: 800px;
+}
+
+.judge-cards {
+  display: flex;
+  flex-wrap: wrap; /* Allow items to wrap to the next line */
+  gap: 16px; /* Adjust the gap between items */
+  justify-content: space-around; /* Optional, controls the alignment of items in the row */
+}
+
+.PersonCard {
+  flex: 1 1 calc(33.333% - 16px); /* Each item takes up 1/3 of the container width, minus the gap */
+  box-sizing: border-box; /* Ensures padding and borders don't affect the width calculation */
+}
+
+  </style>

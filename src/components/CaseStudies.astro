@@ -72,12 +72,33 @@ const items = [
   }
 
   .carousel-item {
-    flex: 0 0 33.3333%; /* 3 items visible at a time */
+    flex: 0 0 33.3333%; 
     padding: 10px;
     box-sizing: border-box;
     text-align: center;
     height: 360px;
     margin: 0 0px;
+  }
+  @media only screen and (max-width: 850px) {
+    .carousel-container {
+    width: 500px;
+    overflow: hidden;
+    position: relative;
+  }
+    .carousel-item {
+      flex: 0 0 50%;
+    }
+  }
+
+  @media only screen and (max-width: 550px) {
+    .carousel-container {
+    width: 300px;
+    overflow: hidden;
+    position: relative;
+  }
+    .carousel-item {
+      flex: 0 0 100%;
+    }
   }
 
   .carousel-card {
@@ -148,7 +169,15 @@ const items = [
       }, 50);
     } else {
       currentIndex++;
-      carousel.style.transform = `translateX(-${currentIndex * 33.33}%)`;
+      if( carousel.offsetWidth>=800){
+        carousel.style.transform = `translateX(-${currentIndex * 33.333}%)`;
+      }
+      else if (carousel.offsetWidth>=550){
+        carousel.style.transform = `translateX(-${currentIndex * 50}%)`;
+      }
+      else{
+        carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+      }
     }
   }
 

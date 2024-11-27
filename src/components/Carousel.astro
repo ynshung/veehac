@@ -1,5 +1,5 @@
 ---
-import 'swiper/css';
+import "swiper/css";
 
 const developers = [
     { name: 'V191 Byte Benders', title: 'Crafting a powerful data visualization platform that helps companies "bend" complex data into interactive, easy-to-understand insights for smarter decisions.' },
@@ -11,7 +11,6 @@ const developers = [
     { name: 'V010 Hackstreet Boys', title: 'Developing a gamified wellness app that encourages healthier lifestyle choices through fun challenges, badges, and leaderboards.' },
     { name: 'V123 Cyber Guardians', title: 'Building a cybersecurity platform that helps small businesses detect, prevent, and respond to threats using machine learning and real-time alerts.' },
 ];
-
 ---
 
 <head>
@@ -25,25 +24,35 @@ const developers = [
   />
 </head>
 <body>
-    <div class="container swiper">
-        <div class="card-wrapper">
-            <ul class="card-list swiper-wrapper">
-                {developers.map(dev => (
-                    <li class="card-item swiper-slide">
-                        <a href="javascript:void(0)" class="card-link" data-name={dev.name} data-title={dev.title} data-description={dev.title}>
-                            <img src="anonymous.jpg" alt="Card Image" class="card-image">
-                            <p class="badge">{dev.name}</p>
-                            <h2 class="card-title">{dev.title}</h2>
-                            <button class="card-button material-symbols-rounded">visibility</button>
-                        </a>
-                    </li>
-                ))}
-            </ul>
-            <div class="swiper-pagination"></div>
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
-        </div>
+  <div class="container swiper">
+    <div class="card-wrapper">
+      <ul class="card-list swiper-wrapper">
+        {
+          developers.map((dev) => (
+            <li class="card-item swiper-slide">
+              <a
+                href="javascript:void(0)"
+                class="card-link"
+                data-name={dev.name}
+                data-title={dev.title}
+                data-description={dev.title}
+              >
+                <img src="anonymous.jpg" alt="Card Image" class="card-image" />
+                <p class="badge">{dev.name}</p>
+                <h2 class="card-title">{dev.title}</h2>
+                <button class="card-button material-symbols-rounded">
+                  visibility
+                </button>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
     </div>
+  </div>
 
 <div class="modal" id="modal" style="display: none;">
     <div class="modal-content">
@@ -67,8 +76,6 @@ const developers = [
 
 
 </body>
-
-
 
 <style>
   * {
@@ -173,11 +180,10 @@ const developers = [
     transition: 0.4s ease;
   }
 
-    .card-list .card-link .card-button:hover {
-        color: #fff;
-        background: #5372f0;
-
-    }
+  .card-list .card-link .card-button:hover {
+    color: #fff;
+    background: #5372f0;
+  }
 
   .swiper-button-prev {
     margin-left: -10px;
@@ -211,14 +217,14 @@ const developers = [
 
 
 
-    /* Modal Image Styles */
-    .modal-image {
-        width: 100%;
-        height: auto;
-        max-width: 250px; /* Increase image size */
-        margin-bottom: 20px;
-        border-radius: 10px;
-    }
+  /* Modal Image Styles */
+  .modal-image {
+    width: 100%;
+    height: auto;
+    max-width: 250px; /* Increase image size */
+    margin-bottom: 20px;
+    border-radius: 10px;
+  }
 
 
 .modal-content {
@@ -231,26 +237,26 @@ const developers = [
     position: relative;
 }
 
-    /* Modal Name Styles */
-    #modal-name {
-        font-size: 2rem; /* Increase font size */
-        font-weight: bold;
-        color: black;
-        margin-bottom: 15px;
-    }
+  /* Modal Name Styles */
+  #modal-name {
+    font-size: 2rem; /* Increase font size */
+    font-weight: bold;
+    color: black;
+    margin-bottom: 15px;
+  }
 
-    #modal-title {
-        font-size: 1.5rem; /* Increase font size */
-        color: #555;
-        margin-bottom: 15px;
-    }
+  #modal-title {
+    font-size: 1.5rem; /* Increase font size */
+    color: #555;
+    margin-bottom: 15px;
+  }
 
-    #modal-description {
-        font-size: 1.2rem; /* Increase font size */
-        color: #333;
-        margin-top: 10px;
-        line-height: 1.5; /* Improve readability */
-    }
+  #modal-description {
+    font-size: 1.2rem; /* Increase font size */
+    color: #333;
+    margin-top: 10px;
+    line-height: 1.5; /* Improve readability */
+  }
 
     /* Close Button Styles */
     .close {
@@ -262,9 +268,9 @@ const developers = [
         color: #555;
     }
 
-    .close:hover {
-        color: red;
-    }
+  .close:hover {
+    color: red;
+  }
 
     @keyframes fadeInTop {
         0% {
