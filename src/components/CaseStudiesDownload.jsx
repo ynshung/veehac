@@ -4,20 +4,30 @@ import "../styles/underline.css";
 
 const caseStudies = [
   {
-    title: "Case Study 1: Web Application",
-    description: "Learn about web application development.",
-    downloadLink: "public/downloads/web-application.pdf",
+    title: "Case Study 1: Sustainable Agriculture in Kenya",
+    description: "This study examines how sustainable farming practices, like drip irrigation and drought-resistant crops, have improved food security and farmers' livelihoods in Kenya.",
+    downloadLink: "public/downloads/kenya.pdf",
   },
   {
-    title: "Case Study 2: Educational Mobile App",
-    description: "Explore educational mobile app development.",
-    downloadLink: "/downloads/educational-mobile-app.pdf",
+    title: "Case Study 2: Renewable Energy in India",
+    description: "India's investment in solar and wind energy, particularly in Rajasthan, is providing affordable power to rural areas and reducing dependence on fossil fuels.",
+    downloadLink: "/downloads/india.pdf",
   },
   {
-    title: "Case Study 3: E-commerce Platform",
-    description: "Discover e-commerce platform development.",
-    downloadLink: "/downloads/e-commerce-platform.pdf",
+    title: "Case Study 3: Women Empowerment in Bangladesh",
+    description: "Microfinance and vocational training have enabled women in Bangladesh to start businesses, gain economic independence, and uplift their communities.",
+    downloadLink: "/downloads/bangladesh.pdf",
   },
+  {
+    title: "Case Study 4: Clean Water Initiatives in Ghana",
+    description: "In rural Ghana, solar-powered water pumps have improved access to clean drinking water, significantly enhancing public health and sanitation.",
+    downloadLink: "/downloads/ghana.pdf",
+  },
+  {
+    title: "Case Study 5: Conservation of Marine Life in the Philippines",
+    description: "Community-led conservation efforts in the Philippines have protected coral reefs and marine life, boosting biodiversity and supporting sustainable tourism.",
+    downloadLink: "/downloads/philippines.pdf",
+  }
 ];
 
 const CaseStudiesDownload = () => {
