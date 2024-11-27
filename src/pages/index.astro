@@ -15,13 +15,13 @@ const timelineData = [
       "The registration Deadline is by 31st of December 2024. If not, you are screwed!",
   },
   {
-    date: "8.00 a.m. 1st January 2025",
+    date: "1st January 2025",
     title: "Case Study Release",
     content:
       "The Case studies will be launched. Be sure to catch it on our website! By then you can start doing your prototype already",
   },
   {
-    date: "1st January 2025 - 2nd January 2025",
+    date: "1st January 2025",
     title: "Thinking Time!",
     content: "Code faster fast fast fast fast fast fast fast fast fast",
   },
@@ -82,7 +82,7 @@ const showCaseStudies = currentDate < targetDate;
       </div>
       <div class="title-content-right">
         <p>
-          Do you have good ideas? then join this hackathon where we peeepeepoooo
+          Do you have good ideas?<br/>Then join us now!
         </p>
       </div>
     </div>
@@ -109,11 +109,11 @@ const showCaseStudies = currentDate < targetDate;
         )
       }
     </div>
-    <div class="timeline">
+    <div class="timeline" id="timeline">
       <div><p style="font-size: 36px;">TIMELINE</p></div>
       <Timeline timelineData={timelineData} title={true}/>
     </div>
-    <div class="faq">
+    <div class="faq" id="faq">
       <div><p style="font-size: 36px;">FAQ</p></div>
       <FAQ items={faqItems} />
     </div>
