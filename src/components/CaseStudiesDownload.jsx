@@ -38,8 +38,7 @@ const CaseStudiesDownload = () => {
     alignItems: "center",
     justifyContent: "center",
     textAlign: "center",
-    width: "80%",
-    marginLeft: "-0.5rem",
+    width: "100%",
   };
 
   const labelContainerStyle = {
@@ -52,9 +51,8 @@ const CaseStudiesDownload = () => {
     padding: "10px",
     fontSize: "1.5rem",
     borderRadius: "15px",
-    width: "101.5%",
-    marginLeft: "0.5rem",
-    backgroundColor: "black",
+    width: "100%",
+    backgroundColor: "#433f6c",
     color: "white",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
     textAlign: "center",
@@ -66,7 +64,7 @@ const CaseStudiesDownload = () => {
     padding: "10px",
     fontSize: "1.25rem",
     color: "white",
-    backgroundColor: "black",
+    backgroundColor: "#433f6c",
   };
 
   const caseStudyDescStyle = {
@@ -74,9 +72,8 @@ const CaseStudiesDownload = () => {
     fontSize: "1.0rem",
     border: "none",
     borderRadius: "15px",
-    width: "101.5%",
-    marginLeft: "0.5rem",
-    backgroundColor: "black",
+    width: "100%",
+    backgroundColor: "#433f6c",
     color: "white",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
   };
@@ -84,15 +81,14 @@ const CaseStudiesDownload = () => {
   const downloadLinkStyle = {
     padding: "10px 0",
     display: "inline-block",
-    width: "101.5%",
-    marginLeft: "0.5rem",
+    width: "100%",
     marginTop: "0.5rem",
     fontSize: "1.0rem",
     fontWeight: "bold",
-    color: "black",
+    color: "white",
     border: "none",
     borderRadius: "15px",
-    backgroundColor: "white",
+    backgroundColor: "black",
     textDecoration: "none",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
     transition: "background-color 0.3s ease",
