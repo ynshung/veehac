@@ -40,21 +40,44 @@ const timelineData = [
 
 const faqItems = [
   {
-    question: "What is the Skibidi Toilet?",
-    answer:
-      "Skibidi Toilet is a meme where people mimic a dance move that looks like an exaggerated version of using the toilet. It's one of those strange yet hilarious trends that captured the internet's attention.",
+    question: "What is a hackathon?",
+    answer: "A hackathon is an event where participants collaborate to create innovative solutions to a given problem, often within a set time frame, such as 24-48 hours. It involves coding, brainstorming, and working together as a team."
   },
   {
-    question: "Who is Hawk Tuah?",
-    answer:
-      "Hawk Tuah is a fictional character who has gained a following in online communities. He's a blend of traditional folklore and modern internet culture, often portrayed as a humorous and heroic figure.",
+    question: "Who can participate in the hackathon?",
+    answer: "The hackathon is open to all university students, regardless of their major. Participants can join as individuals or form teams with other students."
   },
   {
-    question: "What is 'Thick of it' by KSI?",
-    answer:
-      "'Thick of it' is a song by KSI, a popular YouTuber turned musician. The term is also used to describe being deeply involved in a complicated situation, similar to being in the midst of chaos.",
+    question: "Do I need to have prior coding experience?",
+    answer: "No, prior coding experience is not mandatory. Hackathons encourage creativity and teamwork, and there will be mentors available to guide participants with different levels of experience."
   },
+  {
+    question: "Can I work on the project after the hackathon ends?",
+    answer: "Yes, you can continue working on your project after the hackathon. However, the official judging and prize awarding will happen at the end of the event."
+  },
+  {
+    question: "How do I register for the hackathon?",
+    answer: "Registration details will be available on the event website. You can register as an individual or as a team, and you will need to submit your details before the registration deadline."
+  },
+  {
+    question: "What should I bring to the hackathon?",
+    answer: "Bring your laptop, charger, and any other tools or software you may need for coding. We will provide food, drinks, and other essentials during the event."
+  },
+  {
+    question: "Is there a registration fee?",
+    answer: "No, the hackathon is free to attend. However, you may need to register in advance, and spots could be limited."
+  },
+  {
+    question: "Are there any prizes?",
+    answer: "Yes, there will be prizes for the top teams based on creativity, functionality, and impact of their projects. More details on prizes will be shared closer to the event."
+  },
+  {
+    question: "Can I attend the hackathon if I’m not part of the university?",
+    answer: "This hackathon is exclusively for university students. However, we welcome students from all majors and backgrounds to participate!"
+  },
+
 ];
+
 
 const targetDate = new Date("2024-11-10T19:36:40");
 
@@ -111,7 +134,7 @@ const showCaseStudies = currentDate < targetDate;
     </div>
     <div class="timeline" id="timeline">
       <div><p style="font-size: 36px;">TIMELINE</p></div>
-      <Timeline timelineData={timelineData} title={true}/>
+      <Timeline timelineData={timelineData} />
     </div>
     <div class="faq" id="faq">
       <div><p style="font-size: 36px;">FAQ</p></div>

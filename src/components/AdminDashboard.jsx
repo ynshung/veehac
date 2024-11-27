@@ -91,7 +91,7 @@ const AdminDashboard = ({ setShowJudging }) => {
       </div>
       <div className="admin-info">
         <div>
-          <p style={{ fontSize: '24px', fontWeight: 600 }}>Judge Info</p>
+          <p style={{ fontSize: '24px', fontWeight: 600 }}>Admin Info</p>
           <hr />
         </div>
         <div className="admin-details" style={{ fontSize: '15px', fontWeight: 300 }}>

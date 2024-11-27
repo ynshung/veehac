@@ -1,24 +1,37 @@
 ---
-const { timelineData , title} = Astro.props;
+const { timelineData, title } = Astro.props;
 ---
 
 <div class="timeline">
   <div class="outer">
     {
-      timelineData.map((item: {
-[x: string]: unknown; date: unknown; content: unknown; 
-}, index: number) => (
-        <div
-          class="card"
-          class:odd={index % 2 === 0}
-          class:even={index % 2 !== 0}
-        >
-          <div class="info">
-            <h3 class="date">{item.date}</h3>
-            <p class={`${title? "title":"content"}`}>{title ? item.title: item.content}</p>
+      timelineData.map(
+        (
+          item: {
+            [x: string]: unknown;
+            date: unknown;
+            content: unknown;
+          },
+          index: number
+        ) => (
+          <div
+            class="card"
+            class:odd={index % 2 === 0}
+            class:even={index % 2 !== 0}
+          >
+            <div class="info">
+              <h3 class="date" style="">
+                {item.date}
+              </h3>
+              <h3 class="title" style="padding-bottom: 5px;">
+                {item.title}
+              </h3>
+
+              <p class="content">{item.content}</p>
+            </div>
           </div>
-        </div>
-      ))
+        )
+      )
     }
   </div>
 </div>
@@ -43,15 +56,14 @@ const { timelineData , title} = Astro.props;
   }
   @media only screen and (max-width: 850px) {
     .card {
-    width: 55vw;
+      width: 55vw;
     }
-    .card .date{
-  
-  font-size: 18px;
-  }
-    .card .title{
-  
-    font-size: 24px;
+    .card .date {
+      font-size: 18px;
+      position: static;
+    }
+    .card .title {
+      font-size: 24px;
     }
   }
   .card:nth-child(odd) {
@@ -118,28 +130,20 @@ const { timelineData , title} = Astro.props;
   .date {
     color: #faf9f6;
     position: relative;
-  }
-
-  .date::before {
-    content: "";
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background: #faf9f6;
-    border-radius: 999px;
-    border: 3px solid #faf9f6;
+    position:absolute;  
+    top:38px;
   }
 
   .card:nth-child(even) > .info > .date {
     text-align: right;
   }
 
-  .card:nth-child(odd) > .info > .date::before {
-    left: -45px;
+  .card:nth-child(odd) > .info > .date {
+    left: 25px;
   }
 
-  .card:nth-child(even) > .info > .date::before {
-    right: -45px;
+  .card:nth-child(even) > .info > .date {
+    right: 25px;
   }
 
   .card:nth-child(odd) > .info > .title {
@@ -151,7 +155,7 @@ const { timelineData , title} = Astro.props;
     text-align: left;
   }
 
-  .title{
+  .title {
     font-size: 36px;
   }
 </style>

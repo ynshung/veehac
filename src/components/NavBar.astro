@@ -5,14 +5,18 @@ const { backgroundColor } = Astro.props;
 <body>
   <div class="navbar" style={`background-color: ${backgroundColor};`}>
     <a href="/" style="font-weight: 900; font-size: 48px;">V</a>
-    <div class="navbar-contents">
+    <div class="hamburger" id="hamburger-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="navbar-contents" style={`background-color: ${backgroundColor}; opacity:90%`} id="navbar-contents">
       <div class="navbar-item">
         <a href="/#timeline">Timeline</a>
       </div>
       <div class="navbar-item">
         <a href="/#faq">FAQ</a>
       </div>
-
       <div class="navbar-item">
         <a href="/winner">Winners</a>
       </div>
@@ -30,29 +34,81 @@ const { backgroundColor } = Astro.props;
 </body>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const role = localStorage.getItem("role");
-    const loginButton = document.getElementById("login-button");
+document.addEventListener("DOMContentLoaded", function () {
+  const role = localStorage.getItem("role");
+  const loginButton = document.getElementById("login-button");
+  const hamburgerMenu = document.getElementById("hamburger-menu");
+  const navbarContents = document.getElementById("navbar-contents");
+  const navbarItems = document.querySelectorAll(".navbar-item");
 
-    if (role) {
-      loginButton.textContent = "Dashboard";
-      if (role === "participant") {
-        loginButton.href = "/participant-dashboard";
-      } else if (role === "judge") {
-        loginButton.href = "/judge-dashboard";
-      } else if (role === "admin") {
-        loginButton.href = "/admin";
-      }
-    } else {
-      loginButton.textContent = "Login";
-      logout.style.display = "none";
+  if (role) {
+    loginButton.textContent = "Dashboard";
+    if (role === "participant") {
+      loginButton.href = "/participant-dashboard";
+    } else if (role === "judge") {
+      loginButton.href = "/judge-dashboard";
+    } else if (role === "admin") {
+      loginButton.href = "/admin";
     }
+  } else {
+    loginButton.textContent = "Login";
+    logout.style.display = "none";
+  }
+
+  const resetNavbarItemsOpacity = () => {
+    if (window.innerWidth > 900) {
+      navbarContents.style.height="auto";
+      navbarItems.forEach(item => {
+        if (item.style.opacity !== "100%") {
+          item.style.opacity = "100%";
+          
+        }
+      });
+    }
+    else{
+      navbarContents.style.height="0";
+      navbarItems.forEach(item => {
+        console.log(item.style.opacity )
+        if (item.style.opacity === "1") {
+          
+          item.style.opacity = "0%";
+        }
+      });
+    
+    }
+  };
+
+  resetNavbarItemsOpacity(); // Call initially to set opacity correctly on page load
+  
+  window.addEventListener("resize", () => {
+    resetNavbarItemsOpacity();
   });
 
-  logout.onclick = function() {
-    localStorage.removeItem("role");
-    location.reload();
-  }
+  hamburgerMenu.addEventListener("click", () => {
+    if (navbarContents.style.height === "300px") {
+      navbarContents.style.height = "0px";
+
+      navbarItems.forEach(item => {
+        item.style.opacity = "0%";
+        item.style.transitionDelay = "0s";
+      });
+    } else {
+      navbarContents.style.height = "300px";
+      
+      navbarItems.forEach(item => {
+        item.style.opacity = "100%";
+        item.style.transitionDelay = "250ms";
+      });
+    }
+  });
+});
+
+logout.onclick = function () {
+  localStorage.removeItem("role");
+  location.reload();
+};
+
+
 </script>
 
 <style>
@@ -63,33 +119,49 @@ const { backgroundColor } = Astro.props;
     justify-content: center;
     width: 100%;
     color: #faf9f6;
+    z-index: 999;
   }
   .navbar {
     padding: 15px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
   .navbar-contents {
+    display: flex;
     width: 60%;
+    min-width: 800px;
     justify-content: space-around;
     align-items: center;
     flex-wrap: wrap;
-    display: flex;
     color: #faf9f6;
+    background-color: transparent;
+    transition: all 0.3s ease-in-out;
   }
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+  }
+  .hamburger span {
+    width: 25px;
+    height: 3px;
+    background-color: #faf9f6;
+  }
+  .navbar-contents.show {
 
+  }
   a:link {
     color: #faf9f6;
   }
   a:visited {
     color: #faf9f6;
   }
-
   a,
   u {
     text-decoration: none;
   }
-
   .login {
     background-color: #faf9f6;
     padding: 6px 16px;
@@ -101,5 +173,37 @@ const { backgroundColor } = Astro.props;
     border-radius: 100px;
     justify-content: center;
     align-content: center;
+  }
+
+  @media (max-width: 900px) {
+    .navbar-contents {
+      width: 100vw;
+      opacity: 0;
+
+      display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 70px;
+    right: 0px;
+
+    border-radius: 8px;
+    height:0px;
+    opacity: 1;
+    z-index: 9;
+    }
+    .hamburger {
+      display: flex;
+    }
+    .navbar-contents.show {
+      pointer-events: auto;
+      opacity: 1;
+      transition: all 0.3s ease-in-out; /* Smooth fade-in effect */
+    }
+    .navbar-item {
+  opacity: 0%; /* Start with items hidden */
+  transition: all 0.1s ease-in-out ;
+  z-index: 999;
+}
+
   }
 </style>
