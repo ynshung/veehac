@@ -19,7 +19,7 @@ function JudgeDashboardParent() {
       business: 7,
       design: 4,
       pitching: 7,
-      judgeDescription: "Erm What the skibidi???",
+      judgeDescription: "Amazing",
     },
     {
       id: 2,
