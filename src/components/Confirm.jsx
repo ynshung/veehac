@@ -17,8 +17,9 @@ const Confirm = ({ isOpen, onClose, onConfirm }) => {
     <div style={overlayStyle}>
       <div style={modalStyle}>
         <h3>Do you want to confirm?</h3>
-        <button onClick={handleConfirm}>Yes</button>
-        <button onClick={handleCancel}>Cancel</button>
+        <button onClick={handleConfirm} style={{ width:"85px", padding: '10px 20px', backgroundColor: '#433f6c', 'margin-right': '10px', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' , fontFamily:"Chesna Grotesk"}}>Yes</button>
+<button onClick={handleCancel} style={{width:"85px", padding: '10px 20px', backgroundColor: '#d9d9d9', 'margin-left': '10px',color: 'black', border: '1px', borderRadius: '5px', cursor: 'pointer' ,fontFamily:"Chesna Grotesk"}}>Cancel</button>
+
       </div>
     </div>
   );
@@ -47,3 +48,4 @@ const modalStyle = {
 };
 
 export default Confirm;
+

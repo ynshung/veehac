@@ -7,7 +7,7 @@ const { imageUrl, name, company, about } = Astro.props;
     <div class="flip-card-front">
     <img class="person-image" src={imageUrl} alt="Avatar" >
     <div style="padding:10px">
-    <p style="font-size: 28px; font-weight: 600; ">{name}</p>
+    <p style="font-size: 24px; font-weight: 600; ">{name}</p>
     </div>
     <div style="padding:10px">
       <p>{company}</p>
@@ -65,7 +65,10 @@ const { imageUrl, name, company, about } = Astro.props;
   -webkit-backface-visibility: hidden; /* Safari */
   backface-visibility: hidden;
 }
-
+.person-image{
+  object-fit: cover;
+overflow: hidden;
+}
 /* Style the front side (fallback if image is missing) */
 .flip-card-front {
   background-color:  #faf9f6;
