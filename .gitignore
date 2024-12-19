@@ -24,3 +24,5 @@ pnpm-debug.log*
 .idea/
 src/components/Testing.jsx
 src/pages/testing.astro
+
+.firebase
