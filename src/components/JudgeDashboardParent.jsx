@@ -2,7 +2,10 @@ import { useState, useEffect } from 'react';
 import JudgeDashboard from "./JudgeDashboard";
 import JudgeProject from "./JudgeProject";
 
+
 function JudgeDashboardParent() {
+
+  
   const [projects, setProjects] = useState([
     {
       id: 1,

@@ -34,7 +34,6 @@ async function something() {
 // Call the function and handle the result
 something().then(() => {
     // judges array is now populated with the extracted data
-    console.log(judges);
 }).catch((error) => {
     console.error(error);
 });
