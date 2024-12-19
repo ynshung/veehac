@@ -54,14 +54,27 @@ const team = {
   .rectangle {
     flex: 1; /* Make the rectangles take equal space */
     padding: 1rem;
-    background-color: #000000; /* Example background color */
+    background-color: #433f6c; /* Example background color */
     border-radius: 8px; /* Example border radius */
   }
 
   .full-width-underline {
+    color: black;
     display: block;
     font-size: 1.5rem;
+    font-weight: bold;
     width: 100%;
     margin-bottom: 1rem;
   }
+
+  .full-width-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px; /* Adjust this value to control the distance from the text */
+  width: 100%; /* Make the underline span the entire width of the container */
+  height: 2px; /* Adjust this value to control the thickness of the underline */
+  background-color: black; /* Set the color of the underline */
+}
+
 </style>

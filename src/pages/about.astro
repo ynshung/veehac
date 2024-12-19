@@ -4,24 +4,55 @@ import Layout from "../layouts/Layout.astro";
 import PersonCard from "../components/PersonCard.astro";
 import Footer from "../components/Footer.astro";
 
+// imageUrl, name, company, about
+const judges = [
+  {
+    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZs9kesB69Ye4TEPKKWwEXfYoU2Jjgm-jBxQ&s",
+    name: "Olajide Olatunji",
+    company: "KSI Enterprises",
+    about: "Olajide Olatunji, better known as KSI, is a renowned YouTuber, musician, and entrepreneur. He is a co-founder of Prime Hydration and a prominent figure in the entertainment and boxing industries.",
+  },
+  {
+    imageUrl: "https://i1.sndcdn.com/artworks-34AdqSgiaJECagN3-Y3mBdw-t500x500.jpg",
+    name: "Hailey Welch",
+    company: "Talk Tuah",
+    about: "Hailey Welch is an advocate for sustainable living and plant-based diets. She is a notable writer and editor focusing on healthy eating and lifestyle transformation.",
+  },
+  {
+    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLEmn6-HEPsb9nshsNU6f8EuMurlWSdZYnDa4TFhqm1LWt0VFSWu7I8kgyVlMbHkuAU3Q&usqp=CAU",
+    name: "Jimmy Donaldson",
+    company: "MrBeast Productions",
+    about: "Jimmy Donaldson, popularly known as MrBeast, is a groundbreaking content creator and philanthropist. He is known for his innovative YouTube videos and large-scale charitable initiatives.",
+  },
+  {
+    imageUrl: "https://pbs.twimg.com/media/F_cPz1rW8AA9wL8.jpg",
+    name: "Isis Naija Gaston",
+    company: "Rapper",
+    about: "Isis Naija Gaston, professionally known as Ice Spice, is a rising star in the rap industry. Her unique sound and style have garnered widespread recognition and acclaim.",
+  },
+  {
+    imageUrl: "https://i.imgflip.com/4akqi2.png",
+    name: "Nigel Ng",
+    company: "Uncle Roger Comedy",
+    about: "Nigel Ng is a comedian and content creator famous for his character Uncle Roger. His comedic commentary on Asian cuisine has made him a global sensation.",
+  },
+];
+
 ---
 <Layout title="VeeHac">
     <NavBar backgroundColor="#433f6c" />
     <div class="body">
         <div class="judges">
             <div >
-                <p style="font-size: 36px;">Judges</p>
+                <p style="font-size: 36px; padding:20px">Judges</p>
             </div>
             
             <div class="judge-cards">
-                <PersonCard />
-                <PersonCard />
-                <PersonCard />
-                <PersonCard />
-                <PersonCard />
-                <PersonCard />
-                <PersonCard />
-                <PersonCard />
+                {
+                    judges.map((judge, index) => (
+                        <PersonCard imageUrl={judge.imageUrl} name={judge.name} company={judge.company} about={judge.about} />
+                    ))
+                }
             </div>
         </div>
 
@@ -47,19 +78,23 @@ p{
 .judges{
     padding-top: 50px;
     padding-bottom: 50px;
-    width: 800px;
 }
 
 .judge-cards {
-  display: flex;
-  flex-wrap: wrap; /* Allow items to wrap to the next line */
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px; /* Adjust the gap between items */
   justify-content: space-around; /* Optional, controls the alignment of items in the row */
+} 
+
+@media (max-width: 800px) {
+  .judge-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
-.PersonCard {
-  flex: 1 1 calc(33.333% - 16px); /* Each item takes up 1/3 of the container width, minus the gap */
-  box-sizing: border-box; /* Ensures padding and borders don't affect the width calculation */
+@media (max-width: 520px) {
+  .judge-cards {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
 }
-
-  </style>

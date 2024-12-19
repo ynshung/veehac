@@ -15,8 +15,8 @@ const JudgeDashboard = ({ projects, setId, setShowJudging }) => {
         <div>
           <div>
             <p style={{ fontSize: "15px", fontWeight: 400 }}>
-              Welcome to Veehac 2025, glad to have you on some lorem ipsim! The
-              judging times will be from xx March 2025 to xx March 2025.
+              Welcome to Veehac 2025, glad to have you here with us! The
+              judging times will be from 2nd January 2025 to 3rd January 2025.
             </p>
           </div>
         </div>

@@ -12,7 +12,7 @@
   bottom: -2px; /* Adjust this value to control the distance from the text */
   width: 80vw; /* Make the underline span the entire width of the viewport */
   height: 2px; /* Adjust this value to control the thickness of the underline */
-  background-color: white; /* Set the color of the underline */
+  background-color: black; /* Set the color of the underline */
 }
 
 .body-submission {
@@ -61,7 +61,7 @@
   padding: 1rem;
   margin-top: 0rem;
   margin-bottom: 0rem;
-  background-color: #000000; /* Example background color */
+  background-color: #433f6c; /* Example background color */
   border-radius: 8px; /* Example border radius */
   display: flex; /* Use Flexbox */
   flex-direction: column; /* Align items vertically */
@@ -78,11 +78,24 @@
 }
 
 .body-submission .full-width-underline {
+  color: black;
   display: block;
   font-size: 1.5rem;
+  font-weight: bold;
   width: 100%;
   margin-bottom: 1rem;
 }
+
+.body-submission .full-width-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px; /* Adjust this value to control the distance from the text */
+  width: 100%; /* Make the underline span the entire width of the container */
+  height: 2px; /* Adjust this value to control the thickness of the underline */
+  background-color: black; /* Set the color of the underline */
+}
+
 
 .body-submission .add-submission-button {
   background-color: #ffffff; /* Blue background */

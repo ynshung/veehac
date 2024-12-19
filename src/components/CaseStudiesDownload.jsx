@@ -4,20 +4,30 @@ import "../styles/underline.css";
 
 const caseStudies = [
   {
-    title: "Case Study 1: Web Application",
-    description: "Learn about web application development.",
-    downloadLink: "public/downloads/web-application.pdf",
+    title: "Case Study 1: Sustainable Agriculture in Kenya",
+    description: "This study examines how sustainable farming practices, like drip irrigation and drought-resistant crops, have improved food security and farmers' livelihoods in Kenya.",
+    downloadLink: "public/downloads/kenya.pdf",
   },
   {
-    title: "Case Study 2: Educational Mobile App",
-    description: "Explore educational mobile app development.",
-    downloadLink: "/downloads/educational-mobile-app.pdf",
+    title: "Case Study 2: Renewable Energy in India",
+    description: "India's investment in solar and wind energy, particularly in Rajasthan, is providing affordable power to rural areas and reducing dependence on fossil fuels.",
+    downloadLink: "/downloads/india.pdf",
   },
   {
-    title: "Case Study 3: E-commerce Platform",
-    description: "Discover e-commerce platform development.",
-    downloadLink: "/downloads/e-commerce-platform.pdf",
+    title: "Case Study 3: Women Empowerment in Bangladesh",
+    description: "Microfinance and vocational training have enabled women in Bangladesh to start businesses, gain economic independence, and uplift their communities.",
+    downloadLink: "/downloads/bangladesh.pdf",
   },
+  {
+    title: "Case Study 4: Clean Water Initiatives in Ghana",
+    description: "In rural Ghana, solar-powered water pumps have improved access to clean drinking water, significantly enhancing public health and sanitation.",
+    downloadLink: "/downloads/ghana.pdf",
+  },
+  {
+    title: "Case Study 5: Conservation of Marine Life in the Philippines",
+    description: "Community-led conservation efforts in the Philippines have protected coral reefs and marine life, boosting biodiversity and supporting sustainable tourism.",
+    downloadLink: "/downloads/philippines.pdf",
+  }
 ];
 
 const CaseStudiesDownload = () => {
@@ -38,8 +48,7 @@ const CaseStudiesDownload = () => {
     alignItems: "center",
     justifyContent: "center",
     textAlign: "center",
-    width: "80%",
-    marginLeft: "-0.5rem",
+    width: "100%",
   };
 
   const labelContainerStyle = {
@@ -52,9 +61,8 @@ const CaseStudiesDownload = () => {
     padding: "10px",
     fontSize: "1.5rem",
     borderRadius: "15px",
-    width: "101.5%",
-    marginLeft: "0.5rem",
-    backgroundColor: "black",
+    width: "100%",
+    backgroundColor: "#433f6c",
     color: "white",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
     textAlign: "center",
@@ -66,7 +74,7 @@ const CaseStudiesDownload = () => {
     padding: "10px",
     fontSize: "1.25rem",
     color: "white",
-    backgroundColor: "black",
+    backgroundColor: "#433f6c",
   };
 
   const caseStudyDescStyle = {
@@ -74,9 +82,8 @@ const CaseStudiesDownload = () => {
     fontSize: "1.0rem",
     border: "none",
     borderRadius: "15px",
-    width: "101.5%",
-    marginLeft: "0.5rem",
-    backgroundColor: "black",
+    width: "100%",
+    backgroundColor: "#433f6c",
     color: "white",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
   };
@@ -84,15 +91,14 @@ const CaseStudiesDownload = () => {
   const downloadLinkStyle = {
     padding: "10px 0",
     display: "inline-block",
-    width: "101.5%",
-    marginLeft: "0.5rem",
+    width: "100%",
     marginTop: "0.5rem",
     fontSize: "1.0rem",
     fontWeight: "bold",
-    color: "black",
+    color: "white",
     border: "none",
     borderRadius: "15px",
-    backgroundColor: "white",
+    backgroundColor: "black",
     textDecoration: "none",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
     transition: "background-color 0.3s ease",

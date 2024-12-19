@@ -54,7 +54,7 @@ const AdminDashboard = ({ setShowJudging }) => {
           <hr />
         </div>
         <div className="logged-in-as">
-          <p style={{ fontSize: '16px', fontWeight: 600 }}>You are logged in as: <span style={{ fontSize: '16px', fontWeight: 300 }}>skibidi@toilet.com</span></p>
+          <p style={{ fontSize: '16px', fontWeight: 600 }}>You are logged in as: <span style={{ fontSize: '16px', fontWeight: 300 }}>admin@veehac.com</span></p>
         </div>
         <table style={{ width: '100%' }}>
           <thead>
@@ -91,7 +91,7 @@ const AdminDashboard = ({ setShowJudging }) => {
       </div>
       <div className="admin-info">
         <div>
-          <p style={{ fontSize: '24px', fontWeight: 600 }}>Judge Info</p>
+          <p style={{ fontSize: '24px', fontWeight: 600 }}>Admin Info</p>
           <hr />
         </div>
         <div className="admin-details" style={{ fontSize: '15px', fontWeight: 300 }}>

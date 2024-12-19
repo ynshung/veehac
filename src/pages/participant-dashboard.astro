@@ -12,9 +12,11 @@ const title = "Participant Dashboard";
 <Layout title="VeeHac">
   <NavBar backgroundColor="#827BD2" />
   <div class="body">
-    <CaseStudiesDownload client:load />
-    <TeamInfo />
-    <ProjectSubmission />
+    <div class="rectangle-container">
+      <CaseStudiesDownload client:load />
+      <TeamInfo />
+      <ProjectSubmission />
+    </div>
   </div>
   <Footer />
 </Layout>
@@ -38,5 +40,14 @@ const title = "Participant Dashboard";
     align-items: center;
     justify-content: center;
     gap: 20px;
+  }
+  .rectangle-container {
+    background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80vw;
+  display: flex;
+  flex-direction: column; /* Arrange child elements in a column */
+  gap: 20px; /* Add space between child elements */
   }
 </style>
