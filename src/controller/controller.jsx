@@ -1,39 +1,65 @@
 import { db } from '/src/firebase';
 import { collection, query, getDocs } from "firebase/firestore";
 
-export let judges = [];
 
-async function something() {
+
+export async function fetchJudges() {
+    let judges = []
     const q = query(collection(db, "judges"));
     const querySnapshot = await getDocs(q);
 
-    // Initialize an empty dictionary (object) to store judge data
-    const judgesDict = {}; 
+    const judgesDict = {};
 
     querySnapshot.forEach((doc) => {
         const data = doc.data();
-        const docId = doc.id; // Get the document ID
-
-        // Add each document's ID and its associated data to the judgesDict
+        const docId = doc.id;
         judgesDict[docId] = data;
     });
 
-    // Now, dynamically place the content of each judge entry into the `judges` array
+    // Dynamically map fields from the data
     judges = Object.keys(judgesDict).map(key => {
         const judge = judgesDict[key];
-        return {
-            name: judge.name,
-            company: judge.company,
-            about: judge.about,
-            id: key, // Use the document ID as the ID
-            imageURL: judge.imageURL
-        };
+        let judgeData = {};
+
+        // Dynamically assign keys from the judge data to judgeData
+        for (const field in judge) {
+            judgeData[field] = judge[field];
+        }
+
+        // Add the docId as 'id' in the final object
+        judgeData.id = key;
+
+        return judgeData;
     });
+    return judges
 }
 
-// Call the function and handle the result
-something().then(() => {
-    // judges array is now populated with the extracted data
-}).catch((error) => {
-    console.error(error);
-});
+
+export async function fetchProjects() {
+
+    const q = query(collection(db, "project"));
+    const querySnapshot = await getDocs(q);
+    let projects = [];
+    const projectsDict = {};
+
+    querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        const docId = doc.id;
+        projectsDict[docId] = data;
+    });
+
+    // Dynamically map fields from the data
+    projects = Object.keys(projectsDict).map(key => {
+        const project = projectsDict[key];
+        let projectData = {};
+
+        // Dynamically assign keys from the project data to projectData
+        for (const field in project) {
+            projectData[field] = project[field];
+        }
+
+        return projectData;
+    });
+    console.log(projects)
+    return projects
+}

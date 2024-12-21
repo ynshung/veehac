@@ -2,6 +2,9 @@ import '../styles/JudgeProject.css';
 import RatingSlider from './RatingSlider';
 import Confirm from './Confirm';
 import React, { useEffect, useState } from 'react';
+import { db } from '/src/firebase';
+import { doc, updateDoc } from "firebase/firestore";
+import { fetchProjects } from "../controller/controller.jsx";
 
 const JudgeProject = ({ projects, setId, id, setProjects, setShowJudging }) => {
   let caseStudies = {
@@ -18,16 +21,15 @@ const JudgeProject = ({ projects, setId, id, setProjects, setShowJudging }) => {
   const [isDialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem("project" + id)) {
-      const tempProject = JSON.parse(localStorage.getItem("project" + id));
-      console.log(tempProject);
-      setIdeaImpact(tempProject.ideaImpact);
-      setUniqueness(tempProject.uniqueness);
-      setBusiness(tempProject.business);
-      setDesign(tempProject.design);
-      setPitching(tempProject.pitching);
-      setDescription(tempProject.judgeDescription);
-    }
+    // if (localStorage.getItem("project" + id)) {
+    console.log(projects[id - 1].ideaImpact, "AAAAssssss");
+    setIdeaImpact(projects[id - 1].ideaImpact);
+    setUniqueness(projects[id - 1].uniqueness);
+    setBusiness(projects[id - 1].business);
+    setDesign(projects[id - 1].design);
+    setPitching(projects[id - 1].pitching);
+    setDescription(projects[id - 1].judgeDescription);
+    // }
   }, []);
 
   const handleOpenDialog = () => {
@@ -38,18 +40,27 @@ const JudgeProject = ({ projects, setId, id, setProjects, setShowJudging }) => {
     setDialogOpen(false);
   };
 
-  const handleConfirm = (confirmed) => {
+  const handleConfirm = async (confirmed) => {
     // set local storage
     const tempProject = {
-      ideaImpact: ideaImpact,
-      uniqueness: uniqueness,
-      business: business,
-      design: design,
-      pitching: pitching,
+      ideaImpact: parseInt(ideaImpact),
+      uniqueness: parseInt(uniqueness),
+      business: parseInt(business),
+      design: parseInt(design),
+      pitching: parseInt(pitching),
       judgeDescription: description,
     }
     console.log(tempProject)
-    localStorage.setItem("project" + id, JSON.stringify(tempProject));
+    const docRef = doc(db, "project", "LS0R2iP5SFfe6LgYk4Tt")
+    await updateDoc(docRef,
+      tempProject
+    )
+    const fetchData = async () => {
+      const fetchedProjects = await fetchProjects();
+      setProjects(fetchedProjects);
+    };
+    await fetchData();
+    console.log("REFRESH", projects)
     setShowJudging('');  // Close the dialog
   };
 

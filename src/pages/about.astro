@@ -3,8 +3,11 @@ import NavBar from "../components/NavBar.astro";
 import Layout from "../layouts/Layout.astro";
 import PersonCard from "../components/PersonCard.astro";
 import Footer from "../components/Footer.astro";
-import {judges} from "../controller/controller.jsx"
-console.log(judges)
+import {fetchJudges} from "../controller/controller.jsx"
+console.log(await fetchJudges())
+const judges = await fetchJudges()
+
+
 // imageUrl, name, company, about
 // const judges = [
 //   {

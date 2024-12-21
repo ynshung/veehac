@@ -56,6 +56,7 @@ const JudgeDashboard = ({ projects, setId, setShowJudging }) => {
                       className={`judged-button ${judged ? "judged" : "not-judged"}`}
                       onClick={() => {
                         setShowJudging(project.id); // This updates the showJudging state in the parent
+                        console.log(project.id, "ID")
                         setId(project.id); // This updates the id in the parent
                       }}
                     >
