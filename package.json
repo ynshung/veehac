@@ -2,15 +2,15 @@
   "name": "veehac-astro",
   "type": "module",
   "version": "0.0.1",
-"scripts": {
-  "frontend": "astro dev",
-  "backend": "cd src/backend && python -m uvicorn main:app --reload",
-  "dev": "concurrently \"npm run frontend\" \"npm run backend\"",
-  "start": "npm run dev",
-  "build": "astro build",
-  "preview": "astro preview",
-  "astro": "astro"
-},
+  "scripts": {
+    "frontend": "astro dev",
+    "backend": "cd src/backend && python -m uvicorn main:app --reload",
+    "dev": "concurrently \"npm run frontend\" \"npm run backend\"",
+    "start": "npm run dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
     "@astrojs/react": "^3.6.2",

@@ -1,30 +1,45 @@
 ---
-const team = {
-  name: "Team Alpha",
-  leader: "Alice",
-  members: [{ name: "Bob" }, { name: "Caitlyn" }, { name: "David" }],
-  description:
-    "Team Alpha is a team of developers working on a web application.",
-};
+import { onMount } from 'solid-js';
+import { db } from '../firebase';
+import { collection, query, where, getDocs } from "firebase/firestore";
+
+let team = null;
+
+onMount(async () => {
+  const leaderID = "7"; // Replace with actual leaderID
+  const q = query(collection(db, "teams"), where("leaderID", "==", leaderID));
+  const querySnapshot = await getDocs(q);
+
+  if (!querySnapshot.empty) {
+    const doc = querySnapshot.docs[0];
+    team = doc.data();
+  }
+});
 ---
 
 <div class="body">
   <label for="case-study" class="full-width-underline">Team Info:</label>
   <div class="rectangle-container">
     <div class="rectangle">
-      <h2 style="margin-top: 0.5rem; margin-bottom: 0.5rem">{team.name}</h2>
-      <p style="font-weight: bold">Leader: {team.leader}</p>
-      {
-        team.members.map((member, idx) => (
-          <div>
-            <p>
-              Member {idx + 1}: {member.name}
-            </p>
-          </div>
-        ))
-      }
+      {team ? (
+        <>
+          <h2 style="margin-top: 0.5rem; margin-bottom: 0.5rem">{team.teamName}</h2>
+          <p style="font-weight: bold">Leader: {team.leaderID}</p>
+          {[team.memberID1, team.memberID2, team.memberID3].map((memberID, idx) => (
+  memberID ? (
+    <div>
+      <p>
+        Member {idx + 1}: {memberID}
+      </p>
     </div>
-    <div class="rectangle">{team.description}</div>
+  ) : null
+))}
+        </>
+      ) : (
+        <p>Loading...</p>
+      )}
+    </div>
+    <div class="rectangle">{team ? team.details : ''}</div>
   </div>
 </div>
 
