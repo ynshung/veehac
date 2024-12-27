@@ -1,26 +1,61 @@
 import React, { useState, useEffect } from 'react';
-import { db } from '../firebase';
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { db, userId } from '../firebase';
+import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
 import "../styles/TeamInfo.css";
 
 const TeamInfo = () => {
   const [team, setTeam] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [leaderName, setLeaderName] = useState('');
+  const [participants, setParticipants] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
       console.log("Component mounted");
-      const leaderID = 7; // Replace with actual leaderID
-      console.log("Fetching data for leaderID:", leaderID);
-      const q = query(collection(db, "team"), where("leaderID", "==", leaderID));
-      const querySnapshot = await getDocs(q);
+      console.log("Fetching data for userID:", userId);
 
-      if (!querySnapshot.empty) {
-        const doc = querySnapshot.docs[0];
-        console.log("Data fetched:", doc.data());
-        setTeam(doc.data());
+      // Perform multiple queries to cover all conditions
+      const queries = [
+        query(collection(db, "team"), where("leaderID", "==", userId)),
+        query(collection(db, "team"), where("memberID1", "==", userId)),
+        query(collection(db, "team"), where("memberID2", "==", userId)),
+        query(collection(db, "team"), where("memberID3", "==", userId))
+      ];
+
+      let teamData = null;
+      for (const q of queries) {
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          teamData = querySnapshot.docs[0].data();
+          break; // Exit the loop once we find a matching document
+        }
+      }
+
+      if (teamData) {
+        console.log("Data fetched:", teamData);
+        setTeam(teamData);
+
+        // Fetch leader name
+        const leaderDoc = await getDoc(doc(db, "participant", teamData.leaderID));
+        if (leaderDoc.exists()) {
+          setLeaderName(leaderDoc.data().name);
+        }
+
+        // Fetch participant names
+        const participantIDs = [teamData.memberID1, teamData.memberID2, teamData.memberID3];
+        const participantsData = {};
+        for (const id of participantIDs) {
+          if (id) {
+            const participantDoc = await getDoc(doc(db, "participant", id));
+            if (participantDoc.exists()) {
+              const participantData = participantDoc.data();
+              participantsData[id] = participantData.name; // Access the "name" field inside the document
+            }
+          }
+        }
+        setParticipants(participantsData);
       } else {
-        console.log("No data found for leaderID:", leaderID);
+        console.log("No data found for userID:", userId);
       }
       setLoading(false); // Set loading to false after data is fetched
     };
@@ -33,19 +68,19 @@ const TeamInfo = () => {
   }
 
   return (
-    <div className="body">
-      <label htmlFor="case-study" className="full-width-underline">Team Info:</label>
-      <div className="rectangle-container">
-        <div className="rectangle">
+    <div className="team-info__body">
+      <label htmlFor="case-study" className="team-info__full-width-underline">Team Info:</label>
+      <div className="team-info__rectangle-container">
+        <div className="team-info__rectangle">
           {team ? (
             <>
               <h2 style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }}>Team {team.teamName}</h2>
-              <p style={{ fontWeight: 'bold' }}>Leader: {team.leaderID}</p>
+              <p style={{ fontWeight: 'bold' }}>Leader: {leaderName}</p>
               {[team.memberID1, team.memberID2, team.memberID3].map((memberID, idx) => (
-                memberID ? (
+                memberID && participants[memberID] ? (
                   <div key={idx}>
                     <p>
-                      Member {idx + 1}: {memberID}
+                      Member {idx + 1}: {participants[memberID]}
                     </p>
                   </div>
                 ) : null
@@ -55,7 +90,7 @@ const TeamInfo = () => {
             <p>No team data available</p>
           )}
         </div>
-        <div className="rectangle">{team ? team.details : ''}</div>
+        <div className="team-info__rectangle">{team ? team.details : ''}</div>
       </div>
     </div>
   );
