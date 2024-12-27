@@ -41,11 +41,6 @@ const JudgeDashboard = ({ projects, setId, setShowJudging }) => {
           <tbody>
             {projects.map((project) => {
               const [judged, setJudged] = useState(false);
-              useEffect(() => {
-                if (localStorage.getItem("project" + project.id)) {
-                  setJudged(true);
-                }
-              }, []);
               return (
                 <tr key={project.id}>
                   <td className="project-name">{project.name}</td>
@@ -53,7 +48,7 @@ const JudgeDashboard = ({ projects, setId, setShowJudging }) => {
                   <td className="project-title">{project.title}</td>
                   <td className="project-judged" id="project-judged">
                     <a
-                      className={`judged-button ${judged ? "judged" : "not-judged"}`}
+                      className={`judged-button ${project.judged ? "judged" : "not-judged"}`}
                       onClick={() => {
                         setShowJudging(project.id); // This updates the showJudging state in the parent
                         console.log(project.id, "ID")

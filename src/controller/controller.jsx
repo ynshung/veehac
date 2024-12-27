@@ -1,3 +1,4 @@
+import CaseStudies from '../components/CaseStudies.astro';
 import { db } from '/src/firebase';
 import { collection, query, getDocs } from "firebase/firestore";
 
@@ -60,6 +61,39 @@ export async function fetchProjects() {
 
         return projectData;
     });
-    console.log(projects)
+
     return projects
+}
+
+
+export async function fetchCaseStudies() {
+
+    const q = query(collection(db, "caseStudies"));
+    const querySnapshot = await getDocs(q);
+    let caseStudies = [];
+    const caseStudiesDict = {};
+
+    querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        const docId = doc.id;
+        caseStudiesDict[docId] = data;
+    });
+
+    // Dynamically map fields from the data
+    caseStudies = Object.keys(caseStudiesDict).map(key => {
+        const caseStudies = caseStudiesDict[key];
+        let caseStudiesData = {};
+
+        // Dynamically assign keys from the project data to projectData
+        for (const field in caseStudies) {
+            if (field == "submissionTime") {
+                caseStudiesData[field] = (caseStudies[field].submissionTime.seconds * 1000).toLocaleString()
+            }
+            else {
+                caseStudiesData[field] = caseStudies[field];
+            }
+        }
+        return caseStudiesData;
+    });
+    return caseStudies
 }

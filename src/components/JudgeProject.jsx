@@ -3,15 +3,35 @@ import RatingSlider from './RatingSlider';
 import Confirm from './Confirm';
 import React, { useEffect, useState } from 'react';
 import { db } from '/src/firebase';
-import { doc, updateDoc } from "firebase/firestore";
-import { fetchProjects } from "../controller/controller.jsx";
+import { collection, query, where, getDocs, updateDoc, doc } from "firebase/firestore";
+import { fetchProjects, fetchCaseStudies } from "../controller/controller.jsx";
 
 const JudgeProject = ({ projects, setId, id, setProjects, setShowJudging }) => {
-  let caseStudies = {
-    1: "Web Application",
-    2: "Educational Mobile App",
-    3: "E-commerce Platform",
+  const loadCaseStudies = async () => {
+    try {
+      const caseStudies = await fetchCaseStudies();
+      return caseStudies; // Return caseStudies so it can 
+    } catch (error) {
+      console.error('Error fetching case studies:', error);
+      return []; // Return an empty array in case of error
+    }
   };
+
+  // State for storing case studies and loading state
+  const [caseStudies, setCaseStudies] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);  // State to track loading
+
+  // Use useEffect to call loadCaseStudies when the component mounts
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await loadCaseStudies();
+      setCaseStudies(result);
+      setIsLoading(false); 
+    };
+
+    fetchData();
+  }, []); 
+
   const [ideaImpact, setIdeaImpact] = useState(0);
   const [uniqueness, setUniqueness] = useState(0);
   const [business, setBusiness] = useState(0);
@@ -21,15 +41,12 @@ const JudgeProject = ({ projects, setId, id, setProjects, setShowJudging }) => {
   const [isDialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
-    // if (localStorage.getItem("project" + id)) {
-    console.log(projects[id - 1].ideaImpact, "AAAAssssss");
-    setIdeaImpact(projects[id - 1].ideaImpact);
-    setUniqueness(projects[id - 1].uniqueness);
-    setBusiness(projects[id - 1].business);
-    setDesign(projects[id - 1].design);
-    setPitching(projects[id - 1].pitching);
-    setDescription(projects[id - 1].judgeDescription);
-    // }
+    setIdeaImpact(projects[id].ideaImpact);
+    setUniqueness(projects[id].uniqueness);
+    setBusiness(projects[id].business);
+    setDesign(projects[id].design);
+    setPitching(projects[id].pitching);
+    setDescription(projects[id].judgeDescription);
   }, []);
 
   const handleOpenDialog = () => {
@@ -41,7 +58,6 @@ const JudgeProject = ({ projects, setId, id, setProjects, setShowJudging }) => {
   };
 
   const handleConfirm = async (confirmed) => {
-    // set local storage
     const tempProject = {
       ideaImpact: parseInt(ideaImpact),
       uniqueness: parseInt(uniqueness),
@@ -49,18 +65,34 @@ const JudgeProject = ({ projects, setId, id, setProjects, setShowJudging }) => {
       design: parseInt(design),
       pitching: parseInt(pitching),
       judgeDescription: description,
+      judged: true,
+    };
+    console.log(tempProject);
+
+    const q = query(collection(db, "project"), where("id", "==", id));
+
+    try {
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        const docRef = doc(db, "project", querySnapshot.docs[0].id);
+        await updateDoc(docRef, {
+          ...tempProject,
+        });
+        console.log("Document successfully updated!");
+      } else {
+        console.log("No project found with the given ID");
+      }
+    } catch (error) {
+      console.error("Error updating document: ", error);
     }
-    console.log(tempProject)
-    const docRef = doc(db, "project", "LS0R2iP5SFfe6LgYk4Tt")
-    await updateDoc(docRef,
-      tempProject
-    )
+
     const fetchData = async () => {
       const fetchedProjects = await fetchProjects();
       setProjects(fetchedProjects);
     };
     await fetchData();
-    console.log("REFRESH", projects)
+    console.log("REFRESH", projects);
     setShowJudging('');  // Close the dialog
   };
 
@@ -81,22 +113,22 @@ const JudgeProject = ({ projects, setId, id, setProjects, setShowJudging }) => {
           <div className="project-title">
             <div>
               <p>Project Title</p>
-              <textarea value={projects[id - 1]["title"]} disabled style={{ height: '30px' }}></textarea>
+              <textarea value={projects[id]["title"]} disabled style={{ height: '30px' }}></textarea>
             </div>
             <div className="project-description">
               <p>Description</p>
-              <textarea value={projects[id - 1]["description"]} disabled style={{ height: '300px' }}> </textarea>
+              <textarea value={projects[id]["description"]} disabled style={{ height: '300px' }}> </textarea>
             </div>
             <div className="project-case-study">
               <p>Case Study</p>
-              <textarea value={"Case Study " + projects[id - 1]["caseStudy"] + ": " + caseStudies[projects[id - 1]["caseStudy"]]} disabled style={{ height: '30px' }}></textarea>
+              <textarea value={"Case Study " + (projects[id]["caseStudy"] + 1) + ": " + caseStudies[projects[id]["caseStudy"]].name} disabled style={{ height: '30px' }}></textarea>
             </div>
             <div className="project-presentation-video">
               <p>Presentation Video</p>
               <iframe
                 width="100%"
                 height="365"
-                src={projects[id - 1]["ytLink"].replace("https://www.youtube.com/watch?v=", "https://www.youtube.com/embed/")}
+                src={projects[id]["ytLink"].replace("https://www.youtube.com/watch?v=", "https://www.youtube.com/embed/")}
               >
               </iframe>
             </div>

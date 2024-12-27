@@ -80,6 +80,14 @@
   .admin-details > p {
     flex: 50%;
   }
+  .submission-time{
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    display: table-cell;
+    vertical-align: inherit;
+    unicode-bidi: isolate;
+  }
   .in-time{
 color: #009c14;
   }  

@@ -1,39 +1,24 @@
 import '../styles/AdminDashboard.css';
+import { useState, useEffect } from 'react';
 import AdminAssignment from "./AdminAssignment";
-const AdminDashboard = ({ setShowJudging }) => {
-  const projects = [
-    {
-      id: 1,
-      name: "Project 1",
-      group: "Then Sherf Low",
-      title: "Tik Tok Tutorial with AI",
-      registrationTime: new Date(2024, 1, 20, 23, 15, 34, 0),
-      submissionTime: new Date(2024, 11, 10, 23, 15, 34, 0),
-      caseStudy: 1,
-      judged: true,
-    },
-    {
-      id: 2,
-      name: "Project 2",
-      group: "Jarver Skrip",
-      title: "Smart Energy Management",
-      registrationTime: new Date(2025, 1, 10, 23, 12, 34, 0),
-      submissionTime: new Date(2025, 3, 1, 12, 15, 3, 0),
-      caseStudy: 4,
-      judged: false,
-    },
-    {
-      id: 3,
-      name: "Project 3",
-      group: "Viewjay Ash",
-      title: "Automated Judging System",
-      registrationTime: new Date(2025, 1, 10, 23, 12, 34, 0),
-      submissionTime: new Date(2025, 2, 10, 21, 13, 12, 0),
-      caseStudy: 3,
-      judged: false,
-    },
-  ];
+import { fetchProjects } from "../controller/controller.jsx";
 
+const AdminDashboard = ({ setShowJudging }) => {
+  const [projects, setProjects] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const fetchedProjects = await fetchProjects();
+      setProjects(fetchedProjects);
+    };
+
+    fetchData();
+
+  }, []);
+
+  // if (projects[0]) {
+  //   console.log(new Date(projects[0].submissionTime.seconds * 1000).toLocaleString())
+  //   console.log(typeof projects[0].submissionTime)
+  // }
   function checkTime(time) {
     if (time >= new Date(2025, 3, 1, 0, 0, 0, 0)) {
       return false
@@ -72,17 +57,17 @@ const AdminDashboard = ({ setShowJudging }) => {
               <tr key={project.id}>
                 <td className="project-group">{project.group}</td>
                 <td style={{ width: "200px" }} className="project-title">{project.title}</td>
-                <td className="registration-time">{project.registrationTime.toLocaleString()}</td>
+                <td className="registration-time">{project.registrationTime}</td>
                 <td style={{ width: "200px", textAlign: "left" }}
                   className={`submission-time judged-button ${checkTime(project.submissionTime) ? 'in-time' : 'not-in-time'}`}
-                >{project.submissionTime.toLocaleString()}</td>
+                >{new Date(project.submissionTime.seconds * 1000).toLocaleString()}</td>
                 <td className="case-study">Case Study {project.caseStudy}</td>
                 <td className="project-judged" id="project-judged">
-                {checkTime(project.submissionTime) ? (
-       <AdminAssignment />
-      ) : (
-        <p>-</p>
-      )}
+                  {checkTime(project.submissionTime) ? (
+                    <AdminAssignment />
+                  ) : (
+                    <p>-</p>
+                  )}
                 </td>
               </tr>
             ))}
