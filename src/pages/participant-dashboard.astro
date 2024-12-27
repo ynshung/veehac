@@ -3,7 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import NavBar from "../components/NavBar.astro";
 import Footer from "../components/Footer.astro";
 import CaseStudiesDownload from "../components/CaseStudiesDownload.jsx";
-import TeamInfo from "../components/TeamInfo.astro";
+import TeamInfo from "../components/TeamInfo.jsx";
 import ProjectSubmission from "../components/ProjectSubmission.astro";
 
 const title = "Participant Dashboard";
@@ -14,7 +14,7 @@ const title = "Participant Dashboard";
   <div class="body">
     <div class="rectangle-container">
       <CaseStudiesDownload client:load />
-      <TeamInfo />
+      <TeamInfo client:load />
       <ProjectSubmission />
     </div>
   </div>
