@@ -13,6 +13,25 @@ import Layout from "../layouts/Layout.astro";
   </div>
 </Layout>
 
+<script>
+  import { doc, getDoc } from "firebase/firestore";
+  import { auth, db } from "../firebase";
+  
+    document.addEventListener('DOMContentLoaded', function() {
+      auth.onAuthStateChanged((user) => {
+        if (!user) {
+          window.location.href = "/login";
+        } else {
+          getDoc(doc(db, "admin", user.uid)).then((doc) => {
+            if (!doc.exists()) {
+              alert("You are not authorized to access this page!");
+              window.location.href = "/login";
+            }
+          });
+        }
+      });
+    });
+</script>
 
 
 <style>

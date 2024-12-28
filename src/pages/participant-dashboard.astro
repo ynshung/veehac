@@ -31,10 +31,7 @@ import { auth, db } from "../firebase";
         window.location.href = "/login";
       } else {
         getDoc(doc(db, "participant", user.uid)).then((doc) => {
-          if (doc.exists()) {
-            const data = doc.data();
-            
-          } else {
+          if (!doc.exists()) {
             alert("You are not authorized to access this page!");
             window.location.href = "/login";
           }
