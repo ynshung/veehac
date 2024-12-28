@@ -1,6 +1,8 @@
 ---
-import ProjectSubmissionForm from "./ProjectSubmissionForm.astro";
+import ProjectSubmissionForm from "./ProjectSubmissionForm.jsx";
 import "../styles/ProjectSubmission.css";
+import { userId, db } from "../firebase";
+import { collection, getDocs, getDoc, doc } from "firebase/firestore";
 ---
 
 <div class="body-submission">
@@ -33,13 +35,16 @@ import "../styles/ProjectSubmission.css";
           <i class="fa-solid fa-times"></i>
         </button>
       </div>
-      <ProjectSubmissionForm />
+      <ProjectSubmissionForm client:load />
     </div>
   </div>
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
+  import { userId, db } from "../firebase";
+  import { query, where, collection, getDoc, getDocs, doc } from "firebase/firestore";
+
+  document.addEventListener("DOMContentLoaded", async () => {
     const countdownElement = document.getElementById("countdown");
     const submissionContent = document.getElementById("submission-content");
     const overlay = document.getElementById("overlay");
@@ -72,36 +77,29 @@ import "../styles/ProjectSubmission.css";
     const countdownInterval = setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    function updateSubmissionContent() {
-      const projectName = localStorage.getItem("projectName");
-      const projectDesc = localStorage.getItem("projectDesc");
-      const caseStudy = localStorage.getItem("caseStudy");
-      const slideFile = localStorage.getItem("slideFile");
-      const vidLink = localStorage.getItem("vidLink");
-      const protoLink = localStorage.getItem("protoLink");
+    async function updateSubmissionContent() {
+      const participantDoc = await getDoc(doc(db, "participant", userId));
+      if (!participantDoc.exists()) {
+        submissionContent.innerHTML = "<h3>Participant not found</h3>";
+        return;
+      }
 
-      if (
-        projectName &&
-        projectDesc &&
-        caseStudy &&
-        slideFile &&
-        vidLink &&
-        protoLink
-      ) {
-        submissionContent.innerHTML = `
-          <h2>${caseStudy}</h2>
-          <h3>Project Name: ${projectName}</h3>
-          <p>${projectDesc}</p>
-          <p><b>Uploaded Slide File: </b>${slideFile}</p>
-          <p><b>Video Link: </b>${vidLink}</p>
-          <p><b>Prototype Link: </b>${protoLink}</p>
-          <div class="button-container">
-            <button class="add-submission-button">
-              <i class="fa-solid fa-pen-to-square"></i> Update Submission
-            </button>
-          </div>
-        `;
-      } else {
+      const participantData = participantDoc.data();
+      const teamId = participantData.teamID;
+  
+      const teamDoc = await getDoc(doc(db, "team", teamId));
+      if (!teamDoc.exists()) {
+        submissionContent.innerHTML = "<h3>Team not found</h3>";
+        return;
+      }
+
+      const teamData = teamDoc.data();
+      const projectId = teamData.projectID;
+
+      const projectDoc = await getDoc(doc(db, "project", projectId));
+      console.log("projectDoc: ", projectDoc.data());
+
+      if (!projectDoc.exists()) {
         submissionContent.innerHTML = `
           <h3>No Submission Yet</h3>
           <div class="button-container">
@@ -110,7 +108,39 @@ import "../styles/ProjectSubmission.css";
             </button>
           </div>
         `;
-      }
+      } else {
+        const projectData = projectDoc.data();
+        const caseStudyId = projectData.caseStudy;
+        
+
+        const caseStudyQuery = query(
+          collection(db, "caseStudies"),
+          where("id", "==", parseInt(caseStudyId))
+      );
+
+      const caseStudyQuerySnapshot = await getDocs(caseStudyQuery);
+
+      if (caseStudyQuerySnapshot.empty) {
+          console.log("No case study found");
+        }
+      
+      const caseStudyDoc = caseStudyQuerySnapshot.docs[0];
+      const caseStudyData = caseStudyDoc.data();
+
+        submissionContent.innerHTML = `
+          <h2>Case Study ${caseStudyData.id}: ${caseStudyData.title}</h2>
+          <h3>Project Name: ${projectData.name}</h3>
+          <p>${projectData.description}</p>
+          <p><b>Uploaded Slide File: </b>${projectData.slideFileName}</p>
+          <p><b>Video Link: </b>${projectData.ytLink}</p>
+          <p><b>Prototype Link: </b>${projectData.prototypeLink}</p>
+          <div class="button-container">
+            <button class="add-submission-button">
+              <i class="fa-solid fa-pen-to-square"></i> Update Submission
+            </button>
+          </div>
+        `;
+    }
 
       document
         .querySelector(".add-submission-button")
@@ -122,6 +152,7 @@ import "../styles/ProjectSubmission.css";
     updateSubmissionContent();
 
     document.addEventListener("formSubmitted", () => {
+      console.log("Form submitted");
       updateSubmissionContent();
       overlay.style.display = "none";
     });

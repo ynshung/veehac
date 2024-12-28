@@ -1,43 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaDownload } from "react-icons/fa";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { db } from '../firebase';
 import "../styles/underline.css";
 
-const caseStudies = [
-  {
-    title: "Case Study 1: Sustainable Agriculture in Kenya",
-    description: "This study examines how sustainable farming practices, like drip irrigation and drought-resistant crops, have improved food security and farmers' livelihoods in Kenya.",
-    downloadLink: "public/downloads/kenya.pdf",
-  },
-  {
-    title: "Case Study 2: Renewable Energy in India",
-    description: "India's investment in solar and wind energy, particularly in Rajasthan, is providing affordable power to rural areas and reducing dependence on fossil fuels.",
-    downloadLink: "/downloads/india.pdf",
-  },
-  {
-    title: "Case Study 3: Women Empowerment in Bangladesh",
-    description: "Microfinance and vocational training have enabled women in Bangladesh to start businesses, gain economic independence, and uplift their communities.",
-    downloadLink: "/downloads/bangladesh.pdf",
-  },
-  {
-    title: "Case Study 4: Clean Water Initiatives in Ghana",
-    description: "In rural Ghana, solar-powered water pumps have improved access to clean drinking water, significantly enhancing public health and sanitation.",
-    downloadLink: "/downloads/ghana.pdf",
-  },
-  {
-    title: "Case Study 5: Conservation of Marine Life in the Philippines",
-    description: "Community-led conservation efforts in the Philippines have protected coral reefs and marine life, boosting biodiversity and supporting sustainable tourism.",
-    downloadLink: "/downloads/philippines.pdf",
-  }
-];
-
 const CaseStudiesDownload = () => {
+  const [caseStudies, setCaseStudies] = useState([]);
   const [selectedCaseStudy, setSelectedCaseStudy] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    const fetchCaseStudies = async () => {
+      const caseStudiesCollection = collection(db, "caseStudies");
+      const caseStudiesSnapshot = await getDocs(caseStudiesCollection);
+      const caseStudiesList = caseStudiesSnapshot.docs
+        .map((doc) => ({
+          id: doc.data().id, // Assuming 'id' is a field in your document
+          ...doc.data(),
+        }))
+        .sort((a, b) => a.id - b.id) // Sort by the 'id' field
+        .map((caseStudy, index) => ({
+          ...caseStudy,
+          formattedTitle: `Case Study ${index + 1}: ${caseStudy.title}`
+        }));
+      setCaseStudies(caseStudiesList);
+    };
+
+    fetchCaseStudies();
+  }, []);
 
   const handleChange = (event) => {
     const selectedTitle = event.target.value;
     const selectedStudy = caseStudies.find(
-      (caseStudy) => caseStudy.title === selectedTitle,
+      (caseStudy) => caseStudy.formattedTitle === selectedTitle,
     );
     setSelectedCaseStudy(selectedStudy);
   };
@@ -130,8 +125,8 @@ const CaseStudiesDownload = () => {
           Select a case study
         </option>
         {caseStudies.map((caseStudy, index) => (
-          <option key={index} value={caseStudy.title} style={optionStyle}>
-            {caseStudy.title}
+          <option key={index} value={caseStudy.formattedTitle} style={optionStyle}>
+            {caseStudy.formattedTitle}
           </option>
         ))}
       </select>

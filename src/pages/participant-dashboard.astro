@@ -3,8 +3,10 @@ import Layout from "../layouts/Layout.astro";
 import NavBar from "../components/NavBar.astro";
 import Footer from "../components/Footer.astro";
 import CaseStudiesDownload from "../components/CaseStudiesDownload.jsx";
-import TeamInfo from "../components/TeamInfo.astro";
+import TeamInfo from "../components/TeamInfo.jsx";
 import ProjectSubmission from "../components/ProjectSubmission.astro";
+import WelcomeMessage from "../components/WelcomeMessage.jsx";
+import { db, userId } from '../firebase'; 
 
 const title = "Participant Dashboard";
 ---
@@ -13,8 +15,9 @@ const title = "Participant Dashboard";
   <NavBar backgroundColor="#827BD2" />
   <div class="body">
     <div class="rectangle-container">
+      <WelcomeMessage client:load/>
       <CaseStudiesDownload client:load />
-      <TeamInfo />
+      <TeamInfo client:load />
       <ProjectSubmission />
     </div>
   </div>
@@ -49,5 +52,9 @@ const title = "Participant Dashboard";
   display: flex;
   flex-direction: column; /* Arrange child elements in a column */
   gap: 20px; /* Add space between child elements */
+  }
+
+  .body h1 {
+    color: #000000;
   }
 </style>
