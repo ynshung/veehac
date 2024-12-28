@@ -12,6 +12,10 @@ import Layout from "../layouts/Layout.astro";
       <h1>Register.</h1>
       <form id="form">
         <div class="input-row">
+          <Icon size={24} name="fa6-solid:user" />
+          <input type="text" id="name" name="name" placeholder="Full Name" required />
+        </div>
+        <div class="input-row">
           <Icon size={24} name="fa6-solid:envelope" />
           <input type="email" id="email" name="email" placeholder="Email" required />
         </div>
@@ -46,12 +50,54 @@ import Layout from "../layouts/Layout.astro";
 </Layout>
 
 <script>
+  import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+  import { auth, db } from "../firebase";
+  import { doc, setDoc } from "firebase/firestore";
+
   document.querySelector("#form")?.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    
+    const name = (document.querySelector("#name") as HTMLInputElement).value;
+    const email = (document.querySelector("#email") as HTMLInputElement).value;
+    const password = (document.querySelector("#password") as HTMLInputElement).value;
+    const confirmPassword = (document.querySelector("#confirm-password") as HTMLInputElement).value;
 
-    window.location.href = "/login";
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    console.log(name, email, password);
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        console.log("User registered successfully!");
+        const user = userCredential.user;
+        console.log(user);
+        sendEmailVerification(user)
+          .then(() => {
+            console.log("Email verification sent!");
+
+            setDoc(doc(db, "participant", user.uid), {
+              name: name,
+              email: email,
+            }).then(() => {
+              alert("Email verification sent! Please verify your email to login.");
+              window.location.href = "/login";
+            });
+            
+          })
+          .catch((error) => {
+            console.log(error);
+            alert(`Error: ${error.message}`);
+          });
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+        alert(`Error: ${errorMessage}`);
+      });
   });
 </script>
 
