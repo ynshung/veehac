@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getFirestore, collection, addDoc, getDocs, query, where, updateDoc, doc } from "firebase/firestore";
+import { getFirestore, collection, getDocs, addDoc, updateDoc, query, where, doc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { userId, db } from '../firebase';
 import '../styles/ProjectSubmissionForm.css';
@@ -41,30 +41,50 @@ const fetchUserData = async (userId) => {
 };
 
 const ProjectSubmissionForm = () => {
-  const [projectName, setProjectName] = useState('');
-  const [projectDesc, setProjectDesc] = useState('');
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
   const [caseStudy, setCaseStudy] = useState('');
   const [slideFile, setSlideFile] = useState(null);
-  const [vidLink, setVidLink] = useState('');
-  const [protoLink, setProtoLink] = useState('');
+  const [ytLink, setYtLink] = useState('');
+  const [prototypeLink, setPrototypeLink] = useState('');
   const [fileError, setFileError] = useState(false);
   const [fileName, setFileName] = useState('');
   const [existingProjectId, setExistingProjectId] = useState(null);
+  const [caseStudies, setCaseStudies] = useState([]);
 
   useEffect(() => {
     fetchUserData(userId).then(userData => {
       console.log("fetchUserData:", userData);
       if (userData) {
-        setProjectName(userData.data.name || '');
-        setProjectDesc(userData.data.description || '');
+        setExistingProjectId(userData.id);
+        setName(userData.data.name || '');
+        setDescription(userData.data.description || '');
         setCaseStudy(userData.data.caseStudy || '');
-        setVidLink(userData.data.ytLink || '');
-        setProtoLink(userData.data.prototypeLink || '');
+        setYtLink(userData.data.ytLink || '');
+        setPrototypeLink(userData.data.prototypeLink || '');
         if (userData.data.slideFileName) {
           setFileName(`File selected: ${userData.data.slideFileName}`);
         }
       }
     });
+
+    const fetchCaseStudies = async () => {
+      const caseStudiesCollection = collection(db, "caseStudies");
+      const caseStudiesSnapshot = await getDocs(caseStudiesCollection);
+      const caseStudiesList = caseStudiesSnapshot.docs
+        .map((doc) => ({
+          id: doc.data().id, // Use the 'id' field from the document data
+          ...doc.data(),
+        }))
+        .sort((a, b) => a.id - b.id) // Sort by the 'id' field
+        .map((caseStudy, index) => ({
+          ...caseStudy,
+          formattedTitle: `Case Study ${caseStudy.id}: ${caseStudy.title}` // Use the 'id' field for numbering
+        }));
+      setCaseStudies(caseStudiesList);
+    };
+
+    fetchCaseStudies();
   }, []);
 
   const handleFileChange = (event) => {
@@ -84,23 +104,23 @@ const ProjectSubmissionForm = () => {
     event.preventDefault();
 
     try {
-      let slideFileUrl = '';
-      if (slideFile) {
-        const storage = getStorage();
-        const storageRef = ref(storage, `slides/${slideFile.name}`);
-        await uploadBytes(storageRef, slideFile);
-        slideFileUrl = await getDownloadURL(storageRef);
-      }
+      // let slideFileUrl = '';
+      // if (slideFile) {
+      //   const storage = getStorage();
+      //   const storageRef = ref(storage, `slides/${slideFile.name}`);
+      //   await uploadBytes(storageRef, slideFile);
+      //   slideFileUrl = await getDownloadURL(storageRef);
+      // }
 
       const projectData = {
-        userId,
-        projectName,
-        projectDesc,
+        // userId,
+        name,
+        description,
         caseStudy,
         slideFileName: slideFile ? slideFile.name : '',
-        slideFileUrl,
-        vidLink,
-        protoLink,
+        // slideFileUrl,
+        ytLink,
+        prototypeLink,
         timestamp: new Date()
       };
 
@@ -137,8 +157,8 @@ const ProjectSubmissionForm = () => {
               id="project-name"
               name="project-name"
               className="project-submission__input"
-              value={projectName}
-              onChange={(e) => setProjectName(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               required
             />
             <p>Enter your project description *</p>
@@ -147,28 +167,29 @@ const ProjectSubmissionForm = () => {
               id="project-desc"
               name="project-desc"
               className="project-submission__input"
-              value={projectDesc}
-              onChange={(e) => setProjectDesc(e.target.value)}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               required
             />
           </div>
           <div>
             <div className="project-submission__full-width-underline">2. Case Study:</div>
             <p>Choose your case study *</p>
-            <select
-              id="case-study"
-              name="case-study"
-              className="project-submission__select"
-              value={caseStudy}
-              onChange={(e) => setCaseStudy(e.target.value)}
-              required
-            >
-              <option>Case Study 1: Sustainable Agriculture in Kenya</option>
-              <option>Case Study 2: Renewable Energy in India</option>
-              <option>Case Study 3: Women Empowerment in Bangladesh</option>
-              <option>Case Study 4: Clean Water Initiatives in Ghana</option>
-              <option>Case Study 5: Conservation of Marine Life in the Philippines</option>
-            </select>
+<select
+  id="case-study"
+  name="case-study"
+  className="project-submission__select"
+  value={caseStudy}
+  onChange={(e) => setCaseStudy(e.target.value)}
+  required
+>
+  <option value="">Select a case study</option>
+  {caseStudies.map((caseStudy) => (
+    <option key={caseStudy.id} value={caseStudy.id}>
+      {caseStudy.formattedTitle}
+    </option>
+  ))}
+</select>
           </div>
           <div>
             <div className="project-submission__full-width-underline">3. Slide Upload:</div>
@@ -186,7 +207,6 @@ const ProjectSubmissionForm = () => {
                 accept=".pdf, .pptx, .ppt"
                 style={{ opacity: 0, fontSize: '0rem', padding: 0, margin: 0 }}
                 onChange={handleFileChange}
-                required
               />
             </label>
             {fileError && (
@@ -197,14 +217,14 @@ const ProjectSubmissionForm = () => {
           </div>
           <div>
             <div className="project-submission__full-width-underline">4. Link Upload:</div>
-            <p>Enter your presentation video link *</p>
+            <p>Enter your presentation YouTube video link *</p>
             <input
               type="text"
               id="vid-link"
               name="vid-link"
               className="project-submission__input"
-              value={vidLink}
-              onChange={(e) => setVidLink(e.target.value)}
+              value={ytLink}
+              onChange={(e) => setYtLink(e.target.value)}
               required
             />
             <p>Enter your prototype link *</p>
@@ -213,8 +233,8 @@ const ProjectSubmissionForm = () => {
               id="proto-link"
               name="proto-link"
               className="project-submission__input"
-              value={protoLink}
-              onChange={(e) => setProtoLink(e.target.value)}
+              value={prototypeLink}
+              onChange={(e) => setPrototypeLink(e.target.value)}
               required
             />
           </div>

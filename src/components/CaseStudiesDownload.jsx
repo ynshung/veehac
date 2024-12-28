@@ -13,11 +13,16 @@ const CaseStudiesDownload = () => {
     const fetchCaseStudies = async () => {
       const caseStudiesCollection = collection(db, "caseStudies");
       const caseStudiesSnapshot = await getDocs(caseStudiesCollection);
-      const caseStudiesList = caseStudiesSnapshot.docs.map((doc, index) => ({
-        id: doc.id,
-        ...doc.data(),
-        formattedTitle: `Case Study ${index + 1}: ${doc.data().title}`
-      }));
+      const caseStudiesList = caseStudiesSnapshot.docs
+        .map((doc) => ({
+          id: doc.data().id, // Assuming 'id' is a field in your document
+          ...doc.data(),
+        }))
+        .sort((a, b) => a.id - b.id) // Sort by the 'id' field
+        .map((caseStudy, index) => ({
+          ...caseStudy,
+          formattedTitle: `Case Study ${index + 1}: ${caseStudy.title}`
+        }));
       setCaseStudies(caseStudiesList);
     };
 
