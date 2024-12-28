@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import JudgeDashboard from "./JudgeDashboard";
 import JudgeProject from "./JudgeProject";
-import { fetchProjects } from "../controller/controller.jsx";
+import { fetchProjects, fetchCaseStudies } from "../controller/controller.jsx";
 
 function JudgeDashboardParent() {
   const [projects, setProjects] = useState([]);
+  const [caseStudies, setCaseStudies] = useState([]);
   const [showJudging, setShowJudging] = useState('');
   const [id, setId] = useState(null);
   const [isIdSet, setIsIdSet] = useState(false);
@@ -65,7 +66,9 @@ function JudgeDashboardParent() {
   useEffect(() => {
     const fetchData = async () => {
       const fetchedProjects = await fetchProjects();
+      const fetchedCaseStudies = await fetchCaseStudies();
       setProjects(fetchedProjects);
+      setCaseStudies(fetchedCaseStudies);
     };
 
     fetchData();
@@ -78,8 +81,7 @@ function JudgeDashboardParent() {
     if (id !== null) {
       setIsIdSet(true);
     }
-  }, [id]); // Fetch projects only when id changes (you can adjust this depending on your needs)
-
+  }, [id]); 
   return (
     <div>
       {showJudging !== '' && isIdSet ? (
@@ -88,6 +90,8 @@ function JudgeDashboardParent() {
           setId={setId}
           className="judge-project"
           setProjects={setProjects}
+          caseStudies={caseStudies}
+          setCaseStudies={setCaseStudies}
           setShowJudging={setShowJudging}
           id={id} // Pass selectedId as a prop
         />

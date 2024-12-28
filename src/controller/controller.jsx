@@ -67,7 +67,6 @@ export async function fetchProjects() {
 
 
 export async function fetchCaseStudies() {
-
     const q = query(collection(db, "caseStudies"));
     const querySnapshot = await getDocs(q);
     let caseStudies = [];
@@ -88,6 +87,7 @@ export async function fetchCaseStudies() {
         for (const field in caseStudies) {
             if (field == "submissionTime") {
                 caseStudiesData[field] = (caseStudies[field].submissionTime.seconds * 1000).toLocaleString()
+                console.log("AAA")
             }
             else {
                 caseStudiesData[field] = caseStudies[field];
@@ -95,5 +95,6 @@ export async function fetchCaseStudies() {
         }
         return caseStudiesData;
     });
+    console.log("REFRESH", caseStudies);
     return caseStudies
 }

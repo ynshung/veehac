@@ -61,7 +61,7 @@ const AdminDashboard = ({ setShowJudging }) => {
                 <td style={{ width: "200px", textAlign: "left" }}
                   className={`submission-time judged-button ${checkTime(project.submissionTime) ? 'in-time' : 'not-in-time'}`}
                 >{new Date(project.submissionTime.seconds * 1000).toLocaleString()}</td>
-                <td className="case-study">Case Study {project.caseStudy}</td>
+                <td className="case-study">Case Study {project.caseStudy + 1}</td>
                 <td className="project-judged" id="project-judged">
                   {checkTime(project.submissionTime) ? (
                     <AdminAssignment />
