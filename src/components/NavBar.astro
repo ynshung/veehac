@@ -34,26 +34,72 @@ const { backgroundColor } = Astro.props;
 </body>
 
 <script>
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "../firebase";
+
 document.addEventListener("DOMContentLoaded", function () {
-  const role = localStorage.getItem("role");
+  // const role = localStorage.getItem("role");
   const loginButton = document.getElementById("login-button");
   const hamburgerMenu = document.getElementById("hamburger-menu");
   const navbarContents = document.getElementById("navbar-contents");
   const navbarItems = document.querySelectorAll(".navbar-item");
 
-  if (role) {
-    loginButton.textContent = "Dashboard";
-    if (role === "participant") {
-      loginButton.href = "/participant-dashboard";
-    } else if (role === "judge") {
-      loginButton.href = "/judge-dashboard";
-    } else if (role === "admin") {
-      loginButton.href = "/admin";
+  // if (role) {
+  //   loginButton.textContent = "Dashboard";
+  //   if (role === "participant") {
+  //     loginButton.href = "/participant-dashboard";
+  //   } else if (role === "judge") {
+  //     loginButton.href = "/judge-dashboard";
+  //   } else if (role === "admin") {
+  //     loginButton.href = "/admin";
+  //   }
+  // } else {
+  //   loginButton.textContent = "Login";
+  //   logout.style.display = "none";
+  // }
+
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      getDoc(doc(db, "participant", user.uid))
+        .then((docSnap) => {
+          if (docSnap.exists()) {
+            loginButton.textContent = "Dashboard";
+            loginButton.href = "/participant-dashboard";
+            logout.style.display = "block";
+          } else {
+            getDoc(doc(db, "judge", user.uid))
+              .then((docSnap) => {
+                if (docSnap.exists()) {
+                  loginButton.textContent = "Dashboard";
+                  loginButton.href = "/judge-dashboard";
+                  logout.style.display = "block";
+                } else {
+                  getDoc(doc(db, "admin", user.uid))
+                    .then((docSnap) => {
+                      if (docSnap.exists()) {
+                        loginButton.textContent = "Dashboard";
+                        loginButton.href = "/admin";
+                        logout.style.display = "block";
+                      }
+                    })
+                    .catch((error) => {
+                      console.log("Error getting document:", error);
+                    });
+                }
+              })
+              .catch((error) => {
+                console.log("Error getting document:", error);
+              });
+          }
+        })
+        .catch((error) => {
+          console.log("Error getting document:", error);
+        });
+    } else {
+      loginButton.textContent = "Login";
+      logout.style.display = "none";
     }
-  } else {
-    loginButton.textContent = "Login";
-    logout.style.display = "none";
-  }
+  });
 
   const resetNavbarItemsOpacity = () => {
     if (window.innerWidth > 900) {
