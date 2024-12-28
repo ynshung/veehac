@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { getFirestore, collection, getDocs, addDoc, updateDoc, query, where, doc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { userId, db } from '../firebase';
+import { auth, db } from '../firebase';
 import '../styles/ProjectSubmissionForm.css';
+import { onAuthStateChanged } from 'firebase/auth';
 
 const fetchUserData = async (userId) => {
   // Step 1: Check the "team" collection for matching userId
@@ -53,38 +54,43 @@ const ProjectSubmissionForm = () => {
   const [caseStudies, setCaseStudies] = useState([]);
 
   useEffect(() => {
-    fetchUserData(userId).then(userData => {
-      console.log("fetchUserData:", userData);
-      if (userData) {
-        setExistingProjectId(userData.id);
-        setName(userData.data.name || '');
-        setDescription(userData.data.description || '');
-        setCaseStudy(userData.data.caseStudy || '');
-        setYtLink(userData.data.ytLink || '');
-        setPrototypeLink(userData.data.prototypeLink || '');
-        if (userData.data.slideFileName) {
-          setFileName(`File selected: ${userData.data.slideFileName}`);
-        }
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        return;
       }
+      fetchUserData(user.uid).then((userData) => {
+        console.log("fetchUserData:", userData);
+        if (userData) {
+          setExistingProjectId(userData.id);
+          setName(userData.data.name || "");
+          setDescription(userData.data.description || "");
+          setCaseStudy(userData.data.caseStudy || "");
+          setYtLink(userData.data.ytLink || "");
+          setPrototypeLink(userData.data.prototypeLink || "");
+          if (userData.data.slideFileName) {
+            setFileName(`File selected: ${userData.data.slideFileName}`);
+          }
+        }
+      });
+
+      const fetchCaseStudies = async () => {
+        const caseStudiesCollection = collection(db, "caseStudies");
+        const caseStudiesSnapshot = await getDocs(caseStudiesCollection);
+        const caseStudiesList = caseStudiesSnapshot.docs
+          .map((doc) => ({
+            id: doc.data().id, // Use the 'id' field from the document data
+            ...doc.data(),
+          }))
+          .sort((a, b) => a.id - b.id) // Sort by the 'id' field
+          .map((caseStudy, index) => ({
+            ...caseStudy,
+            formattedTitle: `Case Study ${caseStudy.id}: ${caseStudy.title}`, // Use the 'id' field for numbering
+          }));
+        setCaseStudies(caseStudiesList);
+      };
+
+      fetchCaseStudies();
     });
-
-    const fetchCaseStudies = async () => {
-      const caseStudiesCollection = collection(db, "caseStudies");
-      const caseStudiesSnapshot = await getDocs(caseStudiesCollection);
-      const caseStudiesList = caseStudiesSnapshot.docs
-        .map((doc) => ({
-          id: doc.data().id, // Use the 'id' field from the document data
-          ...doc.data(),
-        }))
-        .sort((a, b) => a.id - b.id) // Sort by the 'id' field
-        .map((caseStudy, index) => ({
-          ...caseStudy,
-          formattedTitle: `Case Study ${caseStudy.id}: ${caseStudy.title}` // Use the 'id' field for numbering
-        }));
-      setCaseStudies(caseStudiesList);
-    };
-
-    fetchCaseStudies();
   }, []);
 
   const handleFileChange = (event) => {

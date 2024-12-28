@@ -1,8 +1,6 @@
 ---
 import ProjectSubmissionForm from "./ProjectSubmissionForm.jsx";
 import "../styles/ProjectSubmission.css";
-import { userId, db } from "../firebase";
-import { collection, getDocs, getDoc, doc } from "firebase/firestore";
 ---
 
 <div class="body-submission">
@@ -41,8 +39,16 @@ import { collection, getDocs, getDoc, doc } from "firebase/firestore";
 </div>
 
 <script>
-  import { userId, db } from "../firebase";
-  import { query, where, collection, getDoc, getDocs, doc } from "firebase/firestore";
+  import { onAuthStateChanged } from "firebase/auth";
+  import { auth, db } from "../firebase";
+  import {
+    query,
+    where,
+    collection,
+    getDoc,
+    getDocs,
+    doc,
+  } from "firebase/firestore";
 
   document.addEventListener("DOMContentLoaded", async () => {
     const countdownElement = document.getElementById("countdown");
@@ -56,7 +62,7 @@ import { collection, getDocs, getDoc, doc } from "firebase/firestore";
 
       const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
       const hours = Math.floor(
-        (timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+        (timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
       );
       const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
@@ -78,29 +84,35 @@ import { collection, getDocs, getDoc, doc } from "firebase/firestore";
     updateCountdown();
 
     async function updateSubmissionContent() {
-      const participantDoc = await getDoc(doc(db, "participant", userId));
-      if (!participantDoc.exists()) {
-        submissionContent.innerHTML = "<h3>Participant not found</h3>";
-        return;
-      }
+      onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+          window.location.href = "/login";
+        }
+        const participantDoc = await getDoc(
+          doc(db, "participant", user.uid)
+        );
+        if (!participantDoc.exists()) {
+          submissionContent.innerHTML = "<h3>Participant not found</h3>";
+          return;
+        }
 
-      const participantData = participantDoc.data();
-      const teamId = participantData.teamID;
-  
-      const teamDoc = await getDoc(doc(db, "team", teamId));
-      if (!teamDoc.exists()) {
-        submissionContent.innerHTML = "<h3>Team not found</h3>";
-        return;
-      }
+        const participantData = participantDoc.data();
+        const teamId = participantData.teamID;
 
-      const teamData = teamDoc.data();
-      const projectId = teamData.projectID;
+        const teamDoc = await getDoc(doc(db, "team", teamId));
+        if (!teamDoc.exists()) {
+          submissionContent.innerHTML = "<h3>Team not found</h3>";
+          return;
+        }
 
-      const projectDoc = await getDoc(doc(db, "project", projectId));
-      console.log("projectDoc: ", projectDoc.data());
+        const teamData = teamDoc.data();
+        const projectId = teamData.projectID;
 
-      if (!projectDoc.exists()) {
-        submissionContent.innerHTML = `
+        const projectDoc = await getDoc(doc(db, "project", projectId));
+        console.log("projectDoc: ", projectDoc.data());
+
+        if (!projectDoc.exists()) {
+          submissionContent.innerHTML = `
           <h3>No Submission Yet</h3>
           <div class="button-container">
             <button class="add-submission-button">
@@ -108,26 +120,25 @@ import { collection, getDocs, getDoc, doc } from "firebase/firestore";
             </button>
           </div>
         `;
-      } else {
-        const projectData = projectDoc.data();
-        const caseStudyId = projectData.caseStudy;
-        
+        } else {
+          const projectData = projectDoc.data();
+          const caseStudyId = projectData.caseStudy;
 
-        const caseStudyQuery = query(
-          collection(db, "caseStudies"),
-          where("id", "==", parseInt(caseStudyId))
-      );
+          const caseStudyQuery = query(
+            collection(db, "caseStudies"),
+            where("id", "==", parseInt(caseStudyId))
+          );
 
-      const caseStudyQuerySnapshot = await getDocs(caseStudyQuery);
+          const caseStudyQuerySnapshot = await getDocs(caseStudyQuery);
 
-      if (caseStudyQuerySnapshot.empty) {
-          console.log("No case study found");
-        }
-      
-      const caseStudyDoc = caseStudyQuerySnapshot.docs[0];
-      const caseStudyData = caseStudyDoc.data();
+          if (caseStudyQuerySnapshot.empty) {
+            console.log("No case study found");
+          }
 
-        submissionContent.innerHTML = `
+          const caseStudyDoc = caseStudyQuerySnapshot.docs[0];
+          const caseStudyData = caseStudyDoc.data();
+
+          submissionContent.innerHTML = `
           <h2>Case Study ${caseStudyData.id}: ${caseStudyData.title}</h2>
           <h3>Project Name: ${projectData.name}</h3>
           <p>${projectData.description}</p>
@@ -140,7 +151,8 @@ import { collection, getDocs, getDoc, doc } from "firebase/firestore";
             </button>
           </div>
         `;
-    }
+        }
+      });
 
       document
         .querySelector(".add-submission-button")

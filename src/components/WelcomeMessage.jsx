@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
-import { db, userId } from '../firebase'; 
-
-// const auth = getAuth(app);
+import { auth, db } from '../firebase'; 
 
 const WelcomeMessage = () => {
   
@@ -12,12 +10,9 @@ const WelcomeMessage = () => {
   useEffect(() => {
     const fetchParticipantName = async () => {
       
-      // onAuthStateChanged(auth, async (user) => {
-        
-        // modify later after ys add auth to login
-        if (true) { 
-          
-          const currUserId = userId;
+      onAuthStateChanged(auth, async (user) => {
+        if (user) { 
+          const currUserId = user.uid;
           console.log("userId:", currUserId);
           const participantDoc = await getDoc(doc(db, "participant", currUserId));
           if (participantDoc.exists()) {
@@ -26,7 +21,7 @@ const WelcomeMessage = () => {
             console.log("Fetching participant name...", participantDoc.data().name);
           }
         }
-      // });
+      });
     };
 
     fetchParticipantName();
