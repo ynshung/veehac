@@ -22,10 +22,25 @@ const title = "Participant Dashboard";
 </Layout>
 
 <script>
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "../firebase";
+
   document.addEventListener('DOMContentLoaded', function() {
-    if (localStorage.getItem('role') !== 'participant') {
-      window.location.href = '/login';
-    }
+    auth.onAuthStateChanged((user) => {
+      if (!user) {
+        window.location.href = "/login";
+      } else {
+        getDoc(doc(db, "participant", user.uid)).then((doc) => {
+          if (doc.exists()) {
+            const data = doc.data();
+            
+          } else {
+            alert("You are not authorized to access this page!");
+            window.location.href = "/login";
+          }
+        });
+      }
+    });
   });
 </script>
 

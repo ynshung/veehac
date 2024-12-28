@@ -1,6 +1,5 @@
 fastapi
-"fastapi[standard]"
 uvicorn
 jinja2
 pydantic
-concurrently --save-dev
+concurrently
