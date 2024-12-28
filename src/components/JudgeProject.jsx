@@ -2,13 +2,22 @@ import '../styles/JudgeProject.css';
 import RatingSlider from './RatingSlider';
 import Confirm from './Confirm';
 import React, { useEffect, useState } from 'react';
+import { db } from '/src/firebase';
+import { collection, query, where, getDocs, updateDoc, doc } from "firebase/firestore";
+import { fetchProjects, fetchCaseStudies } from "../controller/controller.jsx";
+import CaseStudies from './CaseStudies.astro';
 
-const JudgeProject = ({ projects, setId, id, setProjects, setShowJudging }) => {
-  let caseStudies = {
-    1: "Web Application",
-    2: "Educational Mobile App",
-    3: "E-commerce Platform",
-  };
+
+const JudgeProject = ({ projects, setId, id, setProjects,caseStudies, setShowJudging }) => {
+
+
+
+
+  // State for storing case studies and loading state
+  
+  const [isLoading, setIsLoading] = useState(true);  // State to track loading
+  
+console.log(caseStudies)
   const [ideaImpact, setIdeaImpact] = useState(0);
   const [uniqueness, setUniqueness] = useState(0);
   const [business, setBusiness] = useState(0);
@@ -18,16 +27,12 @@ const JudgeProject = ({ projects, setId, id, setProjects, setShowJudging }) => {
   const [isDialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem("project" + id)) {
-      const tempProject = JSON.parse(localStorage.getItem("project" + id));
-      console.log(tempProject);
-      setIdeaImpact(tempProject.ideaImpact);
-      setUniqueness(tempProject.uniqueness);
-      setBusiness(tempProject.business);
-      setDesign(tempProject.design);
-      setPitching(tempProject.pitching);
-      setDescription(tempProject.judgeDescription);
-    }
+    setIdeaImpact(projects[id].ideaImpact);
+    setUniqueness(projects[id].uniqueness);
+    setBusiness(projects[id].business);
+    setDesign(projects[id].design);
+    setPitching(projects[id].pitching);
+    setDescription(projects[id].judgeDescription);
   }, []);
 
   const handleOpenDialog = () => {
@@ -38,18 +43,42 @@ const JudgeProject = ({ projects, setId, id, setProjects, setShowJudging }) => {
     setDialogOpen(false);
   };
 
-  const handleConfirm = (confirmed) => {
-    // set local storage
+  const handleConfirm = async (confirmed) => {
     const tempProject = {
-      ideaImpact: ideaImpact,
-      uniqueness: uniqueness,
-      business: business,
-      design: design,
-      pitching: pitching,
+      ideaImpact: parseInt(ideaImpact),
+      uniqueness: parseInt(uniqueness),
+      business: parseInt(business),
+      design: parseInt(design),
+      pitching: parseInt(pitching),
       judgeDescription: description,
+      judged: true,
+    };
+    console.log(tempProject);
+
+    const q = query(collection(db, "project"), where("id", "==", id));
+
+    try {
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        const docRef = doc(db, "project", querySnapshot.docs[0].id);
+        await updateDoc(docRef, {
+          ...tempProject,
+        });
+        console.log("Document successfully updated!");
+      } else {
+        console.log("No project found with the given ID");
+      }
+    } catch (error) {
+      console.error("Error updating document: ", error);
     }
-    console.log(tempProject)
-    localStorage.setItem("project" + id, JSON.stringify(tempProject));
+
+    const fetchData = async () => {
+      const fetchedProjects = await fetchProjects();
+      setProjects(fetchedProjects);
+    };
+    await fetchData();
+
     setShowJudging('');  // Close the dialog
   };
 
@@ -70,22 +99,22 @@ const JudgeProject = ({ projects, setId, id, setProjects, setShowJudging }) => {
           <div className="project-title">
             <div>
               <p>Project Title</p>
-              <textarea value={projects[id - 1]["title"]} disabled style={{ height: '30px' }}></textarea>
+              <textarea value={projects[id]["title"]} disabled style={{ height: '30px' }}></textarea>
             </div>
             <div className="project-description">
               <p>Description</p>
-              <textarea value={projects[id - 1]["description"]} disabled style={{ height: '300px' }}> </textarea>
+              <textarea value={projects[id]["description"]} disabled style={{ height: '300px' }}> </textarea>
             </div>
             <div className="project-case-study">
               <p>Case Study</p>
-              <textarea value={"Case Study " + projects[id - 1]["caseStudy"] + ": " + caseStudies[projects[id - 1]["caseStudy"]]} disabled style={{ height: '30px' }}></textarea>
+              <textarea value={"Case Study " + (parseInt( projects[id]["caseStudy"])+1 ) + ": " + caseStudies[projects[id]["caseStudy"]].title} disabled style={{ height: '30px' }}></textarea>
             </div>
             <div className="project-presentation-video">
               <p>Presentation Video</p>
               <iframe
                 width="100%"
                 height="365"
-                src={projects[id - 1]["ytLink"].replace("https://www.youtube.com/watch?v=", "https://www.youtube.com/embed/")}
+                src={projects[id]["ytLink"].replace("https://www.youtube.com/watch?v=", "https://www.youtube.com/embed/")}
               >
               </iframe>
             </div>

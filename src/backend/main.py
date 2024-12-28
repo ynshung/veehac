@@ -14,17 +14,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-command = [
-    "Increase font size",
-    "Decrease font size",
-    "Increase container size",
-    "Decrease container size",
-    "Increase brightness",
-    "Decrease brightness",
-    "Navigate to home page",
-    "Navigate to about page",
-]
-
 
 class Message(BaseModel):
     message: str
