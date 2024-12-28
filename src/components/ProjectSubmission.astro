@@ -1,5 +1,5 @@
 ---
-import ProjectSubmissionForm from "./ProjectSubmissionForm.astro";
+import ProjectSubmissionForm from "./ProjectSubmissionForm.jsx";
 import "../styles/ProjectSubmission.css";
 ---
 
@@ -33,7 +33,7 @@ import "../styles/ProjectSubmission.css";
           <i class="fa-solid fa-times"></i>
         </button>
       </div>
-      <ProjectSubmissionForm />
+      <ProjectSubmissionForm client:load/>
     </div>
   </div>
 </div>
