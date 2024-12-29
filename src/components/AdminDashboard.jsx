@@ -1,7 +1,7 @@
 import '../styles/AdminDashboard.css';
 import { useState, useEffect } from 'react';
 import AdminAssignment from "./AdminAssignment";
-import { fetchProjects } from "../controller/controller.jsx";
+import { fetchProjects, fetchJudges } from "../controller/controller.jsx";
 
 const AdminDashboard = ({ setShowJudging }) => {
   const [projects, setProjects] = useState([]);
@@ -64,7 +64,7 @@ const AdminDashboard = ({ setShowJudging }) => {
                 <td className="case-study">Case Study {project.caseStudy + 1}</td>
                 <td className="project-judged" id="project-judged">
                   {checkTime(project.submissionTime) ? (
-                    <AdminAssignment />
+                    <AdminAssignment project={project} />
                   ) : (
                     <p>-</p>
                   )}

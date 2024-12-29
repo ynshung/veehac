@@ -27,9 +27,6 @@ export async function fetchJudges() {
             judgeData[field] = judge[field];
         }
 
-        // Add the docId as 'id' in the final object
-        judgeData.id = key;
-
         return judgeData;
     });
     return judges
@@ -95,6 +92,5 @@ export async function fetchCaseStudies() {
         }
         return caseStudiesData;
     });
-    console.log("REFRESH", caseStudies);
     return caseStudies
 }
