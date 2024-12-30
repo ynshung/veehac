@@ -1,0 +1,148 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0rem;
+    padding: 0rem;
+    border-radius: 8px;
+    height: auto; /* Adjust height to account for margin */
+    background-color: #f0f0f0;
+    width: 1000px; /* Set a wider minimum width */
+  }
+  
+  .project-submission__body {
+    width: 100%;
+    max-width: 1000px; /* Set a wider maximum width */
+    height: 100%;
+    max-height: 600px; /* Set a maximum height */
+    color: black;
+    background-color: white;
+    padding: 1rem;
+    padding-top: 0rem;
+    margin-top: 0.5rem;
+    border-radius: 8px;
+    overflow-y: auto;
+    margin: 0;
+  }
+  
+  .project-submission__body p {
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .project-submission__body div {
+    margin-bottom: 1rem;
+  }
+  
+  .project-submission__rectangle-small {
+    height: 2rem;
+    width: 25%;
+    color: #ffffff;
+    font-size: 1rem;
+    background-color: rgb(117, 112, 164);
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: -1rem;
+  }
+  
+  .project-submission__rectangle-big {
+    height: flex;
+    width: 100%;
+    color: white;
+    background-color: rgb(67, 63, 108);
+    padding-top: 0.5rem;
+    padding-bottom: 0.1rem;
+    border-radius: 7px;
+    display: block;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    cursor: pointer;
+    margin-top: -1.25rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .project-submission__rectangle-big:hover {
+    background-color: rgb(87, 83, 128); /* Change background color on hover */
+  }
+  
+  .project-submission__input {
+    display: block;
+    width: 98%;
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+  
+  .project-submission__select {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+  
+  .project-submission__button {
+    display: block;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .project-submission__full-width-underline {
+    display: block;
+    position: relative;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  }
+  
+  .project-submission__full-width-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px; /* Adjust this value to control the distance from the text */
+    width: 100%; /* Make the underline span the entire width of the container */
+    height: 2px; /* Adjust this value to control the thickness of the underline */
+    background-color: black; /* Set the color of the underline */
+  }
+  
+  .project-submission__submit-button-container {
+    text-align: right; /* Align the button to the right */
+  }
+  
+  .project-submission__submit-button {
+    background-color: #433f6c; /* Blue background */
+    border: none; /* Remove borders */
+    border-radius: 16px;
+    color: white; /* White text */
+    padding: 12px 16px; /* Some padding */
+    font-size: px; /* Set a font size */
+    cursor: pointer; /* Mouse pointer on hover */
+    float: right;
+  }
+  
+  /* Darker background on mouse-over */
+  .project-submission__submit-button:hover {
+    background-color: rgb(87, 83, 128);
+  }
+  
+  .project-submission__file-name {
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    margin-bottom: 0.0rem;
+  }
+  
+  .project-submission__error-message {
+    color: red;
+  }
+
+  .project-submission__file-name:empty {
+  display: none;
+}
+
+.project-submission__error-message:empty {
+  display: none;
+}
