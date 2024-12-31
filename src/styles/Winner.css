@@ -1,0 +1,526 @@
+body {
+  background-color: #433f6c;
+  color: white;
+  height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Dark transparent background */
+  z-index: 9998; /* Slightly lower than the modal2 so it's behind it */
+  display: none; /* Hidden by default */
+}
+
+/* Header */
+.header {
+  text-align: center;
+  opacity: 0;
+  cursor: default;
+  user-select: none;
+  animation: fadeInTop 1s ease-out forwards;
+}
+
+.header h1 {
+  font-size: 4.5rem;
+  font-weight: bold;
+  padding: 30px 0;
+  cursor: default;
+  user-select: none;
+  transition: transform 0.3s ease-in-out;
+}
+
+.header .title-desc {
+  font-size: 2rem;
+  font-weight: normal;
+  transition: transform 0.3s ease-in-out;
+}
+
+.header h1:hover,
+.header .title-desc:hover {
+  transform: scale(1.1);
+}
+
+/* Trophy Section */
+.trophy-section {
+  text-align: center;
+  position: relative;
+  padding-bottom: 30px;
+}
+
+.trophy-icon {
+  font-size: 10rem; /* Large size for the trophy */
+  color: gold;
+  animation: bounceAnimation 1s ease-out forwards;
+  transform-origin: center bottom;
+  user-select: none;
+  transition: 0.25s ease-in-out;
+  display: inline-block;
+}
+
+.trophy-icon:hover {
+  scale: 1.2;
+}
+
+/* Bounce Animation */
+@keyframes bounceAnimation {
+  0% {
+    transform: translateY(-50px) scale(0.8);
+    opacity: 0;
+  }
+  30% {
+    transform: translateY(0) scale(1.1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-20px) scale(1);
+  }
+  70% {
+    transform: translateY(0) scale(1.05);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Winner Section */
+.winner {
+  background-color: white;
+  color: black;
+  padding: 20px;
+  border-radius: 20px;
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto 20px;
+  text-align: left;
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  opacity: 0;
+  animation: fadeInTop 1s ease-out forwards;
+  animation-delay: 0.25s;
+}
+
+.runner-up {
+    background-color: white;
+    color: black;
+    padding: 20px;
+    border-radius: 20px;
+    min-height: 400px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeInTop 1s ease-in forwards;
+    animation-delay: 0.5s;
+  }
+
+/* Runner-up Section */
+.runner-up-places {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    gap: 20px;
+    margin: 0 auto 20px;
+  }
+
+.carousel-wrapper {
+  opacity: 0;
+  animation: fadeInTop 1s ease-out forwards;
+  animation-delay: 0.75s;
+  margin-bottom: 0; /* Ensure no gap below the carousel */
+  padding-bottom: 0; /* Remove any internal spacing */
+  position: relative;
+  bottom: 0;
+}
+
+.winner-label {
+  font-size: 2rem;
+  font-weight: bold;
+  background-color: #a093ff;
+  color: white;
+  padding: 15px 10px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease-in-out;
+  cursor: default;
+}
+
+.winner-label:hover {
+  transform: scale(1.03);
+}
+
+.winner-content, .runner-up-content {
+    display: flex;
+    flex-direction: row; /* Stack items vertically */
+    align-items: center; /* Center align items */
+    justify-content: space-around; /* Align content centrally */
+    flex-wrap: wrap;
+    gap: 5%;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.winner-image, .runner-up-image {
+  position: relative;
+  width: 40%;
+  height: auto;
+  overflow: hidden;
+  border-radius: 10px;
+  flex-grow: 1;
+}
+
+.winner-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: filter 0.3s ease-in-out;
+}
+
+.winner-description,
+.runner-up-description {
+  width: 55%;
+  flex-grow: 1;
+  max-height: 400px; /* Set a maximum height for the description */
+  overflow-y: auto; /* Enable vertical scrolling */
+  margin-bottom: 20px;
+}
+
+.winner-description h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.winner-description p {
+  font-size: 1.5rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Medal Icon Hover Effect */
+.medal-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3rem;
+  opacity: 0;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+  user-select: none;
+  cursor: default;
+}
+
+.winner-image:hover .medal-icon,
+.runner-up-image:hover .medal-icon {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.2); /* Slightly enlarge on hover */
+}
+
+.medal-icon.gold {
+  color: gold;
+}
+
+.medal-icon.silver {
+  color: silver;
+}
+
+.medal-icon.bronze {
+  color: #cd7f32;
+}
+
+
+
+
+.runner-up-label {
+  font-size: 2rem;
+  font-weight: bold;
+  background-color: #a093ff;
+  color: white;
+  padding: 15px 10px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.runner-up-label:hover {
+  transform: scale(1.05);
+}
+
+/* .runner-up-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5%;
+  flex-wrap: wrap;
+  width: 100%;
+} */
+
+/* .runner-up-image {
+  position: relative;
+  width: 45%;
+  height: auto;
+  overflow: hidden;
+  border-radius: 10px;
+  flex-grow: 1;
+} */
+
+.runner-up-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: filter 0.3s ease-in-out; /* Smooth transition */
+}
+
+.runner-up-image:hover img {
+  filter: brightness(50%) blur(2px); /* Darken and blur image on hover */
+}
+
+.winner-image:hover img {
+  filter: brightness(50%) blur(2px);
+}
+
+.runner-up-description h2 {
+  font-weight: bold;
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
+.runner-up-description p {
+  color: #555;
+  line-height: 1.6;
+  font-size: 1.5rem;
+}
+
+.consolation-prizes {
+  text-align: center;
+  margin: 5rem 6rem 2rem 6rem;
+  border-radius: 10px;
+  user-select: none;
+  opacity: 0;
+  animation: fadeInTop 1s ease-in forwards;
+  animation-delay: 0.75s;
+}
+
+.consolation-prizes h2 {
+  font-size: 2.5rem;
+  font-weight: bolder;
+  color: white;
+  padding: 10px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Animations */
+@keyframes fadeInTop {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1024px) {
+  .runner-up-places {
+    flex-direction: column; /* Change to column layout */
+    align-items: center; /* Center align the items */
+  }
+
+  .runner-up {
+    /* width: 100%; Make each item take the full width */
+    max-width: 1000px; /* Optionally limit the max width */
+  }
+
+  /* Winner Section: Adjust layout for smaller screens */
+  .winner-content {
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center align items */
+    max-width: 1000px;
+  }
+
+  .winner-image {
+    width: 100%; /* Full width for the image */
+    margin-bottom: 20px; /* Add spacing below the image */
+  }
+
+  .winner-description {
+    text-align: center; /* Center align the text */
+    width: 100%; /* Full width for the description */
+  }
+
+  /* Runner-up Section: Adjust layout for smaller screens */
+  .runner-up-content {
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center align items */
+  }
+
+  .runner-up-image {
+    width: 100%; /* Full width for the image */
+    margin-bottom: 20px; /* Add spacing below the image */
+  }
+
+  .runner-up-description {
+    text-align: center; /* Center align the text */
+    width: 100%; /* Full width for the description */
+  }
+}
+
+@media (max-width: 1280px) {
+  /* Runner-up Section: Adjust layout for smaller screens */
+  .runner-up-content, .winner-content {
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center align items */
+  }
+
+  .runner-up-image, .winner-image {
+    width: 100%; /* Full width for the image */
+    margin-bottom: 20px; /* Add spacing below the image */
+  }
+
+  .runner-up-description, .winner-description {
+    text-align: center; /* Center align the text */
+    width: 100%; /* Full width for the description */
+  }
+
+  .runner-up-places {
+    align-items: center; /* Center align the items */
+  }
+}
+
+.card-button {
+  font-size: 1.5rem;
+  padding: 10px 15px;
+  background-color: #a093ff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.card-button:hover {
+  background-color: #7f75f7;
+}
+
+.close2 {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #555;
+}
+
+.close2:hover {
+  color: red;
+}
+
+.video-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%; /* Decrease width to make video smaller */
+  padding-top: 56.25%; /* Maintain 16:9 aspect ratio */
+  overflow: hidden;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* Ensure it fills the container */
+  height: 100%; /* Maintain aspect ratio */
+  border: none;
+}
+
+/* modal2 Styles */
+.modal2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed; /* Position it relative to the viewport */
+  top: 0%; /* Position it 50% from the top */
+  left: 0%; /* Position it 50% from the left */
+  transform: translate(
+    50%,
+    50%
+  ); /* Offset by 50% of the modal2's width and height to center it */
+  width: 100%;
+  height: 100%; /* Let the height adjust based on content */
+  display: none; /* Hidden by default */
+  z-index: 9999; /* Make sure it stays on top of other content */
+  animation: fadeInTop 0.2s ease-out forwards; /* Animation when appearing */
+  user-select: none; /* Disable text selection */
+}
+
+.modal2-content {
+  position: relative;
+  background-color: white;
+  padding: 40px;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 800px;
+}
+.modal2-image {
+  width: 100%;
+  height: auto;
+  max-width: 250px; /* Adjust the image size */
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+
+#modal2-name {
+  font-size: 2rem; /* Adjust font size for name */
+  font-weight: bold;
+  color: black;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+#modal2-title {
+  font-size: 1.5rem;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+#modal2-description {
+  font-size: 1.2rem;
+  color: #333;
+  margin-top: 10px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.overlay1 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: block;
+  z-index: 999;
+}
