@@ -34,6 +34,7 @@ const { backgroundColor } = Astro.props;
 </body>
 
 <script>
+import { signOut } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
@@ -150,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 logout.onclick = function () {
-  localStorage.removeItem("role");
+  signOut(auth);
   location.reload();
 };
 
