@@ -73,11 +73,6 @@ function JudgeDashboardParent() {
 
     fetchData();
 
-    // Check user role
-    if (localStorage.getItem("role") !== "judge") {
-      window.location.href = "/";
-    }
-
     if (id !== null) {
       setIsIdSet(true);
     }
