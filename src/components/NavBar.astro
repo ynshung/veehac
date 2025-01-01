@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
             loginButton.href = "/participant-dashboard";
             logout.style.display = "block";
           } else {
-            getDoc(doc(db, "judge", user.uid))
+            getDoc(doc(db, "judges", user.uid))
               .then((docSnap) => {
                 if (docSnap.exists()) {
                   loginButton.textContent = "Dashboard";
