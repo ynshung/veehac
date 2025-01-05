@@ -2,7 +2,7 @@ import CaseStudies from '../components/CaseStudies.astro';
 import { db } from '/src/firebase';
 import { collection, query, getDocs } from "firebase/firestore";
 
-
+import { getDoc, doc } from 'firebase/firestore';
 
 export async function fetchJudges() {
     let judges = []
@@ -10,7 +10,6 @@ export async function fetchJudges() {
     const querySnapshot = await getDocs(q);
 
     const judgesDict = {};
-
     querySnapshot.forEach((doc) => {
         const data = doc.data();
         const docId = doc.id;
@@ -31,6 +30,20 @@ export async function fetchJudges() {
     });
     return judges
 }
+
+export async function fetchSpecificJudge(uid) {
+    const judgeRef = doc(db, "judges", uid);  // Referring to a single judge document by UID
+    const docSnapshot = await getDoc(judgeRef);  // Fetch the document snapshot
+    console.log(docSnapshot.data())
+    if (docSnapshot.exists()) {
+        const judgeData = docSnapshot.data();
+        
+        return judgeData;  // Return the judge data directly
+    } else {
+        throw new Error("Judge not found");  // Handle case where judge is not found
+    }
+}
+
 
 
 export async function fetchProjects() {
@@ -84,7 +97,6 @@ export async function fetchCaseStudies() {
         for (const field in caseStudies) {
             if (field == "submissionTime") {
                 caseStudiesData[field] = (caseStudies[field].submissionTime.seconds * 1000).toLocaleString()
-                console.log("AAA")
             }
             else {
                 caseStudiesData[field] = caseStudies[field];
@@ -93,4 +105,30 @@ export async function fetchCaseStudies() {
         return caseStudiesData;
     });
     return caseStudies
+}
+
+export class calculateSentiment {
+    constructor(message) {
+        fetch('http://localhost:8000/send-message', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ message: message })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Assuming data is an array of filtered options received from the backend
+                this.filteredOptions = data;
+                console.log(this.filteredOptions);
+            })
+            .catch(error => {
+                console.error('Error sending message:', error);
+            });
+    }
 }
