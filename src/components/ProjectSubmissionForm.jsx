@@ -7,7 +7,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import {fetchCaseStudies, fetchParticipantProject, fetchTeamIdByUserUid} from '../controller/controller';
 
 const ProjectSubmissionForm = ({ onClose }) => {
-  const [participant, setParticipant] = useState(null);
+  const [teamID, setTeamID] = useState(null);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [caseStudy, setCaseStudy] = useState('');
@@ -25,7 +25,6 @@ const ProjectSubmissionForm = ({ onClose }) => {
       if (!user) {
         return;
       }
-      setParticipant(user)
       fetchParticipantProject(user.uid).then((participantProject) => {
         console.log("participant project:", participantProject);
         if (participantProject) {
@@ -41,10 +40,20 @@ const ProjectSubmissionForm = ({ onClose }) => {
         }
       });
 
-      const fetchedCaseStudies = await fetchCaseStudies();
-      setCaseStudies(fetchedCaseStudies);
+      const teamID = await fetchTeamIdByUserUid(user.uid);
+      setTeamID(teamID);
     });
   }, []);
+
+  const fetchAndSetCaseStudies = async () => {
+    try {
+      const fetchedCaseStudies = await fetchCaseStudies();
+      setCaseStudies(fetchedCaseStudies);
+    } catch (error) {
+      console.error("Error fetching case studies:", error);
+    }
+  };
+  fetchAndSetCaseStudies();
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -99,7 +108,7 @@ const ProjectSubmissionForm = ({ onClose }) => {
       } else {
         // Add new project
         const projectRef = await addDoc(collection(db, "project"), projectData);
-        const teamID = await fetchTeamIdByUserUid(participant.uid);
+        
         await updateDoc(doc(db, "team", teamID), {
           projectID: projectRef.id
         });
