@@ -4,44 +4,10 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { auth, db } from '../firebase';
 import '../styles/ProjectSubmissionForm.css';
 import { onAuthStateChanged } from 'firebase/auth';
+import {fetchCaseStudies, fetchParticipantProject, fetchTeamIdByUserUid} from '../controller/controller';
 
-const fetchUserData = async (userId) => {
-  // Step 1: Check the "team" collection for matching userId
-  const teamQueries = [
-    query(collection(db, "team"), where("leaderID", "==", userId)),
-    query(collection(db, "team"), where("memberID1", "==", userId)),
-    query(collection(db, "team"), where("memberID2", "==", userId)),
-    query(collection(db, "team"), where("memberID3", "==", userId))
-  ];
-
-  let teamID = null;
-
-  for (const q of teamQueries) {
-    const querySnapshot = await getDocs(q);
-    if (!querySnapshot.empty) {
-      const docSnapshot = querySnapshot.docs[0];
-      teamID = docSnapshot.id;
-      break;
-    }
-  }
-
-  if (!teamID) {
-    return null; // No matching team found
-  }
-
-  // Step 2: Check the "project" collection for matching teamID
-  const projectQuery = query(collection(db, "project"), where("teamID", "==", teamID));
-  const projectSnapshot = await getDocs(projectQuery);
-
-  if (!projectSnapshot.empty) {
-    const projectDoc = projectSnapshot.docs[0];
-    return { id: projectDoc.id, data: projectDoc.data() };
-  }
-
-  return null; // No matching project found
-};
-
-const ProjectSubmissionForm = () => {
+const ProjectSubmissionForm = ({ onClose }) => {
+  const [participant, setParticipant] = useState(null);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [caseStudy, setCaseStudy] = useState('');
@@ -49,47 +15,34 @@ const ProjectSubmissionForm = () => {
   const [ytLink, setYtLink] = useState('');
   const [prototypeLink, setPrototypeLink] = useState('');
   const [fileError, setFileError] = useState(false);
-  const [fileName, setFileName] = useState('');
+  const [slideFileName, setSlideFileName] = useState('');
   const [existingProjectId, setExistingProjectId] = useState(null);
   const [caseStudies, setCaseStudies] = useState([]);
 
   useEffect(() => {
+    
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
         return;
       }
-      fetchUserData(user.uid).then((userData) => {
-        console.log("fetchUserData:", userData);
-        if (userData) {
-          setExistingProjectId(userData.id);
-          setName(userData.data.name || "");
-          setDescription(userData.data.description || "");
-          setCaseStudy(userData.data.caseStudy || "");
-          setYtLink(userData.data.ytLink || "");
-          setPrototypeLink(userData.data.prototypeLink || "");
-          if (userData.data.slideFileName) {
-            setFileName(`File selected: ${userData.data.slideFileName}`);
+      setParticipant(user)
+      fetchParticipantProject(user.uid).then((participantProject) => {
+        console.log("participant project:", participantProject);
+        if (participantProject) {
+          setExistingProjectId(participantProject.id);
+          setName(participantProject.data.name || "");
+          setDescription(participantProject.data.description || "");
+          setCaseStudy(participantProject.data.caseStudy || "");
+          setYtLink(participantProject.data.ytLink || "");
+          setPrototypeLink(participantProject.data.prototypeLink || "");
+          if (participantProject.data.slideFileName) {
+            setSlideFileName(participantProject.data.slideFileName);
           }
         }
       });
 
-      const fetchCaseStudies = async () => {
-        const caseStudiesCollection = collection(db, "caseStudies");
-        const caseStudiesSnapshot = await getDocs(caseStudiesCollection);
-        const caseStudiesList = caseStudiesSnapshot.docs
-          .map((doc) => ({
-            id: doc.data().id, // Use the 'id' field from the document data
-            ...doc.data(),
-          }))
-          .sort((a, b) => a.id - b.id) // Sort by the 'id' field
-          .map((caseStudy, index) => ({
-            ...caseStudy,
-            formattedTitle: `Case Study ${caseStudy.id}: ${caseStudy.title}`, // Use the 'id' field for numbering
-          }));
-        setCaseStudies(caseStudiesList);
-      };
-
-      fetchCaseStudies();
+      const fetchedCaseStudies = await fetchCaseStudies();
+      setCaseStudies(fetchedCaseStudies);
     });
   }, []);
 
@@ -98,11 +51,12 @@ const ProjectSubmissionForm = () => {
     if (file && file.size > 10 * 1024 * 1024) { // 10MB
       setFileError(true);
       setSlideFile(null);
-      setFileName('');
-    } else {
+      if (!slideFileName) {
+        setSlideFileName('');
+    }} else {
       setFileError(false);
       setSlideFile(file);
-      setFileName(`File selected: ${file.name}`);
+      setSlideFileName(file.name);
     }
   };
 
@@ -123,11 +77,18 @@ const ProjectSubmissionForm = () => {
         name,
         description,
         caseStudy,
-        slideFileName: slideFile ? slideFile.name : '',
-        // slideFileUrl,
+        slideFileName,
         ytLink,
         prototypeLink,
-        timestamp: new Date()
+        submissionTime: new Date(),
+        judge: null,
+        judgeDescription: "",
+        judged: false,
+        pitching: 0,
+        uniqueness: 0,
+        business: 0,
+        design: 0,
+        ideaImpact: 0
       };
 
       if (existingProjectId) {
@@ -137,13 +98,23 @@ const ProjectSubmissionForm = () => {
         alert("Project Updated!");
       } else {
         // Add new project
-        await addDoc(collection(db, "project"), projectData);
+        const projectRef = await addDoc(collection(db, "project"), projectData);
+        const teamID = await fetchTeamIdByUserUid(participant.uid);
+        await updateDoc(doc(db, "team", teamID), {
+          projectID: projectRef.id
+        });
         alert("Project Submitted!");
       }
     } catch (error) {
       console.error("Error adding/updating document: ", error);
       alert("Error submitting project. Please try again.");
     }
+
+    if (onClose) {
+      onClose();
+    }
+
+    window.location.reload();
   };
 
   return (
@@ -190,9 +161,11 @@ const ProjectSubmissionForm = () => {
   required
 >
   <option value="">Select a case study</option>
-  {caseStudies.map((caseStudy) => (
+  {caseStudies
+    .sort((a, b) => a.id - b.id)
+    .map((caseStudy) => (
     <option key={caseStudy.id} value={caseStudy.id}>
-      {caseStudy.formattedTitle}
+      Case Study {caseStudy.id}: {caseStudy.title}
     </option>
   ))}
 </select>
@@ -205,7 +178,7 @@ const ProjectSubmissionForm = () => {
               <i className="fa-solid fa-upload"></i>
               <p style={{ margin: 0 }}>Click to Upload Slide</p>
               <p style={{ margin: 0 }}>Accepted File Type: PDF & PPT</p>
-              <p id="slide-file-name" className="project-submission__file-name">{fileName}</p>
+              <p id="slide-file-name" className="project-submission__file-name">File name: {slideFileName}</p>
               <input
                 id="slide-file"
                 name="slide_file"

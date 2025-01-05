@@ -33,7 +33,7 @@ import "../styles/ProjectSubmission.css";
           <i class="fa-solid fa-times"></i>
         </button>
       </div>
-      <ProjectSubmissionForm client:load />
+      <ProjectSubmissionForm client:load onClose={() => document.getElementById('overlay').style.display = 'none'}/>
     </div>
   </div>
 </div>
@@ -107,11 +107,9 @@ import "../styles/ProjectSubmission.css";
 
         const teamData = teamDoc.data();
         const projectId = teamData.projectID;
-
-        const projectDoc = await getDoc(doc(db, "project", projectId));
-        console.log("projectDoc: ", projectDoc.data());
-
-        if (!projectDoc.exists()) {
+        
+        
+        if (!projectId) {
           submissionContent.innerHTML = `
           <h3>No Submission Yet</h3>
           <div class="button-container">
@@ -121,6 +119,7 @@ import "../styles/ProjectSubmission.css";
           </div>
         `;
         } else {
+          const projectDoc = await getDoc(doc(db, "project", projectId));
           const projectData = projectDoc.data();
           const caseStudyId = projectData.caseStudy;
 
@@ -152,25 +151,22 @@ import "../styles/ProjectSubmission.css";
           </div>
         `;
         }
+        const addButton = document.querySelector(".add-submission-button");
+            if (addButton) {
+                addButton.addEventListener("click", () => {
+                    console.log("Add submission button clicked");
+                    overlay.style.display = "flex";
+                });
+            }
       });
-
-      document
-        .querySelector(".add-submission-button")
-        .addEventListener("click", () => {
-          overlay.style.display = "block";
-        });
     }
 
     updateSubmissionContent();
 
     document.addEventListener("formSubmitted", () => {
-      console.log("Form submitted");
       updateSubmissionContent();
       overlay.style.display = "none";
     });
   });
 
-  function closeModal() {
-    document.getElementById("overlay").style.display = "none";
-  }
 </script>
