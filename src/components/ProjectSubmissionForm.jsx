@@ -43,6 +43,7 @@ const ProjectSubmissionForm = ({ onClose }) => {
       const teamID = await fetchTeamIdByUserUid(user.uid);
       setTeamID(teamID);
     });
+    fetchAndSetCaseStudies();
   }, []);
 
   const fetchAndSetCaseStudies = async () => {
@@ -53,7 +54,6 @@ const ProjectSubmissionForm = ({ onClose }) => {
       console.error("Error fetching case studies:", error);
     }
   };
-  fetchAndSetCaseStudies();
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
