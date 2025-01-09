@@ -18,9 +18,10 @@ const ProjectSubmissionForm = ({ onClose }) => {
   const [slideFileName, setSlideFileName] = useState('');
   const [existingProjectId, setExistingProjectId] = useState(null);
   const [caseStudies, setCaseStudies] = useState([]);
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState('');
 
   useEffect(() => {
-    
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
         return;
@@ -69,26 +70,30 @@ const ProjectSubmissionForm = ({ onClose }) => {
     }
   };
 
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImagePreview(reader.result);
+        setImageFile(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      // let slideFileUrl = '';
-      // if (slideFile) {
-      //   const storage = getStorage();
-      //   const storageRef = ref(storage, `slides/${slideFile.name}`);
-      //   await uploadBytes(storageRef, slideFile);
-      //   slideFileUrl = await getDownloadURL(storageRef);
-      // }
-
       const projectData = {
-        // userId,
         name,
         description,
         caseStudy,
         slideFileName,
         ytLink,
         prototypeLink,
+        imageBase64: imageFile || '',
         submissionTime: new Date(),
         judge: null,
         judgeDescription: "",
@@ -101,14 +106,11 @@ const ProjectSubmissionForm = ({ onClose }) => {
       };
 
       if (existingProjectId) {
-        // Update existing project
         const projectDocRef = doc(db, "project", existingProjectId);
         await updateDoc(projectDocRef, projectData);
         alert("Project Updated!");
       } else {
-        // Add new project
         const projectRef = await addDoc(collection(db, "project"), projectData);
-        
         await updateDoc(doc(db, "team", teamID), {
           projectID: projectRef.id
         });
@@ -225,6 +227,22 @@ const ProjectSubmissionForm = ({ onClose }) => {
               onChange={(e) => setPrototypeLink(e.target.value)}
               required
             />
+          </div>
+          <div>
+            <div className="project-submission__full-width-underline">5. Image Upload:</div>
+            <p>Upload a representative image for your project</p>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+            />
+            {imagePreview && (
+              <img
+                src={imagePreview}
+                alt="Preview"
+                style={{ marginTop: '10px', maxWidth: '100%' }}
+              />
+            )}
           </div>
           <div className="project-submission__submit-button-container">
             <button className="project-submission__submit-button" type="submit">

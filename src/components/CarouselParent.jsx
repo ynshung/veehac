@@ -90,7 +90,7 @@ const CarouselParent = () => {
                     data-description={dev.description}
                     // No modal opening here, will open only when "More" button is clicked
                   >
-                    <img src={dev.image || "anonymous.jpg"} alt="Card Image" className="card-image" />
+                    <img src={dev.imageBase64 || "anonymous.jpg"} alt="Card Image" className="card-image" />
                     <p className="badge">{dev.name}</p>
                     <h2 className="card-title">{dev.title}</h2>
                     <button 
