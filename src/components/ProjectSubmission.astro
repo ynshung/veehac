@@ -114,12 +114,16 @@ import "../styles/ProjectSubmission.css";
         if (!projectId) {
           submissionContent.innerHTML = `
           <h3>No Submission Yet</h3>
-          <div class="button-container">
-            <button class="add-submission-button">
-              <i class="fa-solid fa-plus"></i> Add Submission
-            </button>
-          </div>
         `;
+          if (teamData.leaderID === user.uid) {
+            submissionContent.innerHTML += `
+            <div class="button-container">
+              <button class="add-submission-button">
+                <i class="fa-solid fa-plus"></i> Add Submission
+              </button>
+            </div>
+          `;
+          }
         } else {
           const projectDoc = await getDoc(doc(db, "project", projectId));
           const projectData = projectDoc.data();
