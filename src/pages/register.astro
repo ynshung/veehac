@@ -53,6 +53,7 @@ import Layout from "../layouts/Layout.astro";
   import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
   import { auth, db } from "../firebase";
   import { doc, setDoc } from "firebase/firestore";
+  import Swal from 'sweetalert2';
 
   document.querySelector("#form")?.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -69,36 +70,58 @@ import Layout from "../layouts/Layout.astro";
 
     console.log(name, email, password);
 
+    Swal.fire({
+      title: 'Registering...',
+      text: 'Please wait while we create your account.',
+      allowOutsideClick: false,
+      didOpen: () => {
+      Swal.showLoading();
+      }
+    });
+
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        console.log("User registered successfully!");
-        const user = userCredential.user;
-        console.log(user);
-        sendEmailVerification(user)
-          .then(() => {
-            console.log("Email verification sent!");
+      console.log("User registered successfully!");
+      const user = userCredential.user;
+      console.log(user);
+      sendEmailVerification(user)
+        .then(() => {
+        console.log("Email verification sent!");
 
-            setDoc(doc(db, "participant", user.uid), {
-              name: name,
-              email: email,
-            }).then(() => {
-              alert("Email verification sent! Please verify your email to login.");
-              window.location.href = "/login";
-            });
-            
-          })
-          .catch((error) => {
-            console.log(error);
-            alert(`Error: ${error.message}`);
+        setDoc(doc(db, "participant", user.uid), {
+          name: name,
+          email: email,
+        }).then(() => {
+          Swal.fire({
+          icon: 'success',
+          title: 'Registration Successful',
+          text: 'Email verification sent! Please verify your email to login.',
+          }).then(() => {
+          window.location.href = "/login";
           });
+        });
+        
+        })
+        .catch((error) => {
+        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: `Error: ${error.message}`,
+        });
+        });
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-        alert(`Error: ${errorMessage}`);
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: `Error: ${errorMessage}`,
       });
-  });
+      });
+    });
 </script>
 
 <style>
