@@ -75,6 +75,15 @@ const TeamInfo = () => {
         setParticipants(participantsData);
       } else {
         console.log("No data found for userID:", userId);
+        getDoc(doc(db, "participant", userId)).then((docSnap) => {
+          if (docSnap.exists() && docSnap.data().teamID) {
+            updateDoc(doc(db, "participant", userId), {
+              teamID: "",
+            }).then(() => {
+              location.reload();
+            });
+          }
+        });
       }
       setLoading(false); // Set loading to false after data is fetched
     });
