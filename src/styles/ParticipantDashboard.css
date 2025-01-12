@@ -1,0 +1,33 @@
+.button {
+  background-color: #ffffff; /* Blue background */
+  border: none; /* Remove borders */
+  border-radius: 16px;
+  color: rgb(0, 0, 0); /* White text */
+  padding: 12px 16px; /* Some padding */
+  font-size: 1rem; /* Set a font size */
+  cursor: pointer; /* Mouse pointer on hover */
+}
+
+.button-sm {
+  background-color: rgb(250, 0, 0);; /* Blue background */
+  border: none; /* Remove borders */
+  border-radius: 16px;
+  color: rgb(0, 0, 0); /* White text */
+  padding: 8px 12px; /* Some padding */
+  font-size: 1rem; /* Set a font size */
+  cursor: pointer; /* Mouse pointer on hover */
+}
+
+
+.button:hover {
+  background-color: #9793c3; /* Darker background on hover */
+}
+
+.member-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

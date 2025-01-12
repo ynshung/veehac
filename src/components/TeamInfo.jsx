@@ -3,6 +3,7 @@ import { db, auth } from '../firebase';
 import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
 import "../styles/TeamInfo.css";
 import { onAuthStateChanged } from 'firebase/auth';
+import Swal from 'sweetalert2'
 
 const TeamInfo = () => {
   const [team, setTeam] = useState(null);
@@ -24,9 +25,7 @@ const TeamInfo = () => {
         // Perform multiple queries to cover all conditions
         const queries = [
           query(collection(db, "team"), where("leaderID", "==", userId)),
-          query(collection(db, "team"), where("memberID1", "==", userId)),
-          query(collection(db, "team"), where("memberID2", "==", userId)),
-          query(collection(db, "team"), where("memberID3", "==", userId)),
+          query(collection(db, "team"), where("membersID", "array-contains", userId)),
         ];
 
         let teamData = null;
@@ -50,14 +49,8 @@ const TeamInfo = () => {
             setLeaderName(leaderDoc.data().name);
           }
 
-          // Fetch participant names
-          const participantIDs = [
-            teamData.memberID1,
-            teamData.memberID2,
-            teamData.memberID3,
-          ];
           const participantsData = {};
-          for (const id of participantIDs) {
+          for (const id of teamData.membersID) {
             if (id) {
               const participantDoc = await getDoc(doc(db, "participant", id));
               if (participantDoc.exists()) {
@@ -90,15 +83,35 @@ const TeamInfo = () => {
             <>
               <h2 style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }}>Team {team.teamName}</h2>
               <p style={{ fontWeight: 'bold' }}>Leader: {leaderName}</p>
-              {[team.memberID1, team.memberID2, team.memberID3].map((memberID, idx) => (
-                memberID && participants[memberID] ? (
-                  <div key={idx}>
-                    <p>
-                      Member {idx + 1}: {participants[memberID]}
-                    </p>
+              {
+                Object.entries(participants).map(([id, name]) => (
+                  <div className='member-list'>
+                    <p key={id}>Participant: {name}</p>
+                    <button class="button-sm" onClick={() => {
+                      Swal.fire({
+                        title: 'Are you sure',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, remove it!'
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                          console.log('Participant removed');
+                        }
+                      });
+                    }}>
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
                   </div>
-                ) : null
-              ))}
+                ))
+              }
+              <div class="button-container">
+                <button class="button">
+                  <i class="fa-solid fa-plus"></i> Add Members
+                </button>
+              </div>
             </>
           ) : (
             <p>No team data available</p>
