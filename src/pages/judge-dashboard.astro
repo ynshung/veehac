@@ -18,7 +18,7 @@ import JudgeDashboardParent from "../components/JudgeDashboardParent";
 <script>
   import { doc, getDoc } from "firebase/firestore";
   import { auth, db } from "../firebase";
-import { checkSessionExpired } from "../controller/controller";
+import { checkSessionExpired, refreshSession } from "../controller/controller";
   
     document.addEventListener('DOMContentLoaded', function() {
       auth.onAuthStateChanged((user) => {
@@ -34,6 +34,7 @@ import { checkSessionExpired } from "../controller/controller";
               alert("You are not authorized to access this page!");
               window.location.href = "/login";
             }
+            refreshSession();
           });
         }
       });
