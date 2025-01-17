@@ -34,7 +34,6 @@ const ProjectSubmissionForm = ({ onClose }) => {
         return;
       }
       fetchParticipantProject(user.uid).then((participantProject) => {
-        console.log("participant project:", participantProject);
         if (participantProject) {
           setExistingProjectId(participantProject.id);
           setName(participantProject.data.name || "");
@@ -43,8 +42,10 @@ const ProjectSubmissionForm = ({ onClose }) => {
           setYtLink(participantProject.data.ytLink || "");
           setPrototypeLink(participantProject.data.prototypeLink || "");
           setSlideFileName(participantProject.data.slideFileName);
+          setImagePreview(participantProject.data.imageBase64);
         }
       });
+      
 
       const teamID = await fetchTeamIdByUserUid(user.uid);
       setTeamID(teamID);
@@ -75,21 +76,23 @@ const ProjectSubmissionForm = ({ onClose }) => {
     }
   };
 
-  const handleImageChange = (event) => {
+  const handleImageChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImagePreview(reader.result);
-        setImageFile(reader.result);
-      };
-      reader.readAsDataURL(file);
+      const storage = getStorage();
+      const storageRef = ref(storage, `images/${file.name}`);
+      await uploadBytes(storageRef, file);
+      const imageURL = await getDownloadURL(storageRef);
+      
+      // Update state with the image URL
+      setImagePreview(imageURL);
+      setImageFile(imageURL);
     }
   };
-
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     try {
       const projectData = {
         name: sanitiseInput(name),
@@ -98,7 +101,7 @@ const ProjectSubmissionForm = ({ onClose }) => {
         slideFileName: sanitiseInput(slideFileName),
         ytLink: sanitiseInput(ytLink),
         prototypeLink: sanitiseInput(prototypeLink),
-        imageBase64: sanitiseInput(imageFile || ''),
+        imageBase64: sanitiseInput(imageFile || imagePreview), // Use existing image if no new upload
         id: 0,
         submissionTime: new Date(),
         judge: null,
@@ -110,7 +113,7 @@ const ProjectSubmissionForm = ({ onClose }) => {
         design: 0,
         ideaImpact: 0
       };
-
+  
       if (existingProjectId) {
         const projectDocRef = doc(db, "project", existingProjectId);
         await updateDoc(projectDocRef, projectData);
@@ -126,13 +129,14 @@ const ProjectSubmissionForm = ({ onClose }) => {
       console.error("Error adding/updating document: ", error);
       alert("Error submitting project. Please try again.");
     }
-
+  
     if (onClose) {
       onClose();
     }
-
+  
     window.location.reload();
   };
+  
 
   return (
     <div className="container">
