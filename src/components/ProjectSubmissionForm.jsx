@@ -5,6 +5,13 @@ import { auth, db } from '../firebase';
 import '../styles/ProjectSubmissionForm.css';
 import { onAuthStateChanged } from 'firebase/auth';
 import {fetchCaseStudies, fetchParticipantProject, fetchTeamIdByUserUid} from '../controller/controller';
+import DOMPurify from 'dompurify';
+
+const sanitiseInput = (input) => {
+  console.log("input:", input);
+  console.log("sanitised input:", DOMPurify.sanitize(input));
+  return DOMPurify.sanitize(input);
+};
 
 const ProjectSubmissionForm = ({ onClose }) => {
   const [teamID, setTeamID] = useState(null);
@@ -35,9 +42,7 @@ const ProjectSubmissionForm = ({ onClose }) => {
           setCaseStudy(participantProject.data.caseStudy || "");
           setYtLink(participantProject.data.ytLink || "");
           setPrototypeLink(participantProject.data.prototypeLink || "");
-          if (participantProject.data.slideFileName) {
-            setSlideFileName(participantProject.data.slideFileName);
-          }
+          setSlideFileName(participantProject.data.slideFileName);
         }
       });
 
@@ -87,13 +92,14 @@ const ProjectSubmissionForm = ({ onClose }) => {
 
     try {
       const projectData = {
-        name,
-        description,
-        caseStudy,
-        slideFileName,
-        ytLink,
-        prototypeLink,
-        imageBase64: imageFile || '',
+        name: sanitiseInput(name),
+        description: sanitiseInput(description),
+        caseStudy: sanitiseInput(caseStudy),
+        slideFileName: sanitiseInput(slideFileName),
+        ytLink: sanitiseInput(ytLink),
+        prototypeLink: sanitiseInput(prototypeLink),
+        imageBase64: sanitiseInput(imageFile || ''),
+        id: 0,
         submissionTime: new Date(),
         judge: null,
         judgeDescription: "",
@@ -168,7 +174,7 @@ const ProjectSubmissionForm = ({ onClose }) => {
   name="case-study"
   className="project-submission__select"
   value={caseStudy}
-  onChange={(e) => setCaseStudy(e.target.value)}
+  onChange={(e) => setCaseStudy(parseInt(e.target.value))}
   required
 >
   <option value="">Select a case study</option>
@@ -235,6 +241,7 @@ const ProjectSubmissionForm = ({ onClose }) => {
               type="file"
               accept="image/*"
               onChange={handleImageChange}
+              required
             />
             {imagePreview && (
               <img
