@@ -1,0 +1,1 @@
+export const loginTimePeriod = 30 * 60 * 1000; // 1 hour in milliseconds

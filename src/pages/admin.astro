@@ -16,12 +16,17 @@ import Layout from "../layouts/Layout.astro";
 <script>
   import { doc, getDoc } from "firebase/firestore";
   import { auth, db } from "../firebase";
+  import { checkSessionExpired } from "../controller/controller";
   
     document.addEventListener('DOMContentLoaded', function() {
       auth.onAuthStateChanged((user) => {
         if (!user) {
           window.location.href = "/login";
         } else {
+          if (checkSessionExpired()) {
+            alert("Your session has expired. Please login again.");
+            window.location.href = "/login";
+          }
           getDoc(doc(db, "admin", user.uid)).then((doc) => {
             if (!doc.exists()) {
               alert("You are not authorized to access this page!");

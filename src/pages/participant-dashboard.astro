@@ -28,11 +28,16 @@ const title = "Participant Dashboard";
 <script>
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
+import { checkSessionExpired } from "../controller/controller";
 
   document.addEventListener('DOMContentLoaded', function() {
     auth.onAuthStateChanged((user) => {
       if (!user) {
         window.location.href = "/login";
+          if (checkSessionExpired()) {
+            alert("Your session has expired. Please login again.");
+            window.location.href = "/login";
+          }
       } else {
         getDoc(doc(db, "participant", user.uid)).then((doc) => {
           if (!doc.exists()) {

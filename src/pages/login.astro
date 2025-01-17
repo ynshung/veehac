@@ -52,6 +52,7 @@ import Layout from "../layouts/Layout.astro";
   import { auth, db } from "../firebase";
   import { doc, getDoc } from "firebase/firestore";
   import Swal from "sweetalert2";
+import { refreshSession } from "../controller/controller";
 
   document.querySelector("#form")?.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -69,6 +70,7 @@ import Layout from "../layouts/Layout.astro";
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
+        refreshSession();
 
         getDoc(doc(db, "participant", user.uid))
           .then((ref) => {

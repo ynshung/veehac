@@ -1,4 +1,5 @@
 import CaseStudies from '../components/CaseStudies.astro';
+import { loginTimePeriod } from '../constants';
 import { db } from '/src/firebase';
 import { doc, getDoc, where, collection, query, getDocs } from "firebase/firestore";
 
@@ -200,3 +201,22 @@ export async function fetchTeamIdByUserUid(uid) {
           throw error;
         }
   }
+
+export const checkSessionExpired = () => {
+    const loginTime = localStorage.getItem('loginTime');
+    if (loginTime) {
+      const currentTime = new Date().getTime();
+        const timeDifference = currentTime - parseInt(loginTime);
+
+      if (timeDifference > loginTimePeriod) {
+        return true;
+      }
+    } else {
+      refreshSession();
+    }
+    return false;
+}
+
+export const refreshSession = () => {
+    localStorage.setItem('loginTime', new Date().getTime().toString());
+}
