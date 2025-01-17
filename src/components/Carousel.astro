@@ -2,16 +2,6 @@
 import "swiper/css";
 import ""
 
-const developers = [
-    { name: 'V191 Byte Benders', title: 'Crafting a powerful data visualization platform that helps companies "bend" complex data into interactive, easy-to-understand insights for smarter decisions.' },
-    { name: 'V333 Code Crusaders', title: 'Developing a real-time crisis response app that empowers users to report and navigate emergencies using geolocation and community-driven information.' },
-    { name: 'V111 Digital Dreamers', title: 'Building an AI-powered platform that helps people turn ideas into reality by generating prototypes, branding elements, and marketing plans—all from a single prompt.' },
-    { name: 'V069 Nerd Herd', title: 'Designing a collaborative coding platform where teams can code in real time, access helpful resources, and troubleshoot together in a streamlined environment.' },
-    { name: 'V055 Quantum Quokkas', title: 'Innovating a quantum-powered encryption service that allows users to securely share sensitive files with impenetrable privacy in milliseconds.' },
-    { name: 'V102 Syntax Samurai', title: 'Creating an AI-powered code correction tool that detects and repairs errors in real time, saving developers from syntax struggles and boosting productivity.' },
-    { name: 'V010 Hackstreet Boys', title: 'Developing a gamified wellness app that encourages healthier lifestyle choices through fun challenges, badges, and leaderboards.' },
-    { name: 'V123 Cyber Guardians', title: 'Building a cybersecurity platform that helps small businesses detect, prevent, and respond to threats using machine learning and real-time alerts.' },
-];
 ---
 
 <head>
@@ -42,7 +32,6 @@ const developers = [
         />
       </div>
       <h2 id="modal-name"></h2>
-      <p id="modal-title"></p>
       <p id="modal-description"></p>
     </div>
   </div>
@@ -53,7 +42,6 @@ const developers = [
       button.addEventListener('click', function() {
         const cardItem = button.closest('.card-item');
         const name = cardItem.querySelector('.badge').textContent;
-        const title = cardItem.querySelector('.card-title').textContent;
         const description = cardItem.getAttribute('data-description');
 
         const youtubeUrl = `https://www.youtube.com/embed/dQw4w9WgXcQ`;
@@ -62,7 +50,6 @@ const developers = [
         const modalVideo = document.getElementById('modal-video');
 
         document.getElementById('modal-name').textContent = name;
-        document.getElementById('modal-title').textContent = title;
         document.getElementById('modal-description').textContent = description;
 
         modalVideo.src = youtubeUrl;
