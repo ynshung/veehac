@@ -2,8 +2,6 @@ import CaseStudies from '../components/CaseStudies.astro';
 import { db } from '/src/firebase';
 import { doc, getDoc, where, collection, query, getDocs } from "firebase/firestore";
 
-import { getDoc, doc } from 'firebase/firestore';
-
 export async function fetchJudges() {
     let judges = []
     const q = query(collection(db, "judges"));
