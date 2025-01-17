@@ -69,27 +69,30 @@ function JudgeDashboardParent() {
   // );
   const auth = getAuth();
   const uid = auth.currentUser?.uid;
-useEffect(() => {
-  const fetchData = async () => {
-    if (uid) {  
-      const participantDoc = await fetchSpecificJudge(uid);
-      if (participantDoc != {}) {  
-        setJudges(participantDoc);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (uid) {
+
+        const participantDoc = await fetchSpecificJudge(uid);
+        if (participantDoc != {}) {
+          setJudges(participantDoc);
+        }
       }
+      const fetchedProjects = await fetchProjects();
+      const fetchedCaseStudies = await fetchCaseStudies();
+
+      setProjects(fetchedProjects);
+      setCaseStudies(fetchedCaseStudies);
+    };
+
+    fetchData();
+
+    if (id !== null) {
+      setIsIdSet(true);
     }
-    const fetchedProjects = await fetchProjects();
-    const fetchedCaseStudies = await fetchCaseStudies();
-
-    setProjects(fetchedProjects);
-    setCaseStudies(fetchedCaseStudies);
-  };
-
-  fetchData();
-
-  if (id !== null) {
-    setIsIdSet(true);
-  }
-}, [id, uid]);  
+  }, [id, uid]);
+  console.log(projects, "AAA")
   return (
     <div>
       {showJudging !== '' && isIdSet ? (

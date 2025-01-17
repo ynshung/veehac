@@ -17,7 +17,9 @@ const JudgeProject = ({ projects, setId, id, setProjects, caseStudies, setShowJu
 
   const [isLoading, setIsLoading] = useState(true);  // State to track loading
 
-  console.log(caseStudies)
+
+  projects = projects.sort((a, b) => a.id - b.id)
+  console.log(projects, id, "projects")
   const [ideaImpact, setIdeaImpact] = useState(0);
   const [uniqueness, setUniqueness] = useState(0);
   const [business, setBusiness] = useState(0);
@@ -49,7 +51,7 @@ const JudgeProject = ({ projects, setId, id, setProjects, caseStudies, setShowJu
     let x = ""
     CalculateSentiment.sendMessage(description)
       .then(responseData => {
-        x = Math.round((5+(responseData["pos"] * 5)-(responseData["neg"] * 5))*100)/100
+        x = Math.round((5 + (responseData["pos"] * 5) - (responseData["neg"] * 5)) * 100) / 100
         console.log(x);
       })
       .catch(error => {
