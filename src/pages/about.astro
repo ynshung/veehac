@@ -4,7 +4,7 @@ import Layout from "../layouts/Layout.astro";
 import PersonCard from "../components/PersonCard.astro";
 import Footer from "../components/Footer.astro";
 import {fetchJudges} from "../controller/controller.jsx"
-console.log(await fetchJudges())
+
 const judges = await fetchJudges()
 
 
@@ -53,8 +53,8 @@ const judges = await fetchJudges()
             
             <div class="judge-cards">
                 {
-                    judges.map((judge, index) => (
-                        <PersonCard imageUrl={judge.imageURL} name={judge.name} company={judge.company} about={judge.about} />
+                    judges.sort((a, b) => a.id - b.id).map((judge, index) => (
+                        <PersonCard imageUrl={judge.imageUrl} name={judge.name} company={judge.company} about={judge.about} />
                     ))
                 }
             </div>

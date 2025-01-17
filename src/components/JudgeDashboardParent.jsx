@@ -1,14 +1,20 @@
 import { useState, useEffect } from 'react';
 import JudgeDashboard from "./JudgeDashboard";
 import JudgeProject from "./JudgeProject";
-import { fetchProjects, fetchCaseStudies } from "../controller/controller.jsx";
+import { fetchProjects, fetchCaseStudies, fetchSpecificJudge } from "../controller/controller.jsx";
+import { getAuth } from 'firebase/auth';
+import { getDoc, doc } from 'firebase/firestore';
+import { auth, db } from "../firebase";
+
 
 function JudgeDashboardParent() {
   const [projects, setProjects] = useState([]);
   const [caseStudies, setCaseStudies] = useState([]);
   const [showJudging, setShowJudging] = useState('');
   const [id, setId] = useState(null);
+  const [judges, setJudges] = useState({});
   const [isIdSet, setIsIdSet] = useState(false);
+
   //   {
   //     id: 1,
   //     name: "Project 1",
@@ -61,22 +67,29 @@ function JudgeDashboardParent() {
   //     judgeDescription: "",
   //   },]
   // );
-
-  // Fetch projects once the component is mounted
-  useEffect(() => {
-    const fetchData = async () => {
-      const fetchedProjects = await fetchProjects();
-      const fetchedCaseStudies = await fetchCaseStudies();
-      setProjects(fetchedProjects);
-      setCaseStudies(fetchedCaseStudies);
-    };
-
-    fetchData();
-
-    if (id !== null) {
-      setIsIdSet(true);
+  const auth = getAuth();
+  const uid = auth.currentUser?.uid;
+useEffect(() => {
+  const fetchData = async () => {
+    if (uid) {  
+      const participantDoc = await fetchSpecificJudge(uid);
+      if (participantDoc != {}) {  
+        setJudges(participantDoc);
+      }
     }
-  }, [id]); 
+    const fetchedProjects = await fetchProjects();
+    const fetchedCaseStudies = await fetchCaseStudies();
+
+    setProjects(fetchedProjects);
+    setCaseStudies(fetchedCaseStudies);
+  };
+
+  fetchData();
+
+  if (id !== null) {
+    setIsIdSet(true);
+  }
+}, [id, uid]);  
   return (
     <div>
       {showJudging !== '' && isIdSet ? (
@@ -94,7 +107,7 @@ function JudgeDashboardParent() {
         <JudgeDashboard
           projects={projects}
           setId={setId}
-
+          judge={judges}
           setShowJudging={setShowJudging}
           id={id} // Pass selectedId as a prop
         />

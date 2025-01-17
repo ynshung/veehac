@@ -2,7 +2,7 @@ import CaseStudies from '../components/CaseStudies.astro';
 import { db } from '/src/firebase';
 import { doc, getDoc, where, collection, query, getDocs } from "firebase/firestore";
 
-
+import { getDoc, doc } from 'firebase/firestore';
 
 export async function fetchJudges() {
     let judges = []
@@ -10,7 +10,6 @@ export async function fetchJudges() {
     const querySnapshot = await getDocs(q);
 
     const judgesDict = {};
-
     querySnapshot.forEach((doc) => {
         const data = doc.data();
         const docId = doc.id;
@@ -27,13 +26,24 @@ export async function fetchJudges() {
             judgeData[field] = judge[field];
         }
 
-        // Add the docId as 'id' in the final object
-        judgeData.id = key;
-
         return judgeData;
     });
     return judges
 }
+
+export async function fetchSpecificJudge(uid) {
+    const judgeRef = doc(db, "judges", uid);  // Referring to a single judge document by UID
+    const docSnapshot = await getDoc(judgeRef);  // Fetch the document snapshot
+    console.log(docSnapshot.data())
+    if (docSnapshot.exists()) {
+        const judgeData = docSnapshot.data();
+
+        return judgeData;  // Return the judge data directly
+    } else {
+        throw new Error("Judge not found");  // Handle case where judge is not found
+    }
+}
+
 
 
 export async function fetchProjects() {
@@ -87,7 +97,6 @@ export async function fetchCaseStudies() {
         for (const field in caseStudies) {
             if (field == "submissionTime") {
                 caseStudiesData[field] = (caseStudies[field].submissionTime.seconds * 1000).toLocaleString()
-                console.log("AAA")
             }
             else {
                 caseStudiesData[field] = caseStudies[field];
@@ -95,44 +104,41 @@ export async function fetchCaseStudies() {
         }
         return caseStudiesData;
     });
-    console.log("REFRESH", caseStudies);
     return caseStudies
 }
 
-// Data retrieval: Obtain data from team document
-// export async function fetchParticipantProject(userId){
-//   const teamQueries = [
-//     query(collection(db, "team"), where("leaderID", "==", userId)),
-//     query(collection(db, "team"), where("memberID1", "==", userId)),
-//     query(collection(db, "team"), where("memberID2", "==", userId)),
-//     query(collection(db, "team"), where("memberID3", "==", userId))
-//   ];
+export class calculateSentiment {
+    constructor() {}
 
-//   let teamID = null;
+    sendMessage(message) {
+        // Return a Promise from the function so we can wait for the asynchronous result
+        return new Promise((resolve, reject) => {
+            // Make sure message is passed to the function
+            fetch('http://localhost:8000/judge-description', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: message }), // Send the message in the request body
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Response:', data); // Log the response
+                resolve(data); // Resolve the Promise with the data
+            })
+            .catch(error => {
+                console.error('Error sending message:', error); // Log any errors
+                reject(error); // Reject the Promise with the error
+            });
+        });
+    }
+}
 
-//   for (const q of teamQueries) {
-//     const querySnapshot = await getDocs(q);
-//     if (!querySnapshot.empty) {
-//       const docSnapshot = querySnapshot.docs[0];
-//       teamID = docSnapshot.id;
-//       break;
-//     }
-//   }
-
-//   if (!teamID) {
-//     return null; 
-//   }
-
-//   const projectQuery = query(collection(db, "project"), where("teamID", "==", teamID));
-//   const projectSnapshot = await getDocs(projectQuery);
-
-//   if (!projectSnapshot.empty) {
-//     const projectDoc = projectSnapshot.docs[0];
-//     return { id: projectDoc.id, data: projectDoc.data() };
-//   }
-
-//   return null; 
-// };
 
 // Data retrieval: Obtain data from participant document
 export async function fetchParticipantProject(uid) {

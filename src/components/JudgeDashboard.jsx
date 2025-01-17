@@ -1,7 +1,15 @@
 import { useEffect, useState } from "react";
 import "../styles/JudgeDashboard.css";
 
-const JudgeDashboard = ({ projects, setId, setShowJudging }) => {
+import { getDoc, doc } from 'firebase/firestore';
+import { auth, db } from "../firebase";
+
+
+
+const JudgeDashboard = ({ projects, setId, setShowJudging,judge }) => {
+  let filteredArray = projects.filter(project => 
+     judge.id === project.id
+  );
   return (
     <div className="judge-dashboard-card">
       <div>
@@ -38,30 +46,39 @@ const JudgeDashboard = ({ projects, setId, setShowJudging }) => {
       </div>
       <div>
         <table style={{ width: "100%" }}>
-          <tbody>
-            {projects.map((project) => {
-              const [judged, setJudged] = useState(false);
-              return (
-                <tr key={project.id}>
-                  <td className="project-name">{project.name}</td>
-                  <td className="project-group">{project.group}</td>
-                  <td className="project-title">{project.title}</td>
-                  <td className="project-judged" id="project-judged">
-                    <a
-                      className={`judged-button ${project.judged ? "judged" : "not-judged"}`}
-                      onClick={() => {
-                        setShowJudging(project.id); // This updates the showJudging state in the parent
-                        console.log(project.id, "ID")
-                        setId(project.id); // This updates the id in the parent
-                      }}
-                    >
-                      <i className="fa fa-file-text" aria-hidden="true" />
-                    </a>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
+        <tbody>
+  {
+    filteredArray.length > 0 ? (
+      filteredArray.map((project) => {
+        const [judged, setJudged] = useState(false);
+        return (
+          <tr key={project.id}>
+            <td className="project-name">{project.name}</td>
+            <td className="project-group">{project.group}</td>
+            <td className="project-title">{project.title}</td>
+            <td className="project-judged" id="project-judged">
+              <a
+                className={`judged-button ${project.judged ? "judged" : "not-judged"}`}
+                onClick={() => {
+                  setShowJudging(project.id); // This updates the showJudging state in the parent
+                  console.log(project.id, "ID")
+                  setId(project.id); // This updates the id in the parent
+                }}
+              >
+                <i className="fa fa-file-text" aria-hidden="true" />
+              </a>
+            </td>
+          </tr>
+        );
+      })
+    ) : (
+      <tr>
+        <td colSpan="4" style={{ textAlign: 'center' }}>Nothing here... Check back later for projects assigned to you!</td>
+      </tr>
+    )
+  }
+</tbody>
+
         </table>
       </div>
       <div className="judge-info">
@@ -74,15 +91,14 @@ const JudgeDashboard = ({ projects, setId, setShowJudging }) => {
           style={{ fontSize: "15px", fontWeight: 300 }}
         >
           <p>
-            <span style={{ fontWeight: "bold" }}>Full Name:</span> Eskew Elle
+            <span style={{ fontWeight: "bold" }}>Full Name:</span> {judge.name}
           </p>
           <p>
-            <span style={{ fontWeight: "bold" }}>Company:</span> Universiti
-            CPlusPlus Malaysia
+            <span style={{ fontWeight: "bold" }}>Company:</span> {judge.company}
           </p>
           <p>
             <span style={{ fontWeight: "bold" }}>Email:</span>{" "}
-            eskewelle@database.com
+            {judge.email} 
           </p>
         </div>
       </div>
