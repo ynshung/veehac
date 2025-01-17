@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaDownload } from "react-icons/fa";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { db } from '../firebase';
+import { fetchCaseStudies } from '../controller/controller';
 import "../styles/underline.css";
 
 const CaseStudiesDownload = () => {
@@ -10,32 +11,21 @@ const CaseStudiesDownload = () => {
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
-    const fetchCaseStudies = async () => {
-      const caseStudiesCollection = collection(db, "caseStudies");
-      const caseStudiesSnapshot = await getDocs(caseStudiesCollection);
-      const caseStudiesList = caseStudiesSnapshot.docs
-        .map((doc) => ({
-          id: doc.data().id, // Assuming 'id' is a field in your document
-          ...doc.data(),
-        }))
-        .sort((a, b) => a.id - b.id) // Sort by the 'id' field
-        .map((caseStudy, index) => ({
-          ...caseStudy,
-          formattedTitle: `Case Study ${index + 1}: ${caseStudy.title}`
-        }));
-      setCaseStudies(caseStudiesList);
+    const fetchData = async () => {
+      const fetchedCaseStudies = await fetchCaseStudies();
+      setCaseStudies(fetchedCaseStudies);
     };
 
-    fetchCaseStudies();
-  }, []);
+    fetchData();
+  }, []); 
 
   const handleChange = (event) => {
-    const selectedTitle = event.target.value;
     const selectedStudy = caseStudies.find(
-      (caseStudy) => caseStudy.formattedTitle === selectedTitle,
+        (caseStudy) => caseStudy.id === parseInt(event.target.value)
     );
+    console.log("selected study:", selectedStudy);
     setSelectedCaseStudy(selectedStudy);
-  };
+};
 
   const containerStyle = {
     display: "flex",
@@ -124,9 +114,11 @@ const CaseStudiesDownload = () => {
         <option value="" style={optionStyle}>
           Select a case study
         </option>
-        {caseStudies.map((caseStudy, index) => (
-          <option key={index} value={caseStudy.formattedTitle} style={optionStyle}>
-            {caseStudy.formattedTitle}
+        {caseStudies
+          .sort((a, b) => a.id - b.id) // Sort case studies by id
+          .map((caseStudy) => (
+          <option key={caseStudy.id} value={caseStudy.id} style={optionStyle}>
+            Case Study {caseStudy.id}: {caseStudy.title}  
           </option>
         ))}
       </select>

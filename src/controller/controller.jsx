@@ -1,6 +1,6 @@
 import CaseStudies from '../components/CaseStudies.astro';
 import { db } from '/src/firebase';
-import { collection, query, getDocs } from "firebase/firestore";
+import { doc, getDoc, where, collection, query, getDocs } from "firebase/firestore";
 
 import { getDoc, doc } from 'firebase/firestore';
 
@@ -106,6 +106,7 @@ export async function fetchCaseStudies() {
     });
     return caseStudies
 }
+
 export class calculateSentiment {
     constructor() {}
 
@@ -139,3 +140,65 @@ export class calculateSentiment {
 }
 
 
+// Data retrieval: Obtain data from participant document
+export async function fetchParticipantProject(uid) {
+    try {
+      const participantDocRef = doc(db, "participant", uid);
+      const participantDoc = await getDoc(participantDocRef);
+  
+      if (!participantDoc.exists()) {
+        throw new Error("Participant not found");
+      }
+  
+      const participantData = participantDoc.data();
+      const teamId = participantData.teamID;
+  
+      const teamDocRef = doc(db, "team", teamId);
+      const teamDoc = await getDoc(teamDocRef);
+  
+      if (!teamDoc.exists()) {
+        throw new Error("Team not found");
+      }
+  
+      const teamData = teamDoc.data();
+      const projectId = teamData.projectID;
+  
+      const projectRef = doc(db, "project", projectId);
+      const projectDoc = await getDoc(projectRef);
+  
+      if (!projectDoc.exists()) {
+        throw new Error("Project not found");
+      }
+  
+      return { id: projectDoc.id, data: projectDoc.data() };
+  
+    } catch (error) {
+      console.error("Error fetching participant project:", error);
+      throw error;
+    }
+  }
+
+export async function fetchTeamIdByUserUid(uid) {
+    try {
+        const participantDocRef = doc(db, "participant", uid);
+        const participantDoc = await getDoc(participantDocRef);
+
+        if (participantDoc.exists()) {
+            const participantData = participantDoc.data();
+            const teamID = participantData.teamID;
+            
+            if (teamID) {
+              return teamID;
+            } else {
+              console.log("No team ID found for the given document ID");
+              return null;
+            }
+          } else {
+            console.log("No participant found for the given document ID");
+            return null;
+          }
+        } catch (error) {
+          console.error("Error fetching participant by document ID:", error);
+          throw error;
+        }
+  }

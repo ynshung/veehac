@@ -15,7 +15,30 @@ const CarouselParent = () => {
     const getProjects = async () => {
       try {
         const fetchedProjects = await fetchProjects();
-        setProjects(fetchedProjects);  // Update state with fetched projects
+
+        // Sort and format projects based on total score
+        const sortedProjects = fetchedProjects
+          .sort((a, b) => {
+            const totalScoreA =
+              a.pitching + a.design + a.business + a.ideaImpact + a.uniqueness;
+            const totalScoreB =
+              b.pitching + b.design + b.business + b.ideaImpact + b.uniqueness;
+            return totalScoreB - totalScoreA;
+          })
+          .map((project, index) => ({
+            ...project,
+            totalScore:
+              project.pitching +
+              project.design +
+              project.business +
+              project.ideaImpact +
+              project.uniqueness,
+          }));
+
+        // Exclude top 3 projects
+        const remainingProjects = sortedProjects.slice(3);
+
+        setProjects(remainingProjects);  // Update state with sorted and sliced projects
         setLoading(false);  // Set loading to false after fetching
       } catch (error) {
         console.error('Error fetching projects:', error);  // Handle any errors
@@ -86,13 +109,11 @@ const CarouselParent = () => {
                     href="javascript:void(0)"
                     className="card-link"
                     data-name={dev.name}
-                    data-title={dev.title}
                     data-description={dev.description}
                     // No modal opening here, will open only when "More" button is clicked
                   >
-                    <img src={dev.image} alt="Card Image" className="card-image" />
+                    <img src={dev.imageBase64 || "anonymous.jpg"} alt="Card Image" className="card-image" />
                     <p className="badge">{dev.name}</p>
-                    <h2 className="card-title">{dev.title}</h2>
                     <button 
                       className="card-button material-symbols-rounded"
                       onClick={(e) => {
@@ -154,7 +175,6 @@ const CarouselParent = () => {
               />
             </div>
             <h2 id="modal-name">{modalData.name}</h2>
-            <p id="modal-title">{modalData.title}</p>
             <p id="modal-description">{modalData.description}</p>
           </div>
         </div>

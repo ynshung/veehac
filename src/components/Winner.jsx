@@ -5,7 +5,7 @@ const Winner = ({ projects }) => {
     // Ensure there are enough projects to display
     const champion = projects[0]; // Assuming the first project is the Champion
     const firstRunnerUp = projects[1]; // Second project is the first runner-up
-    const secondRunnerUp = projects[1]; // Third project is the second runner-up
+    const secondRunnerUp = projects[2]; // Third project is the second runner-up
 
     // Helper function to open the modal
     const openModal = (project) => {
@@ -61,7 +61,7 @@ const Winner = ({ projects }) => {
                 <div className="winner-content">
                     <div className="winner-image">
                         <div className="image-overlay"></div>
-                        <img src={champion.imageSrc || 'anonymous.jpg'} alt="Champion Image" />
+                        <img src={champion.imageBase64 || 'anonymous.jpg'} alt="Champion Image" />
                         <div className="medal-icon gold">🥇</div>
                     </div>
                     <div className="winner-description">
@@ -81,7 +81,7 @@ const Winner = ({ projects }) => {
                             <div className="runner-up-content">
                                 <div className="runner-up-image">
                                     <div className="image-overlay"></div>
-                                    <img src={firstRunnerUp.imageSrc || 'anonymous.jpg'} alt="First Runner-up Image" />
+                                    <img src={firstRunnerUp.imageBase64 || 'anonymous.jpg'} alt="First Runner-up Image" />
                                     <div className="medal-icon silver">🥈</div>
                                 </div>
                                 <div className="runner-up-description">
@@ -101,7 +101,7 @@ const Winner = ({ projects }) => {
                             <div className="runner-up-content">
                                 <div className="runner-up-image">
                                     <div className="image-overlay"></div>
-                                    <img src={secondRunnerUp.imageSrc || 'anonymous.jpg'} alt="Second Runner-up Image" />
+                                    <img src={secondRunnerUp.imageBase64 || 'anonymous.jpg'} alt="Second Runner-up Image" />
                                     <div className="medal-icon bronze">🥉</div>
                                 </div>
                                 <div className="runner-up-description">

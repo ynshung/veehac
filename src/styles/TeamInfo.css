@@ -25,6 +25,12 @@
     background-color: #433f6c; /* Example background color */
     border-radius: 8px; /* Example border radius */
   }
+
+  .team-info__details-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
   
   .team-info__full-width-underline {
     position: relative; /* Add this line */
