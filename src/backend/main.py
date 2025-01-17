@@ -1,10 +1,12 @@
 from jinja2 import TemplateNotFound
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-nltk.download('vader_lexicon')
+
+nltk.download("vader_lexicon")
 app = FastAPI()
 
 # Allow all origins
@@ -29,5 +31,6 @@ async def read_root():
 @app.post("/judge-description")
 async def send_message(message: Message):
     analyser = SentimentIntensityAnalyzer()
-    scores = analyser.polarity_scores(Message.message)
+    scores = analyser.polarity_scores(message.message)
     print(scores)
+    return JSONResponse(content=scores)  # Return the scores in a JSON response
