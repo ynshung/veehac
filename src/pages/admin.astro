@@ -16,7 +16,7 @@ import Layout from "../layouts/Layout.astro";
 <script>
   import { doc, getDoc } from "firebase/firestore";
   import { auth, db } from "../firebase";
-  import { checkSessionExpired } from "../controller/controller";
+  import { checkSessionExpired, refreshSession } from "../controller/controller";
   
     document.addEventListener('DOMContentLoaded', function() {
       auth.onAuthStateChanged((user) => {
@@ -32,6 +32,7 @@ import Layout from "../layouts/Layout.astro";
               alert("You are not authorized to access this page!");
               window.location.href = "/login";
             }
+            refreshSession();
           });
         }
       });
