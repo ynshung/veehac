@@ -124,6 +124,7 @@ const ProjectSubmissionForm = ({ onClose }) => {
         business: 0,
         design: 0,
         ideaImpact: 0,
+        descriptionScore: 0
       };
 
       if (existingProjectId) {
