@@ -1,19 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { db, auth } from '../firebase';
-import { collection, query, where, getDocs, doc, getDoc, arrayRemove, updateDoc, arrayUnion, addDoc, deleteDoc } from "firebase/firestore";
+import React, { useState, useEffect } from "react";
+import { db, auth } from "../firebase";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  getDoc,
+  arrayRemove,
+  updateDoc,
+  arrayUnion,
+  addDoc,
+  deleteDoc,
+} from "firebase/firestore";
 import "../styles/TeamInfo.css";
-import { onAuthStateChanged } from 'firebase/auth';
-import Swal from 'sweetalert2'
+import { onAuthStateChanged } from "firebase/auth";
+import Swal from "sweetalert2";
 
 const TeamInfo = () => {
   const [team, setTeam] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [leaderName, setLeaderName] = useState('');
+  const [leaderName, setLeaderName] = useState("");
   const [participants, setParticipants] = useState({});
   const [isLeader, setIsLeader] = useState(false);
 
   const fetchData = async () => {
-
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
         return;
@@ -24,7 +35,10 @@ const TeamInfo = () => {
       // Perform multiple queries to cover all conditions
       const queries = [
         query(collection(db, "team"), where("leaderID", "==", userId)),
-        query(collection(db, "team"), where("membersID", "array-contains", userId)),
+        query(
+          collection(db, "team"),
+          where("membersID", "array-contains", userId),
+        ),
       ];
 
       let teamData = null;
@@ -218,42 +232,47 @@ const TeamInfo = () => {
                   >
                     <i className="fa-solid fa-plus"></i> Add Members
                   </button>
-                  {team.membersID.length === 0 && <button
-                    className="button"
-                    onClick={() => {
-                      Swal.fire({
-                        title: "Are you sure",
-                        text: "You won't be able to revert this!",
-                        icon: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#3085d6",
-                        cancelButtonColor: "#d33",
-                        confirmButtonText: "Yes, delete it!",
-                      }).then((result) => {
-                        if (result.isConfirmed) {
-                          deleteDoc(doc(db, "team", team.id))
-                            .then(() => {
-                              // Update teamID in the participant document
-                              updateDoc(doc(db, "participant", team.leaderID), {
-                                teamID: "",
-                              }).then(() => {
-                                Swal.fire(
-                                  "Deleted!",
-                                  "Your team has been deleted.",
-                                  "success",
-                                );
-                                location.reload();
+                  {team.membersID.length === 0 && (
+                    <button
+                      className="button"
+                      onClick={() => {
+                        Swal.fire({
+                          title: "Are you sure",
+                          text: "You won't be able to revert this!",
+                          icon: "warning",
+                          showCancelButton: true,
+                          confirmButtonColor: "#3085d6",
+                          cancelButtonColor: "#d33",
+                          confirmButtonText: "Yes, delete it!",
+                        }).then((result) => {
+                          if (result.isConfirmed) {
+                            deleteDoc(doc(db, "team", team.id))
+                              .then(() => {
+                                // Update teamID in the participant document
+                                updateDoc(
+                                  doc(db, "participant", team.leaderID),
+                                  {
+                                    teamID: "",
+                                  },
+                                ).then(() => {
+                                  Swal.fire(
+                                    "Deleted!",
+                                    "Your team has been deleted.",
+                                    "success",
+                                  );
+                                  location.reload();
+                                });
+                              })
+                              .catch((error) => {
+                                Swal.fire("Error!", error.message, "error");
                               });
-                            })
-                            .catch((error) => {
-                              Swal.fire("Error!", error.message, "error");
-                            });
-                        }
-                      });
-                    }}
-                  >
-                    <i className="fa-solid fa-trash"></i> Delete Team
-                  </button>}
+                          }
+                        });
+                      }}
+                    >
+                      <i className="fa-solid fa-trash"></i> Delete Team
+                    </button>
+                  )}
                 </div>
               )}
             </>
@@ -287,20 +306,19 @@ const TeamInfo = () => {
                       };
 
                       // Add new team to the "team" collection
-                      addDoc(collection(db, "team"), newTeam)
-                        .then((docRef) => {
-                          // Update teamID in the participant document
-                          updateDoc(doc(db, "participant", userId), {
-                            teamID: docRef.id,
-                          }).then(() => {
-                            Swal.fire(
-                              "Created!",
-                              "Your team has been created.",
-                              "success",
-                            );
-                            location.reload();
-                          });
+                      addDoc(collection(db, "team"), newTeam).then((docRef) => {
+                        // Update teamID in the participant document
+                        updateDoc(doc(db, "participant", userId), {
+                          teamID: docRef.id,
+                        }).then(() => {
+                          Swal.fire(
+                            "Created!",
+                            "Your team has been created.",
+                            "success",
+                          );
+                          location.reload();
                         });
+                      });
                     }
                   });
                 }}

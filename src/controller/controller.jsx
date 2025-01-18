@@ -1,10 +1,17 @@
-import CaseStudies from '../components/CaseStudies.astro';
-import { loginTimePeriod } from '../constants';
-import { db } from '/src/firebase';
-import { doc, getDoc, where, collection, query, getDocs } from "firebase/firestore";
+import CaseStudies from "../components/CaseStudies.astro";
+import { loginTimePeriod } from "../constants";
+import { db } from "/src/firebase";
+import {
+  doc,
+  getDoc,
+  where,
+  collection,
+  query,
+  getDocs,
+} from "firebase/firestore";
 
 export async function fetchJudges() {
-  let judges = []
+  let judges = [];
   const q = query(collection(db, "judges"));
   const querySnapshot = await getDocs(q);
 
@@ -16,7 +23,7 @@ export async function fetchJudges() {
   });
 
   // Dynamically map fields from the data
-  judges = Object.keys(judgesDict).map(key => {
+  judges = Object.keys(judgesDict).map((key) => {
     const judge = judgesDict[key];
     let judgeData = {};
 
@@ -27,27 +34,23 @@ export async function fetchJudges() {
 
     return judgeData;
   });
-  return judges
+  return judges;
 }
 
 export async function fetchSpecificJudge(uid) {
-
-  const judgeRef = doc(db, "judges", uid);  // Referring to a single judge document by UID
-  const docSnapshot = await getDoc(judgeRef);  // Fetch the document snapshot
-  console.log(docSnapshot.data())
+  const judgeRef = doc(db, "judges", uid); // Referring to a single judge document by UID
+  const docSnapshot = await getDoc(judgeRef); // Fetch the document snapshot
+  console.log(docSnapshot.data());
   if (docSnapshot.exists()) {
     const judgeData = docSnapshot.data();
 
-    return judgeData;  // Return the judge data directly
+    return judgeData; // Return the judge data directly
   } else {
-    throw new Error("Judge not found");  // Handle case where judge is not found
+    throw new Error("Judge not found"); // Handle case where judge is not found
   }
 }
 
-
-
 export async function fetchProjects() {
-
   const q = query(collection(db, "project"));
   const querySnapshot = await getDocs(q);
   let projects = [];
@@ -60,7 +63,7 @@ export async function fetchProjects() {
   });
 
   // Dynamically map fields from the data
-  projects = Object.keys(projectsDict).map(key => {
+  projects = Object.keys(projectsDict).map((key) => {
     const project = projectsDict[key];
     let projectData = {};
 
@@ -72,9 +75,8 @@ export async function fetchProjects() {
     return projectData;
   });
 
-  return projects
+  return projects;
 }
-
 
 export async function fetchCaseStudies() {
   const q = query(collection(db, "caseStudies"));
@@ -89,56 +91,56 @@ export async function fetchCaseStudies() {
   });
 
   // Dynamically map fields from the data
-  caseStudies = Object.keys(caseStudiesDict).map(key => {
+  caseStudies = Object.keys(caseStudiesDict).map((key) => {
     const caseStudies = caseStudiesDict[key];
     let caseStudiesData = {};
 
     // Dynamically assign keys from the project data to projectData
     for (const field in caseStudies) {
       if (field == "submissionTime") {
-        caseStudiesData[field] = (caseStudies[field].submissionTime.seconds * 1000).toLocaleString()
-      }
-      else {
+        caseStudiesData[field] = (
+          caseStudies[field].submissionTime.seconds * 1000
+        ).toLocaleString();
+      } else {
         caseStudiesData[field] = caseStudies[field];
       }
     }
     return caseStudiesData;
   });
-  return caseStudies
+  return caseStudies;
 }
 
 export class calculateSentiment {
-  constructor() { }
+  constructor() {}
 
   sendMessage(message) {
     // Return a Promise from the function so we can wait for the asynchronous result
     return new Promise((resolve, reject) => {
       // Make sure message is passed to the function
-      fetch('http://localhost:8000/judge-description', {
-        method: 'POST',
+      fetch("http://localhost:8000/judge-description", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ message: message }), // Send the message in the request body
       })
-        .then(response => {
+        .then((response) => {
           if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error("Network response was not ok");
           }
           return response.json();
         })
-        .then(data => {
-          console.log('Response:', data); // Log the response
+        .then((data) => {
+          console.log("Response:", data); // Log the response
           resolve(data); // Resolve the Promise with the data
         })
-        .catch(error => {
-          console.error('Error sending message:', error); // Log any errors
+        .catch((error) => {
+          console.error("Error sending message:", error); // Log any errors
           reject(error); // Reject the Promise with the error
         });
     });
   }
 }
-
 
 // Data retrieval: Obtain data from participant document
 export async function fetchParticipantProject(uid) {
@@ -171,7 +173,6 @@ export async function fetchParticipantProject(uid) {
     }
 
     return { id: projectDoc.id, data: projectDoc.data() };
-
   } catch (error) {
     console.error("Error fetching participant project:", error);
     throw error;
@@ -204,7 +205,7 @@ export async function fetchTeamIdByUserUid(uid) {
 }
 
 export const checkSessionExpired = () => {
-  const loginTime = localStorage.getItem('loginTime');
+  const loginTime = localStorage.getItem("loginTime");
   if (loginTime) {
     const currentTime = new Date().getTime();
     const timeDifference = currentTime - parseInt(loginTime);
@@ -216,8 +217,8 @@ export const checkSessionExpired = () => {
     refreshSession();
   }
   return false;
-}
+};
 
 export const refreshSession = () => {
-  localStorage.setItem('loginTime', new Date().getTime().toString());
-}
+  localStorage.setItem("loginTime", new Date().getTime().toString());
+};

@@ -1,22 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import Select from 'react-select';
+import React, { useState, useEffect } from "react";
+import Select from "react-select";
 import { fetchProjects, fetchJudges } from "../controller/controller.jsx";
-import { db } from '/src/firebase';
-import { collection, query, where, getDocs, updateDoc, doc } from "firebase/firestore";
+import { db } from "/src/firebase";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 
 const SearchDropdown = ({ project }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [optionsArray, setOptionsArray] = useState([]);
-  console.log(optionsArray)
+  console.log(optionsArray);
   // Log the selected option whenever it changes
   useEffect(() => {
     const fetchAndSetJudges = async () => {
       let judge = await fetchJudges();
       const judges = judge.sort((a, b) => a.id - b.id);
-      const optionsArray = judges.map(judge => ({
+      const optionsArray = judges.map((judge) => ({
         value: judge.name,
         label: judge.name,
-        id: judge.id
+        id: judge.id,
       }));
       setOptionsArray(optionsArray);
     };

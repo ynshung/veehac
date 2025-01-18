@@ -1,16 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import JudgeDashboard from "./JudgeDashboard";
 import JudgeProject from "./JudgeProject";
-import { fetchProjects, fetchCaseStudies, fetchSpecificJudge } from "../controller/controller.jsx";
-import { getAuth } from 'firebase/auth';
-import { getDoc, doc } from 'firebase/firestore';
+import {
+  fetchProjects,
+  fetchCaseStudies,
+  fetchSpecificJudge,
+} from "../controller/controller.jsx";
+import { getAuth } from "firebase/auth";
+import { getDoc, doc } from "firebase/firestore";
 import { auth, db } from "../firebase";
-
 
 function JudgeDashboardParent() {
   const [projects, setProjects] = useState([]);
   const [caseStudies, setCaseStudies] = useState([]);
-  const [showJudging, setShowJudging] = useState('');
+  const [showJudging, setShowJudging] = useState("");
   const [id, setId] = useState(null);
   const [judges, setJudges] = useState({});
   const [isIdSet, setIsIdSet] = useState(false);
@@ -73,7 +76,6 @@ function JudgeDashboardParent() {
   useEffect(() => {
     const fetchData = async () => {
       if (uid) {
-
         const participantDoc = await fetchSpecificJudge(uid);
         if (participantDoc != {}) {
           setJudges(participantDoc);
@@ -92,10 +94,10 @@ function JudgeDashboardParent() {
       setIsIdSet(true);
     }
   }, [id, uid]);
-  console.log(projects, "AAA")
+  console.log(projects, "AAA");
   return (
     <div>
-      {showJudging !== '' && isIdSet ? (
+      {showJudging !== "" && isIdSet ? (
         <JudgeProject
           projects={projects}
           setId={setId}

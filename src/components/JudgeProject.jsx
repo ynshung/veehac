@@ -1,25 +1,37 @@
-import '../styles/JudgeProject.css';
-import RatingSlider from './RatingSlider';
-import Confirm from './Confirm';
-import React, { useEffect, useState } from 'react';
-import { db } from '/src/firebase';
-import { collection, query, where, getDocs, updateDoc, doc } from "firebase/firestore";
-import { fetchProjects, fetchCaseStudies, calculateSentiment } from "../controller/controller.jsx";
-import CaseStudies from './CaseStudies.astro';
+import "../styles/JudgeProject.css";
+import RatingSlider from "./RatingSlider";
+import Confirm from "./Confirm";
+import React, { useEffect, useState } from "react";
+import { db } from "/src/firebase";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
+import {
+  fetchProjects,
+  fetchCaseStudies,
+  calculateSentiment,
+} from "../controller/controller.jsx";
+import CaseStudies from "./CaseStudies.astro";
 
-
-const JudgeProject = ({ projects, setId, id, setProjects, caseStudies, setShowJudging }) => {
-
-
-
-
+const JudgeProject = ({
+  projects,
+  setId,
+  id,
+  setProjects,
+  caseStudies,
+  setShowJudging,
+}) => {
   // State for storing case studies and loading state
 
-  const [isLoading, setIsLoading] = useState(true);  // State to track loading
+  const [isLoading, setIsLoading] = useState(true); // State to track loading
 
-
-  projects = projects.sort((a, b) => a.id - b.id)
-  console.log(projects, id, "projects")
+  projects = projects.sort((a, b) => a.id - b.id);
+  console.log(projects, id, "projects");
   const [ideaImpact, setIdeaImpact] = useState(0);
   const [uniqueness, setUniqueness] = useState(0);
   const [business, setBusiness] = useState(0);
@@ -48,15 +60,18 @@ const JudgeProject = ({ projects, setId, id, setProjects, caseStudies, setShowJu
   const handleConfirm = async (confirmed) => {
     // Example usage:
     const CalculateSentiment = new calculateSentiment();
-    let x = ""
+    let x = "";
     CalculateSentiment.sendMessage(description)
-      .then(responseData => {
-        x = Math.round((5 + (responseData["pos"] * 5) - (responseData["neg"] * 5)) * 100) / 100
+      .then((responseData) => {
+        x =
+          Math.round(
+            (5 + responseData["pos"] * 5 - responseData["neg"] * 5) * 100,
+          ) / 100;
         console.log(x);
       })
-      .catch(error => {
+      .catch((error) => {
         // Handle any errors that occurred during the fetch operation
-        console.error('Error in sentiment analysis:', error);
+        console.error("Error in sentiment analysis:", error);
       });
 
     const tempProject = {
@@ -94,44 +109,70 @@ const JudgeProject = ({ projects, setId, id, setProjects, caseStudies, setShowJu
     };
     await fetchData();
 
-    setShowJudging('');  // Close the dialog
+    setShowJudging(""); // Close the dialog
   };
 
   return (
-    <div style={{ display: 'inline-flex' }}>
+    <div style={{ display: "inline-flex" }}>
       <div className="judge-project-card">
-        <div style={{ fontSize: '13px', fontWeight: 500 }}>
-          <a onClick={() => setShowJudging('')}>Back to Dashboard</a>
-          <p><span style={{ fontWeight: 200 }}>Dashboard/</span>Project Information</p>
+        <div style={{ fontSize: "13px", fontWeight: 500 }}>
+          <a onClick={() => setShowJudging("")}>Back to Dashboard</a>
+          <p>
+            <span style={{ fontWeight: 200 }}>Dashboard/</span>Project
+            Information
+          </p>
           <hr />
         </div>
 
         <div>
           <div className="project-information">
-            <p style={{ fontSize: '24px', fontWeight: 600 }}>Project Information</p>
+            <p style={{ fontSize: "24px", fontWeight: 600 }}>
+              Project Information
+            </p>
           </div>
 
           <div className="project-title">
             <div>
               <p>Project Title</p>
-              <textarea value={projects[id]["title"]} disabled style={{ height: '30px' }}></textarea>
+              <textarea
+                value={projects[id]["title"]}
+                disabled
+                style={{ height: "30px" }}
+              ></textarea>
             </div>
             <div className="project-description">
               <p>Description</p>
-              <textarea value={projects[id]["description"]} disabled style={{ height: '300px' }}> </textarea>
+              <textarea
+                value={projects[id]["description"]}
+                disabled
+                style={{ height: "300px" }}
+              >
+                {" "}
+              </textarea>
             </div>
             <div className="project-case-study">
               <p>Case Study</p>
-              <textarea value={"Case Study " + (parseInt(projects[id]["caseStudy"]) + 1) + ": " + caseStudies[projects[id]["caseStudy"]].title} disabled style={{ height: '30px' }}></textarea>
+              <textarea
+                value={
+                  "Case Study " +
+                  (parseInt(projects[id]["caseStudy"]) + 1) +
+                  ": " +
+                  caseStudies[projects[id]["caseStudy"]].title
+                }
+                disabled
+                style={{ height: "30px" }}
+              ></textarea>
             </div>
             <div className="project-presentation-video">
               <p>Presentation Video</p>
               <iframe
                 width="100%"
                 height="365"
-                src={projects[id]["ytLink"].replace("https://www.youtube.com/watch?v=", "https://www.youtube.com/embed/")}
-              >
-              </iframe>
+                src={projects[id]["ytLink"].replace(
+                  "https://www.youtube.com/watch?v=",
+                  "https://www.youtube.com/embed/",
+                )}
+              ></iframe>
             </div>
             <div className="project-prototype">
               <div className="go-to-prototype">
@@ -144,32 +185,60 @@ const JudgeProject = ({ projects, setId, id, setProjects, caseStudies, setShowJu
 
       <div className="judge-rating-card">
         <div>
-          <p style={{ fontSize: '24px', fontWeight: 600 }}>Judging</p>
+          <p style={{ fontSize: "24px", fontWeight: 600 }}>Judging</p>
         </div>
         <div className="judge-rating-slider">
-          <p style={{ fontSize: '16px', fontWeight: 500 }}>Idea Impact</p>
-          <RatingSlider handleChangeRating={setIdeaImpact} id={id} rating={ideaImpact} />
+          <p style={{ fontSize: "16px", fontWeight: 500 }}>Idea Impact</p>
+          <RatingSlider
+            handleChangeRating={setIdeaImpact}
+            id={id}
+            rating={ideaImpact}
+          />
         </div>
         <div className="judge-rating-slider">
-          <p style={{ fontSize: '16px', fontWeight: 500 }}>Idea Novelty/ Uniqueness</p>
-          <RatingSlider handleChangeRating={setUniqueness} id={id} rating={uniqueness} />
+          <p style={{ fontSize: "16px", fontWeight: 500 }}>
+            Idea Novelty/ Uniqueness
+          </p>
+          <RatingSlider
+            handleChangeRating={setUniqueness}
+            id={id}
+            rating={uniqueness}
+          />
         </div>
         <div className="judge-rating-slider">
-          <p style={{ fontSize: '16px', fontWeight: 500 }}>Business</p>
-          <RatingSlider handleChangeRating={setBusiness} id={id} rating={business} />
+          <p style={{ fontSize: "16px", fontWeight: 500 }}>Business</p>
+          <RatingSlider
+            handleChangeRating={setBusiness}
+            id={id}
+            rating={business}
+          />
         </div>
         <div className="judge-rating-slider">
-          <p style={{ fontSize: '16px', fontWeight: 500 }}>Prototype UI Design</p>
-          <RatingSlider handleChangeRating={setDesign} id={id} rating={design} />
+          <p style={{ fontSize: "16px", fontWeight: 500 }}>
+            Prototype UI Design
+          </p>
+          <RatingSlider
+            handleChangeRating={setDesign}
+            id={id}
+            rating={design}
+          />
         </div>
         <div className="judge-rating-slider">
-          <p style={{ fontSize: '16px', fontWeight: 500 }}>Pitching</p>
-          <RatingSlider handleChangeRating={setPitching} id={id} rating={pitching} />
+          <p style={{ fontSize: "16px", fontWeight: 500 }}>Pitching</p>
+          <RatingSlider
+            handleChangeRating={setPitching}
+            id={id}
+            rating={pitching}
+          />
         </div>
 
         <div className="project-comments">
           <p>Description</p>
-          <textarea value={description} style={{ height: '200px' }} onChange={(e) => setDescription(e.target.value)}></textarea>
+          <textarea
+            value={description}
+            style={{ height: "200px" }}
+            onChange={(e) => setDescription(e.target.value)}
+          ></textarea>
         </div>
         <div>
           <div onClick={handleOpenDialog} className="submit">
