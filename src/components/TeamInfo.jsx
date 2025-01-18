@@ -13,7 +13,6 @@ const TeamInfo = () => {
   const [isLeader, setIsLeader] = useState(false);
 
   const fetchData = async () => {
-    console.log("Component mounted");
 
     onAuthStateChanged(auth, async (user) => {
       if (!user) {

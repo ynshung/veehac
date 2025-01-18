@@ -8,8 +8,6 @@ import {fetchCaseStudies, fetchParticipantProject, fetchTeamIdByUserUid} from '.
 import DOMPurify from 'dompurify';
 
 const sanitiseInput = (input) => {
-  console.log("input:", input);
-  console.log("sanitised input:", DOMPurify.sanitize(input));
   return DOMPurify.sanitize(input);
 };
 
