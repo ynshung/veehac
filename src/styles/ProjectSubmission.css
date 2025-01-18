@@ -96,7 +96,6 @@
   background-color: black; /* Set the color of the underline */
 }
 
-
 .body-submission .add-submission-button {
   background-color: #ffffff; /* Blue background */
   border: none; /* Remove borders */
@@ -138,7 +137,7 @@
 
 .modal-header {
   display: flex;
-  justify-content: flex-end; 
+  justify-content: flex-end;
   margin-bottom: 1rem;
 }
 
@@ -151,4 +150,3 @@
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 999;
 }
-

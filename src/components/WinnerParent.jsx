@@ -1,27 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { fetchProjects } from '../controller/controller.jsx';
-import Winner from './Winner';  // Child component that renders winner details
-import '../styles/Winner.css'; // Add any styles needed
-function validateFields(arr) {
-  // Iterate over the array of objects
-  for (let i = 0; i < arr.length; i++) {
-    const obj = arr[i];
+import React, { useEffect, useState } from "react";
+import { fetchProjects } from "../controller/controller.jsx";
+import Winner from "./Winner"; // Child component that renders winner details
+import "../styles/Winner.css"; // Add any styles needed
 
-    // Check if the required keys are filled and have valid values
-    const requiredKeys = ['pitching', 'design', 'business', 'ideaImpact', 'uniqueness', 'description'];
-
-    for (let key of requiredKeys) {
-      if (!obj.hasOwnProperty(key) || obj[key] === null || obj[key] === 0 || obj[key] === '') {
-        return false;  // Return false if any key is missing or invalid
-      }
-    }
-  }
-
-  return true; // Return true if all checks pass
-}
 const WinnerParent = () => {
-  const [projects, setProjects] = useState([]);  // State to hold fetched projects
-  const [loading, setLoading] = useState(true);  // Loading state for projects
+  const [projects, setProjects] = useState([]); // State to hold fetched projects
+  const [loading, setLoading] = useState(true); // Loading state for projects
 
   // Fetch projects data when the component mounts
   useEffect(() => {
@@ -55,7 +39,7 @@ const WinnerParent = () => {
         setProjects(sortedProjects); // Update state with sorted and formatted projects
         setLoading(false); // Set loading to false after fetching
       } catch (error) {
-        console.error('Error fetching projects:', error); // Handle any errors
+        console.error("Error fetching projects:", error); // Handle any errors
         setLoading(false); // Set loading to false even if error occurs
       }
     };
@@ -85,4 +69,3 @@ const WinnerParent = () => {
 };
 
 export default WinnerParent;
-

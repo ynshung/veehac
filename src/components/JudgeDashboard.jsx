@@ -1,16 +1,11 @@
 import { useEffect, useState } from "react";
 import "../styles/JudgeDashboard.css";
 
-import { getDoc, doc } from 'firebase/firestore';
+import { getDoc, doc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
-
-
 const JudgeDashboard = ({ projects, setId, setShowJudging, judge }) => {
-
-  let filteredArray = projects.filter(project =>
-    judge.id === project.judge
-  );
+  let filteredArray = projects.filter((project) => judge.id === project.id);
 
   return (
     <div className="judge-dashboard-card">
@@ -25,8 +20,8 @@ const JudgeDashboard = ({ projects, setId, setShowJudging, judge }) => {
         <div>
           <div>
             <p style={{ fontSize: "15px", fontWeight: 400 }}>
-              Welcome to Veehac 2025, glad to have you here with us! The
-              judging times will be from 2nd January 2025 to 3rd January 2025.
+              Welcome to Veehac 2025, glad to have you here with us! The judging
+              times will be from 2nd January 2025 to 3rd January 2025.
             </p>
           </div>
         </div>
@@ -99,8 +94,7 @@ const JudgeDashboard = ({ projects, setId, setShowJudging, judge }) => {
             <span style={{ fontWeight: "bold" }}>Company:</span> {judge.company}
           </p>
           <p>
-            <span style={{ fontWeight: "bold" }}>Email:</span>{" "}
-            {judge.email}
+            <span style={{ fontWeight: "bold" }}>Email:</span> {judge.email}
           </p>
         </div>
       </div>
