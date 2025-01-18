@@ -15,7 +15,7 @@ const sanitiseInput = (input) => {
 
 const ProjectSubmissionForm = ({ onClose }) => {
   const [teamID, setTeamID] = useState(null);
-  const [name, setName] = useState('');
+  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [caseStudy, setCaseStudy] = useState('');
   const [slideFile, setSlideFile] = useState(null);
@@ -36,7 +36,7 @@ const ProjectSubmissionForm = ({ onClose }) => {
       fetchParticipantProject(user.uid).then((participantProject) => {
         if (participantProject) {
           setExistingProjectId(participantProject.id);
-          setName(participantProject.data.name || "");
+          setTitle(participantProject.data.title || "");
           setDescription(participantProject.data.description || "");
           setCaseStudy(participantProject.data.caseStudy || "");
           setYtLink(participantProject.data.ytLink || "");
@@ -95,7 +95,7 @@ const ProjectSubmissionForm = ({ onClose }) => {
   
     try {
       const projectData = {
-        name: sanitiseInput(name),
+        title: sanitiseInput(title),
         description: sanitiseInput(description),
         caseStudy: sanitiseInput(caseStudy),
         slideFileName: sanitiseInput(slideFileName),
@@ -149,14 +149,14 @@ const ProjectSubmissionForm = ({ onClose }) => {
         <form id="project-submission-form" onSubmit={handleSubmit}>
           <div>
             <div className="project-submission__full-width-underline">1. Project Name & Description:</div>
-            <p>Enter your project name *</p>
+            <p>Enter your project title *</p>
             <input
               type="text"
-              id="project-name"
-              name="project-name"
+              id="project-title"
+              name="project-title"
               className="project-submission__input"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               required
             />
             <p>Enter your project description *</p>
