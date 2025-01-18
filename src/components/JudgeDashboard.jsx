@@ -5,8 +5,7 @@ import { getDoc, doc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
 const JudgeDashboard = ({ projects, setId, setShowJudging, judge }) => {
-  let filteredArray = projects.filter((project) => judge.id === project.id);
-
+  let filteredArray = projects.filter((project) => judge.id === project.judge);
   return (
     <div className="judge-dashboard-card">
       <div>
@@ -42,41 +41,41 @@ const JudgeDashboard = ({ projects, setId, setShowJudging, judge }) => {
         </div>
       </div>
       <div style={{ maxHeight: "175px", overflowY: "auto", width: "100%" }}>
-  <table style={{ width: "100%" }}>
-    <tbody>
-      {filteredArray.length > 0 ? (
-        filteredArray.map((project) => {
-          const [judged, setJudged] = useState(false);
-          return (
-            <tr key={project.id}>
-              <td className="project-name">{project.name}</td>
-              <td className="project-group">{project.group}</td>
-              <td className="project-title">{project.title}</td>
-              <td className="project-judged" id="project-judged">
-                <a
-                  className={`judged-button ${project.judged ? "judged" : "not-judged"}`}
-                  onClick={() => {
-                    setShowJudging(project.id); // This updates the showJudging state in the parent
-                    console.log(project.id, "ID");
-                    setId(project.id); // This updates the id in the parent
-                  }}
-                >
-                  <i className="fa fa-file-text" aria-hidden="true" />
-                </a>
-              </td>
-            </tr>
-          );
-        })
-      ) : (
-        <tr>
-          <td colSpan="4" style={{ textAlign: "center" }}>
-            Nothing here... Check back later for projects assigned to you!
-          </td>
-        </tr>
-      )}
-    </tbody>
-  </table>
-</div>
+        <table style={{ width: "100%" }}>
+          <tbody>
+            {filteredArray.length > 0 ? (
+              filteredArray.map((project) => {
+                const [judged, setJudged] = useState(false);
+                return (
+                  <tr key={project.id}>
+                    <td className="project-name">{project.name}</td>
+                    <td className="project-group">{project.group}</td>
+                    <td className="project-title">{project.title}</td>
+                    <td className="project-judged" id="project-judged">
+                      <a
+                        className={`judged-button ${project.judged ? "judged" : "not-judged"}`}
+                        onClick={() => {
+                          setShowJudging(project.id); // This updates the showJudging state in the parent
+                          console.log(project.id, "ID");
+                          setId(project.id); // This updates the id in the parent
+                        }}
+                      >
+                        <i className="fa fa-file-text" aria-hidden="true" />
+                      </a>
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td colSpan="4" style={{ textAlign: "center" }}>
+                  Nothing here... Check back later for projects assigned to you!
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
 
       <div className="judge-info">
         <div>
