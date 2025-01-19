@@ -108,12 +108,12 @@ const CarouselParent = () => {
                   <a
                     href="javascript:void(0)"
                     className="card-link"
-                    data-name={dev.name}
+                    data-name={dev.title}
                     data-description={dev.description}
                     // No modal opening here, will open only when "More" button is clicked
                   >
                     <img src={dev.imageBase64 || "anonymous.jpg"} alt="Card Image" className="card-image" />
-                    <p className="badge">{dev.name}</p>
+                    <p className="badge">{dev.title}</p>
                     <button 
                       className="card-button material-symbols-rounded"
                       onClick={(e) => {
@@ -174,7 +174,7 @@ const CarouselParent = () => {
                 allowFullScreen
               />
             </div>
-            <h2 id="modal-name">{modalData.name}</h2>
+            <h2 id="modal-name">{modalData.title}</h2>
             <p id="modal-description">{modalData.description}</p>
           </div>
         </div>

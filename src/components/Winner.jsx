@@ -10,7 +10,7 @@ const Winner = ({ projects }) => {
   // Helper function to open the modal
   const openModal = (project) => {
     if (project) {
-      document.getElementById("modal2-name").textContent = project.name;
+      document.getElementById("modal2-name").textContent = project.title;
       document.getElementById("modal2-description").textContent =
         project.description;
       console.log(project.ytLink);
@@ -74,7 +74,7 @@ const Winner = ({ projects }) => {
             <div className="medal-icon gold">🥇</div>
           </div>
           <div className="winner-description">
-            <h2>{champion.name}</h2>
+            <h2>{champion.title}</h2>
             <p>{champion.description}</p>
             <button className="card-button" onClick={() => openModal(champion)}>
               More
@@ -99,7 +99,7 @@ const Winner = ({ projects }) => {
                   <div className="medal-icon silver">🥈</div>
                 </div>
                 <div className="runner-up-description">
-                  <h2>{firstRunnerUp.name}</h2>
+                  <h2>{firstRunnerUp.title}</h2>
                   <p>{firstRunnerUp.description}</p>
                   <button
                     className="card-button"
@@ -127,7 +127,7 @@ const Winner = ({ projects }) => {
                   <div className="medal-icon bronze">🥉</div>
                 </div>
                 <div className="runner-up-description">
-                  <h2>{secondRunnerUp.name}</h2>
+                  <h2>{secondRunnerUp.title}</h2>
                   <p>{secondRunnerUp.description}</p>
                   <button
                     className="card-button material-symbols-rounded"
