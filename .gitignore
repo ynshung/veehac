@@ -26,3 +26,4 @@ src/components/Testing.jsx
 src/pages/testing.astro
 
 .firebase
+*.pyc
