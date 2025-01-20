@@ -3,7 +3,23 @@ import { fetchProjects } from '../controller/controller.jsx';  // Assuming fetch
 import Swiper from "swiper/bundle";
 import "swiper/css/bundle";  // Include the swiper styles
 import '../styles/Carousel.css';
+function validateFields(arr) {
+  // Iterate over the array of objects
+  for (let i = 0; i < arr.length; i++) {
+    const obj = arr[i];
 
+    // Check if the required keys are filled and have valid values
+    const requiredKeys = ['pitching', 'design', 'business', 'ideaImpact', 'uniqueness', 'description'];
+
+    for (let key of requiredKeys) {
+      if (!obj.hasOwnProperty(key) || obj[key] === null || obj[key] === 0 || obj[key] === '') {
+        return false;  // Return false if any key is missing or invalid
+      }
+    }
+  }
+
+  return true; // Return true if all checks pass
+}
 const CarouselParent = () => {
   const [projects, setProjects] = useState([]);  // State to hold fetched projects
   const [loading, setLoading] = useState(true);  // Loading state for projects
@@ -94,7 +110,7 @@ const CarouselParent = () => {
   const closeModal = () => {
     setIsModalOpen(false);  // Hide the modal
   };
-
+if (validateFields(projects)){
   return (
     <div>
       {loading ? (
@@ -181,6 +197,14 @@ const CarouselParent = () => {
       )}
     </div>
   );
+}
+else{
+  return (
+    <div>
+      <p>skibidi toilet will come soon</p>
+    </div>
+  )
+}
 };
 
 export default CarouselParent;

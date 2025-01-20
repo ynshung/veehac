@@ -11,33 +11,17 @@ import {
   doc,
 } from "firebase/firestore";
 
-const SearchDropdown = ({ project }) => {
+const SearchDropdown = ({ project, optionsArray }) => {
   const [selectedOption, setSelectedOption] = useState(null);
-  const [optionsArray, setOptionsArray] = useState([]);
-  console.log(optionsArray);
-  // Log the selected option whenever it changes
+
   useEffect(() => {
-    const fetchAndSetJudges = async () => {
-      let judge = await fetchJudges();
-      const judges = judge.sort((a, b) => a.id - b.id);
-      const optionsArray = judges.map((judge) => ({
-        value: judge.name,
-        label: judge.name,
-        id: judge.id,
-      }));
-      setOptionsArray(optionsArray);
-    };
-
-    fetchAndSetJudges();
-
     if (selectedOption) {
       console.log("Selected option changed to:", selectedOption);
       updateProject(selectedOption);
     }
   }, [selectedOption]);
 
-  const handleChange = async (option) => {
-    // Log the selected option before the change
+  const handleChange = (option) => {
     console.log("Before change:", selectedOption);
     setSelectedOption(option);
   };
@@ -61,12 +45,23 @@ const SearchDropdown = ({ project }) => {
     }
   };
 
+  // // Find the selected option and remove the id field by destructuring
+  // let x = optionsArray.find(option => option.id === project.judge);
+
+  // // Ensure that we safely remove the `id` from the object
+  // if (x) {
+  //   const { id, ...rest } = x; // Destructure and omit `id`
+  //   x = rest; // This will be the new object without `id`
+  // }
+  console.log(optionsArray[project.judge], "psdogjlfk")
+
   return (
     <div>
       <Select
-        value={optionsArray.value}
+        // value={selectedOption}
         onChange={handleChange}
         options={optionsArray}
+        name="id"
         defaultValue={optionsArray[project.judge]}
       />
     </div>

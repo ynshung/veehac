@@ -47,15 +47,25 @@ const WinnerParent = () => {
     getProjects();
   }, []);
 
-  return (
-    <div>
-      {loading ? (
-        <div>Loading projects...</div> // Show loading message while fetching
-      ) : (
-        <Winner projects={projects} /> // Pass the fetched and formatted projects to Winner component
-      )}
-    </div>
-  );
+  console.log(projects)
+  if (validateFields(projects)) {
+    return (
+      <div>
+        {loading ? (
+          <div>Loading projects...</div>  // Show loading message while fetching
+        ) : (
+          <Winner projects={projects} />  // Pass the fetched and formatted projects to Winner component
+        )}
+      </div>
+    );
+  }
+  else{
+    return (
+      <div>
+        <p>skibidi toilet will come soon</p>
+      </div>
+    )
+  }
 };
 
 export default WinnerParent;

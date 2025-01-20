@@ -5,8 +5,7 @@ import { getDoc, doc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
 const JudgeDashboard = ({ projects, setId, setShowJudging, judge }) => {
-  let filteredArray = projects.filter((project) => judge.id === project.id);
-
+  let filteredArray = projects.filter((project) => judge.id === project.judge);
   return (
     <div className="judge-dashboard-card">
       <div>
@@ -41,7 +40,7 @@ const JudgeDashboard = ({ projects, setId, setShowJudging, judge }) => {
           <p>You can still make changes until the judging deadline</p>
         </div>
       </div>
-      <div>
+      <div style={{ maxHeight: "175px", overflowY: "auto", width: "100%" }}>
         <table style={{ width: "100%" }}>
           <tbody>
             {filteredArray.length > 0 ? (
@@ -77,6 +76,7 @@ const JudgeDashboard = ({ projects, setId, setShowJudging, judge }) => {
           </tbody>
         </table>
       </div>
+
       <div className="judge-info">
         <div>
           <p style={{ fontSize: "24px", fontWeight: 600 }}>Judge Info</p>
