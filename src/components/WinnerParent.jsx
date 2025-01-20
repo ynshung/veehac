@@ -80,7 +80,7 @@ const WinnerParent = () => {
   else{
     return (
       <div>
-        <p>skibidi toilet will come soon</p>
+        <p>Results Coming Soon</p>
       </div>
     )
   }
