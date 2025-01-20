@@ -91,21 +91,17 @@ const ProjectSubmissionForm = ({ onClose }) => {
   const handleImageChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      // Generate a local preview
       const reader = new FileReader();
       reader.onload = () => {
-        setImagePreview(reader.result); // Update state with local preview
+        setImagePreview(reader.result); 
       };
       reader.readAsDataURL(file);
 
-      // Upload the image to Firebase Storage
       try {
         const storage = getStorage();
         const storageRef = ref(storage, `images/${file.name}`);
         await uploadBytes(storageRef, file);
         const imageURL = await getDownloadURL(storageRef);
-
-        // Update state with the Firebase Storage URL
         setImageFile(imageURL);
       } catch (error) {
         console.error("Error uploading image:", error);
