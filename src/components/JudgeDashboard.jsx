@@ -48,9 +48,19 @@ const JudgeDashboard = ({ projects, setId, setShowJudging, judge }) => {
                 const [judged, setJudged] = useState(false);
                 return (
                   <tr key={project.id}>
-                    <td className="project-name">{project.name}</td>
+                    <td className="project-name">{project.title}</td>
                     <td className="project-group">{project.group}</td>
-                    <td className="project-title">{project.title}</td>
+                    <td className="project-title" style={{ width: "300px" }}>
+                      <div
+                        style={{
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {project.description.length > 50 ? project.description.substring(0, 50) + '...' : project.description}
+                      </div>
+                    </td>
                     <td className="project-judged" id="project-judged">
                       <a
                         className={`judged-button ${project.judged ? "judged" : "not-judged"}`}
@@ -64,6 +74,7 @@ const JudgeDashboard = ({ projects, setId, setShowJudging, judge }) => {
                       </a>
                     </td>
                   </tr>
+
                 );
               })
             ) : (
