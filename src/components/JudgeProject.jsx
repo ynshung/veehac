@@ -60,12 +60,12 @@ const JudgeProject = ({
   const handleConfirm = async (confirmed) => {
     // Example usage:
     const CalculateSentiment = new calculateSentiment();
-    let x = "";
+    let x = 0;
     CalculateSentiment.sendMessage(description)
       .then((responseData) => {
         x =
           Math.round(
-            (5 + responseData["pos"] * 5 - responseData["neg"] * 5) * 100,
+            ((responseData["compound"] + 1) * 5) * 100,
           ) / 100;
         console.log(x);
       })
@@ -81,6 +81,7 @@ const JudgeProject = ({
       design: parseInt(design),
       pitching: parseInt(pitching),
       judgeDescription: description,
+      descriptionScore: x,
       judged: true,
     };
     console.log(tempProject);
