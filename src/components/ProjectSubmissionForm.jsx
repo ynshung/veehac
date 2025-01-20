@@ -116,7 +116,7 @@ const ProjectSubmissionForm = ({ onClose }) => {
 
     try {
       const projects = await fetchProjects();
-      const projectId = projects.length - 1;
+      const projectId = projects.length;
 
       const projectData = {
         title: sanitiseInput(title),
