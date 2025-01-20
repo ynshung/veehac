@@ -14,6 +14,7 @@ import { auth, db } from "../firebase";
 import "../styles/ProjectSubmissionForm.css";
 import { onAuthStateChanged } from "firebase/auth";
 import {
+  fetchProjects,
   fetchCaseStudies,
   fetchParticipantProject,
   fetchTeamIdByUserUid,
@@ -114,15 +115,18 @@ const ProjectSubmissionForm = ({ onClose }) => {
     event.preventDefault();
 
     try {
+      const projects = await fetchProjects();
+      const projectId = projects.length - 1;
+
       const projectData = {
         title: sanitiseInput(title),
         description: sanitiseInput(description),
-        caseStudy: sanitiseInput(caseStudy),
+        caseStudy: parseInt(sanitiseInput(caseStudy), 10),
         slideFileName: sanitiseInput(slideFileName),
         ytLink: sanitiseInput(ytLink),
         prototypeLink: sanitiseInput(prototypeLink),
         imageBase64: sanitiseInput(imageFile || imagePreview), // Use existing image if no new upload
-        id: 0,
+        id: projectId,
         submissionTime: new Date(),
         judge: null,
         judgeDescription: "",
@@ -132,7 +136,7 @@ const ProjectSubmissionForm = ({ onClose }) => {
         business: 0,
         design: 0,
         ideaImpact: 0,
-        descriptionScore: 0
+        descriptionScore: 0,
       };
 
       if (existingProjectId) {
@@ -202,14 +206,14 @@ const ProjectSubmissionForm = ({ onClose }) => {
               name="case-study"
               className="project-submission__select"
               value={caseStudy}
-              onChange={(e) => setCaseStudy(parseInt(e.target.value))}
+              onChange={(e) => setCaseStudy(parseInt(e.target.value, 10))}
               required
             >
               <option value="">Select a case study</option>
               {caseStudies
                 .sort((a, b) => a.id - b.id)
                 .map((caseStudy) => (
-                  <option key={caseStudy.id} value={caseStudy.id}>
+                  <option key={caseStudy.id} value={parseInt(caseStudy.id, 10)}>
                     Case Study {caseStudy.id}: {caseStudy.title}
                   </option>
                 ))}
