@@ -121,7 +121,7 @@ const ProjectSubmissionForm = ({ onClose }) => {
       const projectData = {
         title: sanitiseInput(title),
         description: sanitiseInput(description),
-        caseStudy: parseInt(sanitiseInput(caseStudy), 10),
+        caseStudy: parseInt(sanitiseInput(caseStudy), 10) - 1,
         slideFileName: sanitiseInput(slideFileName),
         ytLink: sanitiseInput(ytLink),
         prototypeLink: sanitiseInput(prototypeLink),
