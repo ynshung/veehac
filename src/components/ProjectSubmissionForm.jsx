@@ -91,16 +91,28 @@ const ProjectSubmissionForm = ({ onClose }) => {
   const handleImageChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      const storage = getStorage();
-      const storageRef = ref(storage, `images/${file.name}`);
-      await uploadBytes(storageRef, file);
-      const imageURL = await getDownloadURL(storageRef);
+      // Generate a local preview
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImagePreview(reader.result); // Update state with local preview
+      };
+      reader.readAsDataURL(file);
 
-      // Update state with the image URL
-      setImagePreview(imageURL);
-      setImageFile(imageURL);
+      // Upload the image to Firebase Storage
+      try {
+        const storage = getStorage();
+        const storageRef = ref(storage, `images/${file.name}`);
+        await uploadBytes(storageRef, file);
+        const imageURL = await getDownloadURL(storageRef);
+
+        // Update state with the Firebase Storage URL
+        setImageFile(imageURL);
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      }
     }
   };
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -283,6 +295,7 @@ const ProjectSubmissionForm = ({ onClose }) => {
                 style={{ marginTop: "10px", maxWidth: "100%" }}
               />
             )}
+
           </div>
           <div className="project-submission__submit-button-container">
             <button className="project-submission__submit-button" type="submit">
