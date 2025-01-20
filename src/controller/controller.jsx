@@ -74,7 +74,7 @@ export async function fetchProjects() {
 
     return projectData;
   });
-
+  projects = projects.sort((a, b) => a.id - b.id);
   return projects;
 }
 
@@ -111,7 +111,7 @@ export async function fetchCaseStudies() {
 }
 
 export class calculateSentiment {
-  constructor() {}
+  constructor() { }
 
   sendMessage(message) {
     // Return a Promise from the function so we can wait for the asynchronous result
