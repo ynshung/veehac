@@ -25,7 +25,7 @@ const CarouselParent = () => {
   const [loading, setLoading] = useState(true);  // Loading state for projects
   const [isModalOpen, setIsModalOpen] = useState(false);  // Modal visibility
   const [modalData, setModalData] = useState({});  // Data to display in the modal
-
+  const [original, setOri] = useState([]);
   // Fetch projects data when the component mounts
   useEffect(() => {
     const getProjects = async () => {
@@ -53,7 +53,7 @@ const CarouselParent = () => {
 
         // Exclude top 3 projects
         const remainingProjects = sortedProjects.slice(3);
-
+        setOri(sortedProjects)
         setProjects(remainingProjects);  // Update state with sorted and sliced projects
         setLoading(false);  // Set loading to false after fetching
       } catch (error) {
@@ -110,101 +110,102 @@ const CarouselParent = () => {
   const closeModal = () => {
     setIsModalOpen(false);  // Hide the modal
   };
-if (validateFields(projects)){
-  return (
-    <div>
-      {loading ? (
-        <div>Loading projects...</div>  // Show loading message while fetching
-      ) : (
-        <div className="container swiper">
-          <div className="card-wrapper">
-            <ul className="card-list swiper-wrapper">
-              {projects.map((dev, index) => (
-                <li key={index} className="card-item swiper-slide">
-                  <a
-                    href="javascript:void(0)"
-                    className="card-link"
-                    data-name={dev.title}
-                    data-description={dev.description}
+  console.log(projects)
+  if (validateFields(original)) {
+    return (
+      <div>
+        {loading ? (
+          <div>Loading projects...</div>  // Show loading message while fetching
+        ) : (
+          <div className="container swiper">
+            <div className="card-wrapper">
+              <ul className="card-list swiper-wrapper">
+                {projects.map((dev, index) => (
+                  <li key={index} className="card-item swiper-slide">
+                    <a
+                      href="javascript:void(0)"
+                      className="card-link"
+                      data-name={dev.title}
+                      data-description={dev.description}
                     // No modal opening here, will open only when "More" button is clicked
-                  >
-                    <img src={dev.imageBase64 || "anonymous.jpg"} alt="Card Image" className="card-image" />
-                    <p className="badge">{dev.title}</p>
-                    <button 
-                      className="card-button material-symbols-rounded"
-                      onClick={(e) => {
-                        e.stopPropagation();  // Prevent triggering parent link's click event
-                        openModal(dev);  // Open the modal
-                      }}
                     >
-                      More
-                    </button>
-                  </a>
-                </li>
-              ))}
-            </ul>
-            <div className="swiper-pagination"></div>
-            <div className="swiper-button-prev"></div>
-            <div className="swiper-button-next"></div>
-          </div>
-        </div>
-      )}
-
-      {/* Modal */}
-      {isModalOpen && (
-        <div
-          className="modal"
-          id="modal"
-          style={{ display: 'flex' }}
-          onClick={(e) => {
-            // Close the modal if the background (outside of modal content) is clicked
-            if (e.target === e.currentTarget) {
-              closeModal();
-            }
-          }}
-        >
-          <div className="modal-content">
-            {/* Close button positioned at the top-right with larger size */}
-            <span
-              className="close"
-              onClick={closeModal}
-              style={{
-                position: 'absolute',
-                top: '10px',
-                right: '10px',
-                fontSize: '36px',  // Increase size here
-                cursor: 'pointer',
-                color: '#000',  // Set close button color to black
-                background: 'transparent',
-              }}
-            >
-              &times;
-            </span>
-            <div className="video-container">
-              <iframe
-                id="modal-video"
-                className="modal-video"
-                src={modalData.ytLink.replace('watch?v=', 'embed/')} // Update with your video URL
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
+                      <img src={dev.imageBase64 || "anonymous.jpg"} alt="Card Image" className="card-image" />
+                      <p className="badge">{dev.title}</p>
+                      <button
+                        className="card-button material-symbols-rounded"
+                        onClick={(e) => {
+                          e.stopPropagation();  // Prevent triggering parent link's click event
+                          openModal(dev);  // Open the modal
+                        }}
+                      >
+                        More
+                      </button>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <div className="swiper-pagination"></div>
+              <div className="swiper-button-prev"></div>
+              <div className="swiper-button-next"></div>
             </div>
-            <h2 id="modal-name">{modalData.title}</h2>
-            <p id="modal-description">{modalData.description}</p>
           </div>
-        </div>
-      )}
-    </div>
-  );
-}
-else{
-  return (
-    <div>
-      <p>Results Coming Soon</p>
-    </div>
-  )
-}
+        )}
+
+        {/* Modal */}
+        {isModalOpen && (
+          <div
+            className="modal"
+            id="modal"
+            style={{ display: 'flex' }}
+            onClick={(e) => {
+              // Close the modal if the background (outside of modal content) is clicked
+              if (e.target === e.currentTarget) {
+                closeModal();
+              }
+            }}
+          >
+            <div className="modal-content">
+              {/* Close button positioned at the top-right with larger size */}
+              <span
+                className="close"
+                onClick={closeModal}
+                style={{
+                  position: 'absolute',
+                  top: '10px',
+                  right: '10px',
+                  fontSize: '36px',  // Increase size here
+                  cursor: 'pointer',
+                  color: '#000',  // Set close button color to black
+                  background: 'transparent',
+                }}
+              >
+                &times;
+              </span>
+              <div className="video-container">
+                <iframe
+                  id="modal-video"
+                  className="modal-video"
+                  src={modalData.ytLink.replace('watch?v=', 'embed/')} // Update with your video URL
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+              <h2 id="modal-name">{modalData.title}</h2>
+              <p id="modal-description">{modalData.description}</p>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+  else {
+    return (
+      <div style={{ width: "100%" }}>
+        <p style={{ textAlign: "center" }}>Results Coming Soon</p>
+      </div>
+    )
+  }
 };
 
 export default CarouselParent;

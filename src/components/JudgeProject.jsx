@@ -112,7 +112,7 @@ const JudgeProject = ({
 
     setShowJudging(""); // Close the dialog
   };
-
+  console.log(caseStudies[projects[id]["caseStudy"]], "AAA")
   return (
     <div style={{ display: "inline-flex" }}>
       <div className="judge-project-card">

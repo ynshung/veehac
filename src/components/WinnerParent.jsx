@@ -77,10 +77,10 @@ const WinnerParent = () => {
       </div>
     );
   }
-  else{
+  else {
     return (
-      <div>
-        <p>Results Coming Soon</p>
+      <div style={{ width: "100%" }}>
+        <p style={{ textAlign: "center" }}>Results Coming Soon</p>
       </div>
     )
   }
